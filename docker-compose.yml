@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+    #Mongo
+  # mongodb:
+  #   image: mongo:latest
+  #   container_name: mongodb
+  #   environment:
+  #   - PUID=1000
+  #   - PGID=1000
+  #   ports:
+  #     - 27017:27017
+  #   networks:
+  #     - darknet
+  #   volumes:
+  #     - ./mongodata:/data/db
+  #   restart: always # start docker || restart computer -> mongo container
+    # environment:
+      # - MONGO_INITDB_DATABASE= testdb
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    restart: always 
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  # go-app:
+  #   # tty: true
+  #   # stdin_open: true
+  #   restart: always
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context : .
+  #   container_name: projectx
+  #   depends_on: #depends container; first mongo start
+  #     - mongodb
+  #   # environment:
+  #     # - hash_salt=salt_hash99
+  #   ports:
+  #     - 6969:6969
+  #   networks:
+  #     - darknet
+    # volumes:
+    #   - ./go-app:/opt/go-app:cached
+
+networks:
+  darknet:
+    driver: bridge
+
+volumes:
+  mongodata:
+  go-app:

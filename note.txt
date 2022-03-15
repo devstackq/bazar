@@ -1,0 +1,81 @@
+incapsulation - не важно как реализована логика сервиса или как бд отбрабатывает, у нас есть интерфейсы
+этого достаточно, а как внутри бех разницы
+
+Srp - 1 func/method - to do 1 function(validate, prepareApp, sort, etc)
+
+//Open/closed?
+//type Home struct {window, door, nameRoom} -> TurnHeat(); TurnLight(),
+//type HomeSmarter interface {TurnLight(), TurnHeat(), TurnCondicioner() }
+
+//type Kitchen struct{wallpaper} TurnLight(); !change parent method; but override
+//type BathRoom struct -> TurnHeat(){override own logic}; !change parent method; but override
+
+//for App - type StorageConnecter  interface{
+//Mongo
+//Psql
+//etc
+//}
+
+
+Pattern fabric - XStruct{}; XInterface; YStruct -> каждая стурутра по своему реализовывает
+like polymorphism
+
+
+clousers - func() func() int {
+    i := 10
+    retun func()int{
+        i++
+        return i
+    }
+}
+
+p := 10
+v := &p
+
+f(v)
+
+func test(n *int) {
+    *n = 100//write new value v, p variable, pointer
+}
+
+// - Го не юзает препроцессинг - код - сразу летит компилятору без проверки кода
+go run, go build - temp file
+Стандартные потоки вводы вывводы ошибок - os.Stdout, os.Stdin, os.Stderr - dev/stdout... файлы в юникс, можно туда зписывать данные и читать из них
+log.New()- cusom log, pathFile, log.StdOutput(); sysLog - sytem log write
+level logs, info, error, warn, type Logs;
+
+Го - самодостаточный - в нем ужет есть http server; file server; работа с сетью
+с многопоточностью, чс базой данных и прочие пакеты
+
+Компиляциия - go tool compile file.go
+обьектный файл - машинный код
+
+Сборка мусора (Garbage Collection, GC) — это процесс освобождения места в памя-
+ти, которое больше не используется.
+трехцветный алгоритм
+пометки и очистки. Он может работать конкурентно, одновременно с программой,
+и использует барьер записи.
+
+Приложение, работающее во время выполнения сборки мусора, называется
+мутатором
+
+mongoConfig
+
+// Config object
+type Config struct {
+	Env     string        `env:"ENV"`
+	MongoDB MongoDBConfig `json:"mongodb"`
+	Host    string        `env:"APP_HOST"`
+	Port    string        `env:"APP_PORT"`
+}
+
+func GetConfig() Config {
+	return Config{
+		Env:     os.Getenv("ENV"),
+		MongoDB: GetMongoDBConfig(),
+		Host:    os.Getenv("APP_HOST"),
+		Port:    os.Getenv("APP_PORT"),
+	}
+}
+
+//composite configs
