@@ -32,6 +32,7 @@ func (m *MongoDb) InitDb() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
+	return nil, nil
 	// m.db = client.Database(m.Config.name)
-	return client.Database(m.Config.tableName), nil
+	// return client.Database(m.Config.tableName), nil
 }

@@ -1,53 +1,3 @@
--- authorization
-CREATE TABLE bazar_user
-(
-    id BIGSERIAL PRIMARY KEY,
-    email varchar(255) NOT NULL UNIQUE,
-    password VARCHAR(128) NOT NULL,
-    username VARCHAR(150) NOT NULL UNIQUE,
-    first_name VARCHAR(150) NOT NULL,
-    last_name VARCHAR(150) NOT NULL,
-    created_at TIMESTAMP NOT NULL,
-    role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
--- is_superuser BOOLEAN NOT NULL,
-
--- admin, saler, buyer
-CREATE TABLE bazar_roles
-(
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE bazar_car
-(
-    id BIGSERIAL PRIMARY KEY,
-    vin VARCHAR(200) NOT NULL UNIQUE,
-    name VARCHAR(50) NOT NULL,
-    description VARCHAR(1000) NOT NULL,
-    year INTEGER NOT NULL,
-    price DECIMAL NOT NULL,
-    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    category_id INTEGER NOT NULL REFERENCES bazar_category(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    state_id INTEGER NOT NULL REFERENCES bazar_state(id) ON DELETE CASCADE ON UPDATE CASCADE, 
-    brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    model_id INTEGER NOT NULL REFERENCES bazar_model(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    saler_id INTEGER NOT NULL REFERENCES bazar_user(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
--- country, city
-CREATE TABLE bazar_country
-(
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE
-);
-
-CREATE TABLE bazar_city
-(
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
-);
-
 -- yacht, car, rocket, etc
 CREATE TABLE bazar_category
 (
@@ -79,6 +29,104 @@ CREATE TABLE bazar_session
     "session_data" text NOT NULL,
     "expire_date" TIMESTAMP NOT NULL
 );
+
+CREATE TABLE bazar_currency
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE bazar_fuel
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE bazar_drive_unit
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE bazar_trans
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE bazar_body_type
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE bazar_color
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+    -- currency_id INTEGER NOT NULL REFERENCES bazar_currency(id) ON DELETE CASCADE ON UPDATE CASCADE,
+CREATE TABLE bazar_machine
+(
+    id BIGSERIAL PRIMARY KEY,
+    vin VARCHAR(200) NOT NULL UNIQUE,
+    title VARCHAR(200) NOT NULL,
+    description VARCHAR(1000) NOT NULL,
+    year INTEGER NOT NULL,
+    price DECIMAL NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP NOT NULL,
+    odometer DECIMAL NOT NULL,
+    horse_power INTEGER NOT NULL,
+    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    category_id INTEGER NOT NULL REFERENCES bazar_category(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    state_id INTEGER NOT NULL REFERENCES bazar_state(id) ON DELETE CASCADE ON UPDATE CASCADE, 
+    brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    model_id INTEGER NOT NULL REFERENCES bazar_model(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    saler_id INTEGER NOT NULL REFERENCES bazar_user(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    fuel_id INTEGER NOT NULL REFERENCES bazar_fuel(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    drive_unit_id INTEGER NOT NULL REFERENCES bazar_drive_unit(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    trans_type_id INTEGER NOT NULL REFERENCES bazar_trans(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    body_type_id INTEGER NOT NULL REFERENCES bazar_body_type(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    color_id INTEGER NOT NULL REFERENCES bazar_color(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- admin, saler, buyer
+CREATE TABLE bazar_roles
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+-- authorization
+CREATE TABLE bazar_user
+(
+    id BIGSERIAL PRIMARY KEY,
+    email varchar(255) NOT NULL UNIQUE,
+    password VARCHAR(128) NOT NULL,
+    username VARCHAR(150) NOT NULL UNIQUE,
+    first_name VARCHAR(150) NOT NULL,
+    last_name VARCHAR(150) NOT NULL,
+    created_at TIMESTAMP NOT NULL,
+    role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+-- is_superuser BOOLEAN NOT NULL,
+
+CREATE TABLE bazar_city
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+-- country, city
+CREATE TABLE bazar_country
+(
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+    -- city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE
+
 
 
 

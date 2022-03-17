@@ -9,8 +9,8 @@ COPY go.sum ./
 RUN go mod download
 
 COPY . .
-# EXPOSE 6969
+EXPOSE 6969
 
-RUN go build -o main .
+RUN go build -o main /cmd/bazar/main.go
 
 CMD [ "./main" ]

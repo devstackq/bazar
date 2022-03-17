@@ -1,0 +1,101 @@
+package config
+
+import (
+	"time"
+)
+
+const (
+	defaultAppMode             = "debug"
+	defaultAppPort             = ":6969"
+	defaultAppSecret           = "some_secret_key"
+	defaultAppReadTimeout      = 10
+	defaultAppWriteTimeout     = 10
+	defaultAppOriginHeader     = "Origin"
+	defaultAppAuthHeader       = "Authorization"
+	defaultAppMimeHeader       = "Content-Type"
+	defaultAppMethodGet        = "GET"
+	defaultAppMethodPost       = "POST"
+	defaultAppMethodPatch      = "PATCH"
+	defaultAppMethodDelete     = "DELETE"
+	defaultAppKapOriginS       = "https://*.kazatomprom.kz/"
+	defaultAppEKapOriginS      = "https://*-ekap.kazatomprom.kz/"
+	defaultAppKapOrigin        = "http://*-.kazatomprom.kz/"
+	defaultAppEKapOrigin       = "http://*-ekap.kazatomprom.kz/"
+	defaultAppExposeHeader     = "Authorization"
+	defaultAppAllowCredentials = true
+)
+
+type CorsCfg struct {
+	AllowHeaders     []string
+	AllowMethods     []string
+	AllowOrigins     []string
+	ExposeHeaders    []string
+	AllowCredentials bool
+}
+
+type AppCfg struct {
+	Mode         string
+	Port         string
+	Secret       string
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
+	Cors         *CorsCfg
+}
+
+type DBConf struct {
+	Dialect  string
+	Host     string
+	Port     string
+	Username string
+	Password string
+	DBName   string
+}
+
+type Config struct {
+	App *AppCfg
+	DB *DBConf
+}
+
+func GetConfig() *Config {
+	return &Config{
+		App: &AppCfg{
+			Mode:         getEnvAsStr("APP_MODE", defaultAppMode),
+			Port:         getEnvAsStr("APP_PORT", defaultAppPort),
+			Secret:       getEnvAsStr("APP_SECRET", defaultAppSecret),
+			ReadTimeout:  time.Duration(getEnvAsInt("APP_READ_TIMEOUT", defaultAppReadTimeout)) * time.Second,
+			WriteTimeout: time.Duration(getEnvAsInt("APP_WRITE_TIMEOUT", defaultAppWriteTimeout)) * time.Second,
+			Cors: &CorsCfg{
+				AllowHeaders: getEnvAsSlice("APP_CORS_ALLOW_HEADERS", []string{
+					defaultAppOriginHeader,
+					defaultAppAuthHeader,
+					defaultAppMimeHeader,
+				}),
+				AllowMethods: getEnvAsSlice("APP_CORS_ALLOW_METHODS", []string{
+					defaultAppMethodGet,
+					defaultAppMethodPost,
+					defaultAppMethodPatch,
+					defaultAppMethodDelete,
+				}),
+				AllowOrigins: getEnvAsSlice("APP_CORS_ALLOW_ORIGINS", []string{
+					defaultAppKapOriginS,
+					defaultAppEKapOriginS,
+					defaultAppKapOrigin,
+					defaultAppEKapOrigin,
+				}),
+				ExposeHeaders: getEnvAsSlice("APP_CORS_EXPOSE_HEADERS", []string{
+					defaultAppExposeHeader,
+				}),
+				AllowCredentials: getEnvAsBool("APP_CORS_ALLOW_CREDENTIALS", defaultAppAllowCredentials),
+			},
+		},
+
+		DB: &DBConf{
+			Dialect:  getEnvAsStr("POSTGRES_DIALECT", "pgx"),
+			Host:     getEnvAsStr("POSTGRES_URI", "127.0.0.1"),
+			Port:     getEnvAsStr("POSTGRES_PORT", "5432"),
+			Username: getEnvAsStr("POSTGRES_USER", "postgres"),
+			Password: getEnvAsStr("POSTGRES_PASSWORD", "postgres"),
+			DBName:   getEnvAsStr("POSTGRES_DB", "testdb"),
+		},
+	}
+}

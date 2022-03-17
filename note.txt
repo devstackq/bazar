@@ -79,3 +79,70 @@ func GetConfig() Config {
 }
 
 //composite configs
+
+
+//realize - gallery
+crud - Machine
+GetFilter
+GetSearch
+GetList
+GetByID
+
+
+- gallery - send - all data - > listCategory,  listModel, listAge, etc
+- profile - createNewCar - listCategory, listModel, etc
+//sort by asc, desc date; price min-max, category, etc
+//fileserver - multi photo - for save phot local
+TechSpec list
+
+filter - 1 field || 1 query - complex filter
+
+Sort - client soide - by current(filtered || not) data;
+
+FILE SERVER - photo
+
+queries
+
+testdb=# insert into bazar_body_type(name) values('купе');
+INSERT 0 1
+LINE 1: insert into bazar_body_brand(name) values('Tesla');
+testdb=# insert into bazar_brand(name) values('Tesla');
+testdb=# insert into bazar_category(name) values('легковые');
+testdb=# insert into bazar_city(name) values('Шарджа');
+testdb=# insert into bazar_country(name, city_id) values('ОАЭ',1);
+testdb=# insert into bazar_color(name) values('white');
+testdb=# insert into bazar_drive_unit(name) values('задний приводный');
+testdb=# insert into bazar_fuel(name) values('эелектричество');
+testdb=# insert into bazar_model(name) values('Model S3');
+testdb=# insert into bazar_state(name) values('Новый');
+testdb=# insert into bazar_trans(name) values('Автомат');
+insert into bazar_roles(name) values('saler');
+insert into bazar_currency(name) values('usd');
+
+ insert into bazar_user(email, password, username, first_name, last_name, created_at, role_id) values('devstackq@mail.kz', 'password', 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1);
+
+{
+    "vin": "qa287398uie743w9ds9a",
+    "description": "2015 Porsche 911 Carrera S, 3.8 F6 4WD, 400bhp, with 7-Speed Auto Gearbox. AED 249,000/- or AED 6115 / Month with 20% Down payment for Years Full Porsche Service History Mile",
+    "year": 2015,
+    "price": 249.459,
+    "relation" : {
+    "category_id" : 1,
+    "year_id": 1,
+    "model_id": 1,
+    "brand_id": 1,
+    "state_car_id": 1,
+    "user_id": 1,
+    "country_id": 1,
+    "city_id": 1,
+    "fuel_type_id" : 1,
+    "drive_unit_id": 1,
+    "trans_type_id": 1,
+    "body_type_id" : 1,
+    "color_id" : 1
+    },
+    "tech_spec" : {
+        "odometer" : 1293.9,
+        "horse_power" : 234
+    }
+}
