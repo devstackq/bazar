@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreateTransmission(c *gin.Context) {
+func (h *Handler) CreateBodyType(c *gin.Context) {
 
 	var (
-		argument *models.Transmission		
+		argument *models.BodyType		
 		err    error
 		lastID int
 	)
@@ -22,33 +22,34 @@ func (h *Handler) CreateTransmission(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.TransUseCaseInterface.CreateTransmission(argument)
+		lastID, err = h.useCases.BodyTypeUseCaseInterface.CreateBodyType(argument)
 		if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success create transmission", "OK", lastID)
+	responseWithStatus(c, http.StatusOK, "success create BodyType", "OK", lastID)
 }
 
-func (h *Handler) GetListTransmission(c *gin.Context) {
+func (h *Handler) GetListBodyType(c *gin.Context) {
 
 	var (
-		result []*models.Transmission		
+		result []*models.BodyType		
 		err    error
 	)
 
-	result, err = h.useCases.TransUseCaseInterface.GetListTransmission()
+	result, err = h.useCases.BodyTypeUseCaseInterface.GetListBodyType()
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success return list transmission", "OK", result)
+	responseWithStatus(c, http.StatusOK, "success return list BodyType", "OK", result)
 }
-func (h *Handler) GetTransmissionByID(c *gin.Context) {
+
+func (h *Handler) GetBodyTypeByID(c *gin.Context) {
 	var (
-		result *models.Transmission		
+		result *models.BodyType		
 		err    error
 		id int
 	)
@@ -59,14 +60,13 @@ func (h *Handler) GetTransmissionByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-
-	result, err = h.useCases.TransUseCaseInterface.GetTransmissionByID(id)
+	result, err = h.useCases.BodyTypeUseCaseInterface.GetBodyTypeByID(id)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success return transmission ", "OK", result)
+	responseWithStatus(c, http.StatusOK, "success return BodyType ", "OK", result)
 }
 
 

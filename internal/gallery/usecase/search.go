@@ -8,10 +8,10 @@ import (
 )
 
 type SearchUseCase struct {
-	searchRepo gallery.SearchRepo
+	searchRepo gallery.SearchRepoInterface
 }
 
-func SearchUseCaseInit(r gallery.SearchRepo) gallery.SearchUseCase {
+func SearchUseCaseInit(r gallery.SearchRepoInterface) gallery.SearchUseCaseInterface {
 	return SearchUseCase{searchRepo: r}
 }
 

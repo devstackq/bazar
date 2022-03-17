@@ -4,27 +4,26 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/gallery/models"
 )
 
 
-type CategoryRepository struct {
+type CountryRepository struct {
 	db *sql.DB
 }
 
-func CategoryRepoInit(db *sql.DB) gallery.CategoryRepoInterface {
-	return &CategoryRepository{
+func CountryRepoInit(db *sql.DB) *CountryRepository {
+	return &CountryRepository{
 		db: db,
 	}
 }
 
-func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Category,  error) {
+func (cr CountryRepository) GetByID(ctx context.Context, id int) (*models.Country,  error) {
 	
-	var result models.Category
+	var result models.Country
 	var err error
 
-	query := `SELECT name FROM bazar_category WHERE id = $1`
+	query := `SELECT name FROM bazar_country WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -34,8 +33,8 @@ func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Categ
 	return &result, nil
 }
 
-func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (int,  error) {
-	sqlQuery := `INSERT INTO bazar_category(name) VALUES($1) RETURNING id`
+func (cr CountryRepository) Create(ctx context.Context, cat *models.Country) (int,  error) {
+	sqlQuery := `INSERT INTO bazar_country(name) VALUES($1) RETURNING id`
 		var id int
 		var err error
 
@@ -47,10 +46,10 @@ func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (
 	return id, nil
 }
 
-func (cr CategoryRepository) GetList(ctx context.Context) ([]*models.Category,  error) {
+func (cr CountryRepository) GetList(ctx context.Context) ([]*models.Country,  error) {
 
-query := `SELECT id, name FROM bazar_category`
-result := []*models.Category{}
+query := `SELECT id, name FROM bazar_country`
+result := []*models.Country{}
 rows, err := cr.db.QueryContext(ctx, query)
 
 if err != nil {
@@ -58,7 +57,7 @@ if err != nil {
 }
 
 for rows.Next() {
-	temp := models.Category{}
+	temp := models.Country{}
 	if err = rows.Scan(
 		&temp.ID,
 		&temp.Name,

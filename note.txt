@@ -97,15 +97,9 @@ TechSpec list
 
 filter - 1 field || 1 query - complex filter
 
-Sort - client soide - by current(filtered || not) data;
-
-FILE SERVER - photo
-
-queries
+-------------------------------
 
 testdb=# insert into bazar_body_type(name) values('купе');
-INSERT 0 1
-LINE 1: insert into bazar_body_brand(name) values('Tesla');
 testdb=# insert into bazar_brand(name) values('Tesla');
 testdb=# insert into bazar_category(name) values('легковые');
 testdb=# insert into bazar_city(name) values('Шарджа');
@@ -119,7 +113,9 @@ testdb=# insert into bazar_trans(name) values('Автомат');
 insert into bazar_roles(name) values('saler');
 insert into bazar_currency(name) values('usd');
 
- insert into bazar_user(email, password, username, first_name, last_name, created_at, role_id) values('devstackq@mail.kz', 'password', 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1);
+
+  insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
+
 
 {
     "vin": "qa287398uie743w9ds9a",
@@ -146,3 +142,19 @@ insert into bazar_currency(name) values('usd');
         "horse_power" : 234
     }
 }
+
+
+TODO:
+
+1 Middleware - auth user
+Auth - signin - token return
+
+2 Profile - middlew -> GetUserService(data), GetGallery(GetMyAddedMachine, )
+
+3 FILE SERVER - photo
+
+filter; queries
+
+Функицонал: авторизация(по токену), фильтрация(по параметрам), профайлЮзера(машины автора), галерея, машинаПоАйди, создатьМашинку
+Карусель фотографий
+Сортировка

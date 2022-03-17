@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreateTransmission(c *gin.Context) {
+func (h *Handler) CreateDriveUnit(c *gin.Context) {
 
 	var (
-		argument *models.Transmission		
+		argument *models.DriveUnit		
 		err    error
 		lastID int
 	)
@@ -22,33 +22,34 @@ func (h *Handler) CreateTransmission(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.TransUseCaseInterface.CreateTransmission(argument)
+		lastID, err = h.useCases.DriveUnitUseCaseInterface.CreateDriveUnit(argument)
 		if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success create transmission", "OK", lastID)
+	responseWithStatus(c, http.StatusOK, "success create DriveUnit", "OK", lastID)
 }
 
-func (h *Handler) GetListTransmission(c *gin.Context) {
+func (h *Handler) GetListDriveUnit(c *gin.Context) {
 
 	var (
-		result []*models.Transmission		
+		result []*models.DriveUnit		
 		err    error
 	)
 
-	result, err = h.useCases.TransUseCaseInterface.GetListTransmission()
+	result, err = h.useCases.DriveUnitUseCaseInterface.GetListDriveUnit()
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success return list transmission", "OK", result)
+	responseWithStatus(c, http.StatusOK, "success return list DriveUnit", "OK", result)
 }
-func (h *Handler) GetTransmissionByID(c *gin.Context) {
+
+func (h *Handler) GetDriveUnitByID(c *gin.Context) {
 	var (
-		result *models.Transmission		
+		result *models.DriveUnit		
 		err    error
 		id int
 	)
@@ -59,14 +60,13 @@ func (h *Handler) GetTransmissionByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-
-	result, err = h.useCases.TransUseCaseInterface.GetTransmissionByID(id)
+	result, err = h.useCases.DriveUnitUseCaseInterface.GetDriveUnitByID(id)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success return transmission ", "OK", result)
+	responseWithStatus(c, http.StatusOK, "success return DriveUnit ", "OK", result)
 }
 
 

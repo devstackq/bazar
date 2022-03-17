@@ -8,13 +8,41 @@ import (
 )
 
 type MachineUseCase struct {
-	machineRepo gallery.MachineRepo
-	categoryRepo gallery.CategoryRepo
-	transRepo gallery.TransmissionRepo
+	machineRepo gallery.MachineRepoInterface
+	categoryRepo gallery.CategoryRepoInterface
+	transRepo gallery.TransmissionRepoInterface
+	countryRepo gallery.CountryRepoInterface
+	cityRepo gallery.CityRepoInterface
+	stateRepo gallery.StateRepoInterface
+	brandRepo gallery.BrandRepoInterface
+	modelRepo gallery.ModelRepoInterface
+	fuelRepo gallery.FuelRepoInterface
+	driveUnit gallery.DriveUnitRepoInterface
+	bodyRepo gallery.BodyTypeRepoInterface
+	colorRepo gallery.ColorRepoInterface
+	// userRepo gallery.UserRepoInterface
 }
 
-func MachineUseCaseInit(mr gallery.MachineRepo, cr gallery.CategoryRepo, tr gallery.TransmissionRepo) gallery.MachineUseCase {
-	return MachineUseCase{machineRepo: mr, categoryRepo: cr, transRepo: tr}
+func MachineUseCaseInit(
+	machineRepo gallery.MachineRepoInterface, 
+	categoryRepo gallery.CategoryRepoInterface, 
+	transRepo gallery.TransmissionRepoInterface, 
+	countryRepo gallery.CountryRepoInterface,
+	cityRepo gallery.CityRepoInterface,
+	stateRepo gallery.StateRepoInterface,
+	brandRepo gallery.BrandRepoInterface,
+	modelRepo gallery.ModelRepoInterface,
+	fuelRepo gallery.FuelRepoInterface,
+	driveUnit gallery.DriveUnitRepoInterface,
+	bodyRepo gallery.BodyTypeRepoInterface,
+	colorRepo gallery.ColorRepoInterface,
+	) gallery.MachineUseCaseInterface {
+	return MachineUseCase{
+		machineRepo: machineRepo, categoryRepo: categoryRepo,transRepo: transRepo,
+		countryRepo: countryRepo,  cityRepo: cityRepo,  stateRepo: stateRepo,
+		brandRepo: brandRepo,  modelRepo: modelRepo,  fuelRepo: fuelRepo, 
+		driveUnit: driveUnit, bodyRepo: bodyRepo, colorRepo: colorRepo,
+	}
 }
 
 func (muc MachineUseCase) Create(m *models.Machine) (int,error) {
@@ -24,32 +52,114 @@ func (muc MachineUseCase) Create(m *models.Machine) (int,error) {
 }
 
 func (muc MachineUseCase) GetMachineByID(id int) ( *models.Machine, error) {
+
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	machine,err :=  muc.machineRepo.GetMachineByID(ctx,id)
+
+	machine,err :=  muc.machineRepo.GetByID(ctx,id)
 	if err != nil {
 		return nil, err
 	}
 	//get, set category name
-	category, err := muc.categoryRepo.GetCategoryByID(ctx, machine.Category.ID)
+	category, err := muc.categoryRepo.GetByID(ctx, machine.Category.ID)
 	if err != nil {
 		return nil, err
 	}
 	machine.Category.Name = category.Name
 
-	trans, err := muc.transRepo.GetTransByID(ctx, machine.Transmission.ID)
+	trans, err := muc.transRepo.GetByID(ctx, machine.Transmission.ID)
 	if err != nil {
 		return nil, err
 	}
+	
 	machine.Transmission.Name = trans.Name
-//todo: get etc rel table data ;
+
+	country, err := muc.countryRepo.GetByID(ctx, machine.Country.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.Country.Name = country.Name
+
+	city, err := muc.cityRepo.GetByID(ctx, machine.City.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.City.Name = city.Name
+
+	state, err := muc.stateRepo.GetByID(ctx, machine.State.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.State.Name = state.Name
+
+
+	brand, err := muc.brandRepo.GetByID(ctx, machine.Brand.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.Brand.Name = brand.Name
+
+	model, err := muc.modelRepo.GetByID(ctx, machine.Model.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.Model.Name = model.Name
+
+
+	fuel, err := muc.fuelRepo.GetByID(ctx, machine.Fuel.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.Fuel.Name = fuel.Name
+	
+	driveUnit, err := muc.driveUnit.GetByID(ctx, machine.DriveUnit.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.DriveUnit.Name = driveUnit.Name
+
+	bodyType, err := muc.bodyRepo.GetByID(ctx, machine.BodyType.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.BodyType.Name = bodyType.Name
+
+	color, err := muc.colorRepo.GetByID(ctx, machine.Color.ID)
+	if err != nil {
+		return nil, err
+	}
+	machine.Color.Name = color.Name
+
+	// userId, err := muc.userRepo.GetUserID(ctx, machine.ID)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// user, err := muc.userRepo.GetByID(ctx, userId)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// machine.Saler = user.Saler
+	//todo: getSellerInfo
+	// machine.Saler
+
 	return machine, nil
 }
 
 func (muc MachineUseCase) GetRelevantMachines() ( []*models.Machine, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	list ,err :=  muc.machineRepo.GetRelevantMachines(ctx)
+	list ,err :=  muc.machineRepo.GetList(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return list, nil
+}
+
+func (muc MachineUseCase) GetListMachineByUserID(id int) ( []*models.Machine, error) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	list ,err :=  muc.machineRepo.GetListByUserID(ctx, id)
 	if err != nil {
 		return nil, err
 	}

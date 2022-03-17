@@ -21,7 +21,7 @@ func (h *Handler) Search(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-		result, err = h.useCases.SearchUseCase.SearchByKeyWord(keyWord)
+		result, err = h.useCases.SearchUseCaseInterface.SearchByKeyWord(keyWord)
 	
 if err != nil {
 		h.logger.Error(err)

@@ -8,22 +8,27 @@ import (
 )
 
 type CategoryUseCase struct {
-	categoryRepo gallery.CategoryRepo
+	categoryRepo gallery.CategoryRepoInterface
 }
 
-func CategoryUseCaseInit(r gallery.CategoryRepo) gallery.CategoryUseCase {
+func CategoryUseCaseInit(r gallery.CategoryRepoInterface) gallery.CategoryUseCaseInterface {
 	return CategoryUseCase{categoryRepo: r}
 }
 
-func (muc CategoryUseCase) CreateCategory(c *models.Category) (int,error) {
+func (cuc CategoryUseCase) CreateCategory(c *models.Category) (int,error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	return muc.categoryRepo.CreateCategory(ctx, c)
+	return cuc.categoryRepo.Create(ctx, c)
 }
 
-func (muc CategoryUseCase) GetCategoryByID(id int)(*models.Category, error) {
+func (cuc CategoryUseCase) GetByID(id int)(*models.Category, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	return muc.categoryRepo.GetCategoryByID(ctx, id)
+	return cuc.categoryRepo.GetByID(ctx, id)
 }
 
+func (cuc CategoryUseCase) GetListCategories()([]*models.Category, error) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	return cuc.categoryRepo.GetList(ctx)
+}

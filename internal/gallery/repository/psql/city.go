@@ -9,22 +9,22 @@ import (
 )
 
 
-type CategoryRepository struct {
+type CityRepository struct {
 	db *sql.DB
 }
 
-func CategoryRepoInit(db *sql.DB) gallery.CategoryRepoInterface {
-	return &CategoryRepository{
+func CityRepoInit(db *sql.DB) gallery.CityRepoInterface {
+	return &CityRepository{
 		db: db,
 	}
 }
 
-func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Category,  error) {
+func (cr CityRepository) GetByID(ctx context.Context, id int) (*models.City,  error) {
 	
-	var result models.Category
+	var result models.City
 	var err error
 
-	query := `SELECT name FROM bazar_category WHERE id = $1`
+	query := `SELECT name FROM bazar_city WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -34,8 +34,8 @@ func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Categ
 	return &result, nil
 }
 
-func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (int,  error) {
-	sqlQuery := `INSERT INTO bazar_category(name) VALUES($1) RETURNING id`
+func (cr CityRepository) Create(ctx context.Context, cat *models.City) (int,  error) {
+	sqlQuery := `INSERT INTO bazar_city(name) VALUES($1) RETURNING id`
 		var id int
 		var err error
 
@@ -47,10 +47,10 @@ func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (
 	return id, nil
 }
 
-func (cr CategoryRepository) GetList(ctx context.Context) ([]*models.Category,  error) {
+func (cr CityRepository) GetList(ctx context.Context) ([]*models.City,  error) {
 
-query := `SELECT id, name FROM bazar_category`
-result := []*models.Category{}
+query := `SELECT id, name FROM bazar_city`
+result := []*models.City{}
 rows, err := cr.db.QueryContext(ctx, query)
 
 if err != nil {
@@ -58,7 +58,7 @@ if err != nil {
 }
 
 for rows.Next() {
-	temp := models.Category{}
+	temp := models.City{}
 	if err = rows.Scan(
 		&temp.ID,
 		&temp.Name,

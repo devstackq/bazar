@@ -8,10 +8,10 @@ import (
 )
 
 type TransUseCase struct {
-	transRepo gallery.TransmissionRepo
+	transRepo gallery.TransmissionRepoInterface
 }
 
-func TransUseCaseInit(r gallery.TransmissionRepo) gallery.TransUseCase {
+func TransUseCaseInit(r gallery.TransmissionRepoInterface) gallery.TransUseCaseInterface {
 	return TransUseCase{transRepo: r}
 }
 
@@ -21,8 +21,14 @@ func (tuc TransUseCase) CreateTransmission(t *models.Transmission) (int, error) 
 	return tuc.transRepo.Create(ctx, t)
 }
 
-func (tuc TransUseCase) GetTransByID(id int)(*models.Transmission, error) {
+func (tuc TransUseCase) GetTransmissionByID(id int)(*models.Transmission, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	return tuc.transRepo.GetTransByID(ctx, id)
+	return tuc.transRepo.GetByID(ctx, id)
+}
+
+func (cuc TransUseCase) GetListTransmission()([]*models.Transmission, error) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	return cuc.transRepo.GetList(ctx)
 }

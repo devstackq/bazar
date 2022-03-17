@@ -8,10 +8,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) CreateTransmission(c *gin.Context) {
+func (h *Handler) CreateCity(c *gin.Context) {
 
 	var (
-		argument *models.Transmission		
+		argument *models.City		
 		err    error
 		lastID int
 	)
@@ -22,33 +22,34 @@ func (h *Handler) CreateTransmission(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.TransUseCaseInterface.CreateTransmission(argument)
+		lastID, err = h.useCases.CityUseCaseInterface.CreateCity(argument)
 		if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success create transmission", "OK", lastID)
+	responseWithStatus(c, http.StatusOK, "success create City", "OK", lastID)
 }
 
-func (h *Handler) GetListTransmission(c *gin.Context) {
+func (h *Handler) GetListCity(c *gin.Context) {
 
 	var (
-		result []*models.Transmission		
+		result []*models.City		
 		err    error
 	)
 
-	result, err = h.useCases.TransUseCaseInterface.GetListTransmission()
+	result, err = h.useCases.CityUseCaseInterface.GetListCity()
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success return list transmission", "OK", result)
+	responseWithStatus(c, http.StatusOK, "success return list City", "OK", result)
 }
-func (h *Handler) GetTransmissionByID(c *gin.Context) {
+
+func (h *Handler) GetCityByID(c *gin.Context) {
 	var (
-		result *models.Transmission		
+		result *models.City		
 		err    error
 		id int
 	)
@@ -60,13 +61,13 @@ func (h *Handler) GetTransmissionByID(c *gin.Context) {
 		return
 	}
 
-	result, err = h.useCases.TransUseCaseInterface.GetTransmissionByID(id)
+	result, err = h.useCases.CityUseCaseInterface.GetCityByID(id)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	responseWithStatus(c, http.StatusOK, "success return transmission ", "OK", result)
+	responseWithStatus(c, http.StatusOK, "success return City ", "OK", result)
 }
 
 
