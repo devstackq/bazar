@@ -55,13 +55,8 @@ level logs, info, error, warn, type Logs;
 трехцветный алгоритм
 пометки и очистки. Он может работать конкурентно, одновременно с программой,
 и использует барьер записи.
+  insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
 
-Приложение, работающее во время выполнения сборки мусора, называется
-мутатором
-
-mongoConfig
-
-// Config object
 type Config struct {
 	Env     string        `env:"ENV"`
 	MongoDB MongoDBConfig `json:"mongodb"`
@@ -113,35 +108,7 @@ testdb=# insert into bazar_trans(name) values('Автомат');
 insert into bazar_roles(name) values('saler');
 insert into bazar_currency(name) values('usd');
 
-
   insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
-
-
-{
-    "vin": "qa287398uie743w9ds9a",
-    "description": "2015 Porsche 911 Carrera S, 3.8 F6 4WD, 400bhp, with 7-Speed Auto Gearbox. AED 249,000/- or AED 6115 / Month with 20% Down payment for Years Full Porsche Service History Mile",
-    "year": 2015,
-    "price": 249.459,
-    "relation" : {
-    "category_id" : 1,
-    "year_id": 1,
-    "model_id": 1,
-    "brand_id": 1,
-    "state_car_id": 1,
-    "user_id": 1,
-    "country_id": 1,
-    "city_id": 1,
-    "fuel_type_id" : 1,
-    "drive_unit_id": 1,
-    "trans_type_id": 1,
-    "body_type_id" : 1,
-    "color_id" : 1
-    },
-    "tech_spec" : {
-        "odometer" : 1293.9,
-        "horse_power" : 234
-    }
-}
 
 
 TODO:
@@ -153,16 +120,18 @@ Auth - signin - token return
 
 3 FILE SERVER - photo
 
-sort By Price -> date, asc/desc Client
-
 Функицонал: авторизация(по токену), фильтрация(по параметрам), профайлЮзера(машины автора), галерея, машинаПоАйди, создатьМашинку
 Карусель фотографий
-Сортировка
+Сортировка Asc/Desc date; ByPrice; by AGE
 
 
 refactor - filter; model; brand; machine  - crud  + 
+GetListCityByCountryId - todo; fix +
 
-
-todo:
-GetListCityByCountryId - todo; fix
+Optional :
 Pagination - 
+
+add currency; currencyType table 
+
+    
+todo volume DECIMAL NOT NULL,  add model; all layer + 

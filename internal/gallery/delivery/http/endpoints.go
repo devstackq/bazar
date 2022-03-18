@@ -16,9 +16,7 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 	
 	machineRepos := repository.MachineReposInit(db)
 	machineUseCases  := usecase.UseCasesInit(machineRepos)
-
 	handler := NewHandler(machineUseCases, logger)
-
 
 	filter := group.Group("/filter")
 	{
@@ -53,6 +51,12 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 		trans.GET("", handler.GetListTransmission)
 		trans.GET("/:id", handler.GetTransmissionByID)
 	}
+	state := group.Group("/state")
+	{
+		state.POST("", handler.CreateState)
+		state.GET("", handler.GetListState)
+		state.GET("/:id", handler.GetStateByID)
+	}
 
 	country := group.Group("/country")
 	{
@@ -63,16 +67,9 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 
 	city := group.Group("/city")
 	{
-		city.POST("", handler.CreateCity)
-		city.GET("", handler.GetListCity)
+		city.POST("/:country_id", handler.CreateCity)
+		city.GET("country/:id", handler.GetListCityByCountryID)
 		city.GET("/:id", handler.GetCityByID)
-	}
-
-	state := group.Group("/state")
-	{
-		state.POST("", handler.CreateState)
-		state.GET("", handler.GetListState)
-		state.GET("/:id", handler.GetStateByID)
 	}
 	brand := group.Group("/brand")
 	{
@@ -82,7 +79,7 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 	}
 	model := group.Group("/model")
 	{
-		model.POST("/:id", handler.CreateModel)
+		model.POST("/:model_id", handler.CreateModel)
 		model.GET("/brand/:id", handler.GetListModelByBrandID)
 		model.GET("/:id", handler.GetModelByID)
 	}
@@ -112,6 +109,3 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 		color.GET("/:id", handler.GetColorByID)
 	}
 }
-
-//todo: GetList, GetByID, Create; add all realation table
-//start file server 

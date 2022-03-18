@@ -44,7 +44,7 @@ type CountryRepoInterface interface {
 type CityRepoInterface interface {
 	Create(context.Context, *models.City) (int, error)
 	GetByID(context.Context,int)(*models.City, error)
-	GetList(context.Context) ([]*models.City, error)
+	GetList(context.Context, int) ([]*models.City, error)
 }
 
 type StateRepoInterface interface {

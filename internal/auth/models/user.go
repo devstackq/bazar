@@ -11,6 +11,8 @@ type User struct {
 	LaststName string `json:"last_name"`
 	Password string `json:"password"`
 	CreatedAt time.Time  `json:"created_at"`
-	City     string `json:"city"`
+	Country int `json:"country_id"`
+	CityID int    `json:"city_id"`
 	RoleID int `json:"role_id"`
+	Token string  `json:"token"`
 }

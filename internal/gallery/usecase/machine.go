@@ -5,6 +5,7 @@ import (
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/google/uuid"
 )
 
 type MachineUseCase struct {
@@ -37,7 +38,7 @@ func MachineUseCaseInit(
 	bodyRepo gallery.BodyTypeRepoInterface,
 	colorRepo gallery.ColorRepoInterface,
 	) gallery.MachineUseCaseInterface {
-		
+
 	return MachineUseCase{
 		machineRepo: machineRepo, categoryRepo: categoryRepo,transRepo: transRepo,
 		countryRepo: countryRepo,  cityRepo: cityRepo,  stateRepo: stateRepo,
@@ -49,6 +50,8 @@ func MachineUseCaseInit(
 func (muc MachineUseCase) Create(m *models.Machine) (int,error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
+	vin := uuid.New()
+	m.VIN = vin.String()
 	return muc.machineRepo.Create(ctx, m)
 }
 

@@ -7,7 +7,7 @@ import "github.com/devstackq/bazar/internal/gallery/models"
 type CityUseCaseInterface interface {
 	CreateCity(*models.City) (int, error)
 	GetCityByID(int)(*models.City, error)
-	GetListCity() ([]*models.City, error)
+	GetListCityByCountryID(int) ([]*models.City, error)
 }
 
 type CountryUseCaseInterface interface {

@@ -28,8 +28,8 @@ func (cuc CityUseCase) GetCityByID(id int)(*models.City, error) {
 	return cuc.cityRepo.GetByID(ctx, id)
 }
 
-func (cuc CityUseCase) GetListCity()([]*models.City, error) {
+func (cuc CityUseCase) GetListCityByCountryID(countryID int)([]*models.City, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	return cuc.cityRepo.GetList(ctx)
+	return cuc.cityRepo.GetList(ctx, countryID)
 }

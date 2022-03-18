@@ -36,7 +36,3 @@ filterKeys := []string{"category", "state", "brand", "model"}
 	
 	responseWithStatus(c, http.StatusOK, "success return filtered cars", "OK", result)
 }
-
-// add model, brand, categoruy, state;
-// add new cars; 
-// check - filter~ 

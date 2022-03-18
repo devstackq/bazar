@@ -16,7 +16,7 @@ func (h *Handler) CreateModel(c *gin.Context) {
 		lastID int
 		brandID int
 	)
-	brandID, err = strconv.Atoi(c.Param("id"))
+	brandID, err = strconv.Atoi(c.Param("model_id"))
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)

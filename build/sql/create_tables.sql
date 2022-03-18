@@ -78,12 +78,12 @@ CREATE TABLE bazar_machine
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     odometer DECIMAL NOT NULL,
+    volume DECIMAL NOT NULL,
     horse_power INTEGER NOT NULL,
     model_id INTEGER NOT NULL,
     brand_id INTEGER NOT NULL,
-
-    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    country_id INTEGER NOT NULL,
+    city_id INTEGER NOT NULL,
     category_id INTEGER NOT NULL REFERENCES bazar_category(id) ON DELETE CASCADE ON UPDATE CASCADE,
     state_id INTEGER NOT NULL REFERENCES bazar_state(id) ON DELETE CASCADE ON UPDATE CASCADE, 
     fuel_id INTEGER NOT NULL REFERENCES bazar_fuel(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -113,7 +113,8 @@ CREATE TABLE bazar_user
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    country_id  INTEGER NOT NULL,
+    city_id  INTEGER NOT NULL,
     role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- is_superuser BOOLEAN NOT NULL,
@@ -121,7 +122,8 @@ CREATE TABLE bazar_user
 CREATE TABLE bazar_city
 (
     id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL,
+    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- country, city

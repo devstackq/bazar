@@ -34,12 +34,12 @@ func (cr CityRepository) GetByID(ctx context.Context, id int) (*models.City,  er
 	return &result, nil
 }
 
-func (cr CityRepository) Create(ctx context.Context, cat *models.City) (int,  error) {
-	sqlQuery := `INSERT INTO bazar_city(name) VALUES($1) RETURNING id`
+func (cr CityRepository) Create(ctx context.Context, city *models.City) (int,  error) {
+	sqlQuery := `INSERT INTO bazar_city(name, country_id) VALUES($1, $2) RETURNING id`
 		var id int
 		var err error
 
-	row := cr.db.QueryRowContext(ctx, sqlQuery, cat.Name)
+	row := cr.db.QueryRowContext(ctx, sqlQuery, city.Name, city.ID)
 		err = row.Scan(&id)
 	if err != nil {
 		return 0, err
@@ -47,11 +47,12 @@ func (cr CityRepository) Create(ctx context.Context, cat *models.City) (int,  er
 	return id, nil
 }
 
-func (cr CityRepository) GetList(ctx context.Context) ([]*models.City,  error) {
+func (cr CityRepository) GetList(ctx context.Context, countryID int) ([]*models.City,  error) {
 
-query := `SELECT id, name FROM bazar_city`
+query := `SELECT id, name FROM bazar_city WHERE country_id = $1`
 result := []*models.City{}
-rows, err := cr.db.QueryContext(ctx, query)
+
+rows, err := cr.db.QueryContext(ctx, query, countryID)
 
 if err != nil {
 	return nil, err
