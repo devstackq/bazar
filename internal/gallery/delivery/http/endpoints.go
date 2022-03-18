@@ -19,7 +19,12 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 
 	handler := NewHandler(machineUseCases, logger)
 
-	//filter - query=param
+
+	filter := group.Group("/filter")
+	{
+		filter.POST("", handler.GetFilteredMachine)
+	}
+
 	machine := group.Group("/machine")
 	{
 		machine.POST("", handler.CreateMachine)
@@ -77,8 +82,8 @@ func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 	}
 	model := group.Group("/model")
 	{
-		model.POST("", handler.CreateModel)
-		model.GET("", handler.GetListModel)
+		model.POST("/:id", handler.CreateModel)
+		model.GET("/brand/:id", handler.GetListModelByBrandID)
 		model.GET("/:id", handler.GetModelByID)
 	}
 	fuel := group.Group("/fuel")

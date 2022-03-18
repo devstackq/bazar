@@ -11,18 +11,18 @@ import (
 func (h *Handler) CreateBrand(c *gin.Context) {
 
 	var (
-		argument *models.Brand		
+		brand *models.Brand		
 		err    error
 		lastID int
 	)
 
-	err = c.ShouldBindJSON(&argument)
+	err = c.ShouldBindJSON(&brand)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.BrandUseCaseInterface.CreateBrand(argument)
+		lastID, err = h.useCases.BrandUseCaseInterface.CreateBrand(brand)
 		if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)

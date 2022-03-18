@@ -37,6 +37,7 @@ func MachineUseCaseInit(
 	bodyRepo gallery.BodyTypeRepoInterface,
 	colorRepo gallery.ColorRepoInterface,
 	) gallery.MachineUseCaseInterface {
+		
 	return MachineUseCase{
 		machineRepo: machineRepo, categoryRepo: categoryRepo,transRepo: transRepo,
 		countryRepo: countryRepo,  cityRepo: cityRepo,  stateRepo: stateRepo,
@@ -94,12 +95,13 @@ func (muc MachineUseCase) GetMachineByID(id int) ( *models.Machine, error) {
 
 
 	brand, err := muc.brandRepo.GetByID(ctx, machine.Brand.ID)
+
 	if err != nil {
 		return nil, err
 	}
 	machine.Brand.Name = brand.Name
 
-	model, err := muc.modelRepo.GetByID(ctx, machine.Model.ID)
+	model, err := muc.modelRepo.GetByID(ctx, machine.Brand.Model.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -129,19 +131,6 @@ func (muc MachineUseCase) GetMachineByID(id int) ( *models.Machine, error) {
 		return nil, err
 	}
 	machine.Color.Name = color.Name
-
-	// userId, err := muc.userRepo.GetUserID(ctx, machine.ID)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// user, err := muc.userRepo.GetByID(ctx, userId)
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// machine.Saler = user.Saler
-	//todo: getSellerInfo
-	// machine.Saler
 
 	return machine, nil
 }

@@ -11,18 +11,28 @@ import (
 func (h *Handler) CreateModel(c *gin.Context) {
 
 	var (
-		argument *models.Model		
+		model *models.Model		
 		err    error
 		lastID int
+		brandID int
 	)
+	brandID, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		h.logger.Error(err)
+		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
+		return
+	}
 
-	err = c.ShouldBindJSON(&argument)
+	err = c.ShouldBindJSON(&model)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.ModelUseCaseInterface.CreateModel(argument)
+	
+	model.ID = brandID
+
+		lastID, err = h.useCases.ModelUseCaseInterface.CreateModel(model)
 		if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
@@ -31,14 +41,23 @@ func (h *Handler) CreateModel(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create Model", "OK", lastID)
 }
 
-func (h *Handler) GetListModel(c *gin.Context) {
+func (h *Handler) GetListModelByBrandID(c *gin.Context) {
 
 	var (
 		result []*models.Model		
 		err    error
+		brandID int
 	)
 
-	result, err = h.useCases.ModelUseCaseInterface.GetListModel()
+	brandID, err = strconv.Atoi(c.Param("id"))
+	if err != nil {
+		h.logger.Error(err)
+		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
+		return
+	}
+
+	result, err = h.useCases.ModelUseCaseInterface.GetListModelByBrandID(brandID)
+
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)

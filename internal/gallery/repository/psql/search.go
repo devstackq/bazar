@@ -21,7 +21,7 @@ func (sr SearchRepository) Search(ctx context.Context, keyword string) ([]*model
 	
 	var result []*models.Machine
 
-	query := "SELECT id, title, vin, description, year, price FROM bazar_machine WHERE title LIKE $1 OR description LIKE $1"
+	query := "SELECT machine_id, title, vin, description, year, price FROM bazar_machine WHERE title LIKE $1 OR description LIKE $1"
 
 	rows, err := sr.db.Query(query, "%" + keyword + "%")
 	if err != nil {

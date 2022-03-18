@@ -23,6 +23,7 @@ func MachineReposInit(db *sql.DB) gallery.Repositories {
 		DriveUnitRepoInterface: psql.DriveUnitRepoInit(db),
 		BodyTypeRepoInterface: psql.BodyTypeRepoInit(db),
 		ColorRepoInterface: psql.ColorRepoInit(db),
+		FilterRepoInterface: psql.FilterRepoInit(db),
 		// UserRepoInterface :psql.UserRepoInit(db),
 	}
 }

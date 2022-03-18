@@ -26,7 +26,7 @@ type SearchRepoInterface interface {
 
 type FilterRepoInterface interface {
 	//search all key, prepare quesery
-	GetListMachineByFilter(context.Context)
+	GetListMachineByFilter(context.Context, map[string]string)([]*models.Machine, error)
 }
 
 type TransmissionRepoInterface interface {
@@ -60,7 +60,7 @@ type BrandRepoInterface interface {
 type ModelRepoInterface interface {
 	Create(context.Context, *models.Model) (int, error)
 	GetByID(context.Context,int)(*models.Model, error)
-	GetList(context.Context) ([]*models.Model, error)
+	GetList(context.Context, int) ([]*models.Model, error)
 }
 type FuelRepoInterface interface {
 	Create(context.Context, *models.Fuel) (int, error)
@@ -86,9 +86,9 @@ type ColorRepoInterface interface {
 //temp
 type UserRepoInterface interface {
 	GetUserID(context.Context, int) (int, error)
-	
 	GetByID(context.Context, int) (models.Machine, error)
 }
+
 
 type Repositories struct {
 	UserRepoInterface

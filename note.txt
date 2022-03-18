@@ -153,8 +153,16 @@ Auth - signin - token return
 
 3 FILE SERVER - photo
 
-filter; queries
+sort By Price -> date, asc/desc Client
 
 Функицонал: авторизация(по токену), фильтрация(по параметрам), профайлЮзера(машины автора), галерея, машинаПоАйди, создатьМашинку
 Карусель фотографий
 Сортировка
+
+
+refactor - filter; model; brand; machine  - crud  + 
+
+
+todo:
+GetListCityByCountryId - todo; fix
+Pagination - 

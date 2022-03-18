@@ -3,6 +3,7 @@ package psql
 import (
 	"context"
 	"database/sql"
+	"log"
 	"time"
 
 	"github.com/devstackq/bazar/internal/gallery/models"
@@ -27,7 +28,7 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		u.phone, u.first_name,
 		vin, title, description, year, price, city_id, m.country_id, category_id,
 		state_id, brand_id, model_id, creator_id, fuel_id, drive_unit_id,
-		trans_type_id, body_type_id, color_id, odometer, horse_power  
+		trans_type_id, body_type_id, color_id, odometer, horse_power
 	FROM bazar_machine AS m LEFT JOIN bazar_user AS u  ON m.creator_id = u.user_id  WHERE machine_id = $1`
 
 	err = mr.db.QueryRowContext(ctx, query, id).Scan(
@@ -43,7 +44,7 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		&result.Category.ID,
 		&result.State.ID,
 		&result.Brand.ID,
-		&result.Model.ID,
+		&result.Brand.Model.ID,
 		&result.Saler.ID,
 		&result.Fuel.ID,
 		&result.DriveUnit.ID,
@@ -53,6 +54,8 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		&result.Odometer,
 		&result.HorsePower,
 	)
+	log.Println(err,1)
+
 	if err != nil {
 		return nil, err
 	}
@@ -159,7 +162,7 @@ func (mr MachineRepository) Create(ctx context.Context, item *models.Machine)(id
 		
 	row := mr.db.QueryRowContext(ctx, sqlQuery, item.VIN, item.Title, item.Description, item.Year, item.Price, time.Now(),  time.Now(),
 		 item.City.ID, item.Country.ID, item.Category.ID, item.State.ID, item.Brand.ID,
-		item.Model.ID, item.Saler.ID, item.Fuel.ID, item.DriveUnit.ID,
+		item.Brand.Model.ID, item.Saler.ID, item.Fuel.ID, item.DriveUnit.ID,
 		item.Transmission.ID, item.BodyType.ID, item.Color.ID, item.Odometer, item.HorsePower)
 	
 		err = row.Scan(&id)

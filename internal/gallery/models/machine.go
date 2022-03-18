@@ -26,7 +26,7 @@ type Machine struct {
 	Color `json:"color"`
 	Category  `json:"category"`
 	Brand `json:"brand"`
-	Model `json:"model"`
+	// Model `json:"model"`
 	State `json:"state"`
 	Saler models.User  `json:"saler"`
 	Country  `json:"country"`

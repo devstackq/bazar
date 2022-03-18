@@ -39,7 +39,7 @@ func UseCasesInit(r  gallery.Repositories) gallery.UseCases {
 		DriveUnitUseCaseInterface: DriveUnitUseCaseInit(r.DriveUnitRepoInterface),
 		BodyTypeUseCaseInterface: BodyTypeUseCaseInit(r.BodyTypeRepoInterface),
 		ColorUseCaseInterface: ColorUseCaseInit(r.ColorRepoInterface),
-
+		FilterUseCaseInterface: FilterUseCaseInit(r.FilterRepoInterface),
 		// FilterMachineInterface: FilterMachineUseCaseInit(r.FilterMachineRepo),
 	}
 }

@@ -30,7 +30,7 @@ type MachineUseCaseInterface interface {
 }
 
 type FilterUseCaseInterface interface {
-	GetListMachineByFilter()
+	GetListMachineByFilter(map[string]string)([]*models.Machine, error)
 	// GetListCarBy() // 1 params?
 }
 
@@ -58,7 +58,9 @@ type BrandUseCaseInterface interface {
 type ModelUseCaseInterface interface {
 	CreateModel(t *models.Model) (int, error)
 	GetModelByID(id int)(*models.Model, error)
-	GetListModel()([]*models.Model, error)
+	GetListModelByBrandID(int)([]*models.Model, error)
+	// GetListModel()([]*models.Model, error)
+
 }
 type FuelUseCaseInterface interface {
 	CreateFuel(t *models.Fuel) (int, error)

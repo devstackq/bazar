@@ -28,8 +28,9 @@ func (cuc ModelUseCase) GetModelByID(id int)(*models.Model, error) {
 	return cuc.ModelRepo.GetByID(ctx, id)
 }
 
-func (cuc ModelUseCase) GetListModel()([]*models.Model, error) {
+
+func (cuc ModelUseCase) GetListModelByBrandID(brandID int)([]*models.Model, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	return cuc.ModelRepo.GetList(ctx)
+	return cuc.ModelRepo.GetList(ctx, brandID)
 }
