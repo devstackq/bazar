@@ -3,10 +3,9 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"log"
 	"time"
 
-	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/devstackq/bazar/internal/models"
 )
 
 type MachineRepository struct {
@@ -26,9 +25,9 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 
 	query := `SELECT
 		u.phone, u.first_name,
-		vin, title, description, year, price, city_id, m.country_id, category_id,
+		vin, title, description, year, price, m.city_id, m.country_id, category_id,
 		state_id, brand_id, model_id, creator_id, fuel_id, drive_unit_id,
-		trans_type_id, body_type_id, color_id, odometer, horse_power, volume,
+		trans_type_id, body_type_id, color_id, odometer, horse_power, volume
 	FROM bazar_machine AS m LEFT JOIN bazar_user AS u  ON m.creator_id = u.user_id  WHERE machine_id = $1`
 
 	err = mr.db.QueryRowContext(ctx, query, id).Scan(
@@ -55,7 +54,6 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		&result.HorsePower,
 		&result.Volume,
 	)
-	log.Println(err,1)
 
 	if err != nil {
 		return nil, err

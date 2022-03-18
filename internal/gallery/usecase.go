@@ -1,6 +1,6 @@
 package gallery
 
-import "github.com/devstackq/bazar/internal/gallery/models"
+import "github.com/devstackq/bazar/internal/models"
 
 
 

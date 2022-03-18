@@ -3,7 +3,7 @@ package auth
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/auth/models"
+	"github.com/devstackq/bazar/internal/models"
 )
 
 type UseCase interface {

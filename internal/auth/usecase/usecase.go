@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/devstackq/bazar/internal/auth"
-	"github.com/devstackq/bazar/internal/auth/models"
+	"github.com/devstackq/bazar/internal/models"
 )
 
 //repo;

@@ -12,7 +12,7 @@ import (
 )
 
 //cfg *config.Config,
-func SetMachineEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
+func SetGalleryEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
 	
 	machineRepos := repository.MachineReposInit(db)
 	machineUseCases  := usecase.UseCasesInit(machineRepos)

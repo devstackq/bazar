@@ -25,9 +25,7 @@ func (p *PostgreSqlDb) InitDb() (interface{}, error) {
 	if err = db.Ping(); err != nil {
 		return nil, err
 	}
-	// if err = createTables(db, p.Config.tableName); err != nil {
-	// 	return nil, err
-	// }
+
 	return db, nil
 }
 

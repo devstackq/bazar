@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"github.com/devstackq/bazar/internal/auth/models"
 )
 
 type Machine struct {
@@ -30,5 +28,5 @@ type Machine struct {
 	City  `json:"city"`
 	Fuel  `json:"fuel"`
 	DriveUnit  `json:"drive_unit"`
-	Creator models.User  `json:"creator"`
+	Creator User  `json:"creator"`
 }

@@ -78,6 +78,7 @@ func (a *App) Initialize() {
 	// db, err := mongoObject.InitDb()
 	// if err != nil {
 	// 	log.Println(err)
+	a.setComponents()
 	// 	return nil
 	// }
 	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
@@ -86,6 +87,7 @@ func (a *App) Initialize() {
 	db, err := sqlObject.InitDb()
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	a.db = db.(*sql.DB)
 	
@@ -93,14 +95,56 @@ func (a *App) Initialize() {
 
 	// repo := psql.NewUserRepository(db.(*sql.DB))
 
-	a.setComponents()
-
 	// log.Print(repoMongo, "init repo")
 	// return &App{
 	// 	authUseCase: usecase.NewAuthUseCase(repo, []byte(viper.GetString("auth.hash_salt")), []byte(viper.GetString("auth.secret_key")), viper.GetDuration("auth.token_ttl")),
 	// 	// httpServer:  server.(http.Server),
 	// }
+	a.setComponents()
+
 }
+
+  func (a *App) Run(ctx context.Context) {
+	//func() - connect client
+	var frontend fs.FS = os.DirFS("../../client/public")
+	httpFS := http.FS(frontend)
+	fileServer := http.FileServer(httpFS)
+	serveIndex := serveFileContents("index.html", httpFS)
+	http.Handle("/", intercept404(fileServer, serveIndex))
+
+	srv := http.Server{
+		Addr:           a.cfg.App.Port,
+		Handler:        a.router,
+		MaxHeaderBytes: 1 << 20,
+		ReadTimeout:    a.cfg.App.ReadTimeout,
+		WriteTimeout:   a.cfg.App.WriteTimeout,
+	}
+	go func() {
+		a.Logger.Info("starting web server on port: ", a.cfg.App.Port)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			a.Logger.Fatal(err.Error())
+		}
+	}()
+
+	<-ctx.Done()
+
+	a.Logger.Info("shutting down web server...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second) // todo: change time context;
+	defer cancel()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		a.Logger.Fatal("application forced to shutdown: ", err.Error())
+	}
+	a.Logger.Info("application exiting")
+}
+
+func (a *App) setComponents() {
+	apiVersion := a.router.Group("/v1")
+	v1.SetGalleryEndpoints(a.cfg, a.db, a.Logger, apiVersion)
+	// v1.SetAuthEndpoints(a.cfg, a.db, a.Logger, apiVersion)
+}
+
 
 func serveFileContents(file string, files http.FileSystem) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -111,7 +155,6 @@ func serveFileContents(file string, files http.FileSystem) http.HandlerFunc {
   
 		return
 	  }
-  
 	  // Open the file and return its contents using http.ServeContent
 	  index, err := files.Open(file)
 	  if err != nil {
@@ -156,7 +199,6 @@ func serveFileContents(file string, files http.FileSystem) http.HandlerFunc {
 	return hrw.ResponseWriter.Write(p)
   }
   
-  
   func intercept404(handler, on404 http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	  hookedWriter := &hookedResponseWriter{ResponseWriter: w}
@@ -167,90 +209,3 @@ func serveFileContents(file string, files http.FileSystem) http.HandlerFunc {
 	  }
 	})
   }
-
-  func (a *App) Run(ctx context.Context) {
-	//func() - connect client
-	var frontend fs.FS = os.DirFS("../../client/public")
-	httpFS := http.FS(frontend)
-	fileServer := http.FileServer(httpFS)
-	serveIndex := serveFileContents("index.html", httpFS)
-	http.Handle("/", intercept404(fileServer, serveIndex))
-
-	srv := http.Server{
-		Addr:           a.cfg.App.Port,
-		Handler:        a.router,
-		MaxHeaderBytes: 1 << 20,
-		ReadTimeout:    a.cfg.App.ReadTimeout,
-		WriteTimeout:   a.cfg.App.WriteTimeout,
-	}
-	go func() {
-		a.Logger.Info("starting web server on port: ", a.cfg.App.Port)
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			a.Logger.Fatal(err.Error())
-		}
-	}()
-
-	<-ctx.Done()
-
-	a.Logger.Info("shutting down web server...")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second) // todo: change time context;
-	defer cancel()
-
-	if err := srv.Shutdown(ctx); err != nil {
-		a.Logger.Fatal("application forced to shutdown: ", err.Error())
-	}
-	a.Logger.Info("application exiting")
-}
-
-func (a *App) setComponents() {
-	apiVersion := a.router.Group("/v1")
-	v1.SetMachineEndpoints(a.cfg, a.db, a.Logger, apiVersion)
-	// v1.SetAuthEndpoints(a.cfg, a.db, a.Logger, apiVersion)
-}
-
-  
-// func (app *App) Run(port string) error {
-// 	//grpc || http create server
-
-// 	factory := transport.GetFactory("http")
-// 	transportProtocol := factory.GetTransport()
-// 	server := transportProtocol.InitTransport(viper.GetString("port")).(http.Server)
-// 	log.Println("init transport")
-
-// 	var frontend fs.FS = os.DirFS("../../client/public")
-// 	httpFS := http.FS(frontend)
-// 	fileServer := http.FileServer(httpFS)
-// 	serveIndex := serveFileContents("index.html", httpFS)
-// 	http.Handle("/", intercept404(fileServer, serveIndex))
-
-// 	authHttp.InitRoutes(app.authUseCase)
-
-// 	go func() {
-// 		if err := server.ListenAndServe(); err != nil {
-// 			log.Println(err)
-// 		}
-// 	}()
-// 	log.Print("run server port: ", viper.GetString("port"))
-
-// 	//refactor logger go func()
-// 	// file, err := os.OpenFile("info.log", os.O_CREATE|os.O_APPEND, 0644)
-// 	// if err != nil {
-// 	// 	log.Println(err)
-// 	// }
-// 	// defer file.Close()
-// 	// log.SetOutput(file)
-// 	// log.Print("logger start")
-
-// 	//gracefull shutdown
-// 	quit := make(chan os.Signal, 1)
-// 	signal.Notify(quit, os.Interrupt, os.Interrupt)
-// 	<-quit
-
-// 	ctx, shutdown := context.WithTimeout(context.Background(), 5*time.Second)
-// 	defer shutdown()
-
-// 	return server.Shutdown(ctx)
-// }
-
-//func NewServer(){}

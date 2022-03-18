@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/devstackq/bazar/internal/models"
 )
 
 

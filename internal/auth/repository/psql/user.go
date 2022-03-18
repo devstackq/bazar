@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"log"
 
-	"github.com/devstackq/bazar/internal/auth/models"
+	"github.com/devstackq/bazar/internal/models"
 )
 
 type UserRepository struct {

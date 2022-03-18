@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/devstackq/bazar/internal/auth/models"
+	"github.com/devstackq/bazar/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

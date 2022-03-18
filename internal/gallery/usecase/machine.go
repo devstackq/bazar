@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/devstackq/bazar/internal/gallery"
-	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/devstackq/bazar/internal/models"
 	"github.com/google/uuid"
 )
 

@@ -3,7 +3,7 @@ package v1
 import (
 	"net/http"
 
-	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/devstackq/bazar/internal/models"
 	"github.com/gin-gonic/gin"
 )
 

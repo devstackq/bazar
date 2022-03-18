@@ -8,7 +8,7 @@ import (
 	"syscall"
 
 	"github.com/devstackq/bazar/internal/config"
-	"github.com/devstackq/bazar/server"
+	"github.com/devstackq/bazar/internal/server"
 )
 
 func Start() {

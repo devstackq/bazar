@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/devstackq/bazar/internal/auth/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,10 +17,10 @@ func TestSignup(t *testing.T) {
 	if err != nil {
 		t.Errorf("request error %v", err)
 	}
-	user := models.User{
-		Username: "mock",
-		Password: "123s",
-	}
+	// user := models.User{
+	// 	Username: "mock",
+	// 	Password: "123s",
+	// }
 
 	// mockService := usecase.AuthUseCaseMock{}
 

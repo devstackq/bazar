@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/devstackq/bazar/internal/models"
 	"github.com/gin-gonic/gin"
 )
 func (h *Handler) CreateMachine(c *gin.Context) {

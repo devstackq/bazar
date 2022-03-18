@@ -7,7 +7,15 @@ Database - postgres
 
 testUrl: http://localhost:6969
 
-1 Создание юзера
+
+-------------------------------
+Вначале надо создать роли
+header:token(admin) - optional
+/v1/role : POST
+Request : {name : "saler"}
+-------------------------------
+
+Создание юзера
 
 /v1/signup : POST
 Request: 
@@ -24,7 +32,6 @@ Request:
 }
 Response {statusCode, Message}
 
-
 Вход в систему
 /v1/signin : POST
 Request: 
@@ -34,6 +41,7 @@ Request:
 	string `json:"password"`
 }
 Response {statusCode, Message}
+------------------------------
 
 Профиль
 
@@ -59,6 +67,7 @@ header:token -  middleware(token->) getUserID
 Response{
     User{...}
 }
+------------------------------
 
 header:token -  middleware(token->) getUserID
 Создание машины 
@@ -111,6 +120,8 @@ Request:
         "id": 1
     }
 }
+------------------------------
+
 
 Главная:
 
@@ -135,7 +146,7 @@ Response : {
 Response : {
     []Machine{...}
 }
-
+------------------------------
 
 Админка(опционалка) CRUD по:
 
@@ -171,9 +182,9 @@ Response : {
 
 Город - Азтана, Дубай, Москоу
 /v1/city : POST; {"name" : ""}
+------------------------------
 
 
---------------------------------
 entity.POST("", handler.Create)
 entity.GET("", handler.GetList)
 entity.GET("/:id", handler.GetByID)

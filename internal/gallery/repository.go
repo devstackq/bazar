@@ -3,7 +3,7 @@ package gallery
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery/models"
+	"github.com/devstackq/bazar/internal/models"
 )
 
 type MachineRepoInterface interface {
@@ -11,10 +11,9 @@ type MachineRepoInterface interface {
 	GetByID(context.Context, int)(*models.Machine, error)
 	GetList(context.Context)([]*models.Machine,  error)
 	GetListByUserID(context.Context, int)([]*models.Machine,  error)
-
 }
+
 type CategoryRepoInterface interface {
-	// GetyID(context.Context, int) (*models.Category, error)
 	Create(context.Context, *models.Category)(int, error)
 	GetByID(context.Context, int)(*models.Category, error)
 	GetList(context.Context) ([]*models.Category, error)
@@ -25,7 +24,6 @@ type SearchRepoInterface interface {
 }
 
 type FilterRepoInterface interface {
-	//search all key, prepare quesery
 	GetListMachineByFilter(context.Context, map[string]string)([]*models.Machine, error)
 }
 
