@@ -3,6 +3,7 @@ package models
 import "time"
 
 type User struct {
+	// ID       int `json:"id"`
 	ID       string `json:"id"`
 	Email string `json:"email"`
 	Username string `json:"username"`
@@ -11,7 +12,7 @@ type User struct {
 	LaststName string `json:"last_name"`
 	Password string `json:"password"`
 	CreatedAt time.Time  `json:"created_at"`
-	Country int `json:"country_id"`
+	CountryID int `json:"country_id"`
 	CityID int    `json:"city_id"`
 	RoleID int `json:"role_id"`
 	Token string  `json:"token"`

@@ -36,7 +36,11 @@ type CorsCfg struct {
 type AppCfg struct {
 	Mode         string
 	Port         string
-	Secret       string
+	SecretAccess       string
+	SecretRefresh       string
+
+	HashSalt string
+	TokenTTL  time.Duration
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	Cors         *CorsCfg
@@ -52,6 +56,7 @@ type DBConf struct {
 }
 
 type Config struct {
+	// AuthConfig
 	App *AppCfg
 	DB *DBConf
 }
@@ -59,9 +64,13 @@ type Config struct {
 func GetConfig() *Config {
 	return &Config{
 		App: &AppCfg{
+			HashSalt  : getEnvAsStr("APP_HASH_SALT", "keyForSalt"),
+			TokenTTL : time.Duration(getEnvAsInt("APP_TOKEN_TTL", 86400)),
 			Mode:         getEnvAsStr("APP_MODE", defaultAppMode),
 			Port:         getEnvAsStr("APP_PORT", defaultAppPort),
-			Secret:       getEnvAsStr("APP_SECRET", defaultAppSecret),
+			SecretAccess:       getEnvAsStr("APP_SECRET_ACCESS", "accessx"),
+			SecretRefresh:       getEnvAsStr("APP_SECRET_REFRESH","refreshx"),
+		
 			ReadTimeout:  time.Duration(getEnvAsInt("APP_READ_TIMEOUT", defaultAppReadTimeout)) * time.Second,
 			WriteTimeout: time.Duration(getEnvAsInt("APP_WRITE_TIMEOUT", defaultAppWriteTimeout)) * time.Second,
 			Cors: &CorsCfg{
@@ -91,7 +100,7 @@ func GetConfig() *Config {
 
 		DB: &DBConf{
 			Dialect:  getEnvAsStr("POSTGRES_DIALECT", "pgx"),
-			Host:     getEnvAsStr("POSTGRES_URI", "127.0.0.1"),
+			Host:     getEnvAsStr("POSTGRES_URI", "127.0.0.1"), //postgres - compose
 			Port:     getEnvAsStr("POSTGRES_PORT", "5432"),
 			Username: getEnvAsStr("POSTGRES_USER", "postgres"),
 			Password: getEnvAsStr("POSTGRES_PASSWORD", "postgres"),

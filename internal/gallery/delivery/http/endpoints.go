@@ -16,6 +16,7 @@ func SetGalleryEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger,
 	
 	machineRepos := repository.MachineReposInit(db)
 	machineUseCases  := usecase.UseCasesInit(machineRepos)
+	
 	handler := NewHandler(machineUseCases, logger)
 
 	filter := group.Group("/filter")

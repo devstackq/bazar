@@ -12,5 +12,3 @@ type Handler struct {
 func NewHandler(useCases gallery.UseCases, logger *logrus.Logger ) *Handler {
 	return &Handler{useCases: useCases, logger: logger}
 }
-
-

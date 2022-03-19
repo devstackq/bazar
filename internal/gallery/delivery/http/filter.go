@@ -13,7 +13,8 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		result []*models.Machine
 		err    error
 	)
-filterKeys := []string{"category", "state", "brand", "model"}
+
+	filterKeys := []string{"category", "state", "brand", "model"}
 
 	keys, err := 	prepareQueryParam(c, filterKeys)
 

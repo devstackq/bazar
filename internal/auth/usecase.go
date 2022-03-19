@@ -7,8 +7,7 @@ import (
 )
 
 type UseCase interface {
-	SignUp(ctx context.Context, user *models.User) error // add new saler 
-	SignIn(ctx context.Context, username, password string) (string, error)
-	ParseToken(ctx context.Context, accessToken string) *models.User
-	// HashPassword(password string) string
+	SignUp(ctx context.Context, user *models.User) (int,  error) 
+	SignIn(ctx context.Context, username, password string) (int, error)
+	CreateSession(context.Context, string, string, int) error
 }

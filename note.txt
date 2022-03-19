@@ -9,6 +9,10 @@ filter - 1 field || 1 query - complex filter
 
 -------------------------------
 
+i3lock -i /home/student/Pictures/1.png
+
+insert into bazar_roles(name) values('saler');
+
 testdb=# insert into bazar_body_type(name) values('купе');
 testdb=# insert into bazar_brand(name) values('Tesla');
 testdb=# insert into bazar_category(name) values('легковые');
@@ -31,7 +35,18 @@ container psql stop - data clear - fix
 make file fix 
 вынести в отдельный слои - category; model, brand etc
 
-1 Middleware - auth user
+
+//signin -> createToken/setExpire -> save db; - return client;
+//middleware -> /handler -> checkTokenFromClient;
+//refreshToken -> when: timeExpire;
+//removeToken - logout || expire;
+
+todo: middleware; and helper
+valid,delete, refresh token
+
+1 Middleware - auth user; - 1 middleware - all service
+
+
 Auth - signin - token return; signup; RoleAdd
 
 2 Profile - middlew -> GetUserService(data), GetGallery(GetMyAddedMachine, )

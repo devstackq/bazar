@@ -14,6 +14,10 @@ header:token(admin) - optional
 /v1/role : POST
 Request : {name : "saler"}
 -------------------------------
+insert into bazar_roles(name) values('saler');
+
+  insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
+-------------------------------
 
 Создание юзера
 
@@ -122,7 +126,6 @@ Request:
 }
 ------------------------------
 
-
 Главная:
 
 Вернет машину по его ID
@@ -160,7 +163,7 @@ Response : {
 /v1/brand : POST; {"name" : ""}
 
 Модель - Model X3, S;  Supra, Camry...
-/v1/model : POST; {"name" : ""}
+/v1/model/:brand_id : POST; {"name" : ""}
 
 Топливо - Дизель, Бензин, Электричество
 /v1/fuel : POST; {"name" : ""}
@@ -181,7 +184,7 @@ Response : {
 /v1/country : POST; {"name" : ""}
 
 Город - Азтана, Дубай, Москоу
-/v1/city : POST; {"name" : ""}
+/v1/city/:country_id : POST; {"name" : ""}
 ------------------------------
 
 
