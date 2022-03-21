@@ -34,6 +34,7 @@ TODO:
 container psql stop - data clear - fix
 make file fix 
 вынести в отдельный слои - category; model, brand etc
+middleware funcs; some helper func - general
 
 
 //signin -> createToken/setExpire -> save db; - return client;
@@ -45,7 +46,6 @@ todo: middleware; and helper
 valid,delete, refresh token
 
 1 Middleware - auth user; - 1 middleware - all service
-
 
 Auth - signin - token return; signup; RoleAdd
 

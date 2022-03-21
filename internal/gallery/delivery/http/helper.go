@@ -32,3 +32,4 @@ func prepareQueryParam(c *gin.Context, keys []string ) (map[string]string , erro
 	
 	return result, nil
 }
+

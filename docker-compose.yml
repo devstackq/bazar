@@ -12,22 +12,26 @@ services:
       - POSTGRES_DATABASE=testdb
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-    restart: always 
+    # restart: always 
+    restart : unless-stopped  
 
-  # server:
-  #   image: bazar-app
-  #   container_name: bazar-app
-  #   # build: ./
-  #   # command: ./app
-  #   ports:
-  #     - 6969:6969
-  #   depends_on:
-  #     - postgresdb
-  #   networks:
-  #     - darknet
-  #   volumes:
-  #     - ./bazar-app:/opt/bazar-app:cached
-  #   restart: always     
+
+  server:
+    image: bazar-app
+    container_name: bazar-app
+    # build: ./
+    # command: ./app
+    ports:
+      - 6969:6969
+    depends_on:
+      - postgresdb
+    networks:
+      - darknet
+    volumes:
+      - ./bazar-app:/opt/bazar-app:cached
+    # restart: always   
+    restart : unless-stopped  
+  
 
 networks:
   darknet:

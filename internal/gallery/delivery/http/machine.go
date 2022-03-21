@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -13,6 +14,16 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		err    error
 		lastID int
 	)
+
+	 	uid, ok := c.Get("user_id");
+		if !ok {
+		h.logger.Info("no set user_id in context")
+		// return
+		// log.Println("uid context", uid)
+	}
+	log.Println("uid context", uid)
+
+
 	err = c.ShouldBindJSON(&machine)
 	if err != nil {
 		h.logger.Error(err)

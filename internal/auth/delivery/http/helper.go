@@ -2,9 +2,7 @@ package v1
 
 import (
 	"log"
-	"net/http"
 	"strconv"
-	"strings"
 	"time"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -21,24 +19,9 @@ func responseWithStatus(c *gin.Context, status int, message, text string, data i
 	})
 }
 
-type AccessDetails struct {
-	AccessUuid string
-	UserId   int64
-}
 
-type TokenDetails struct {
-	AccessToken  string
-	RefreshToken string
-	AccessUuid   string
-	RefreshUuid  string
-	AtExpires    int64
-	RtExpires    int64
-	SubTimeRefresh time.Duration
-	SubTimeAccess time.Duration
-}
-
-func CreateToken(userID int, accessSecret, refreshSecret string)( *TokenDetails,  error) {
-	td := &TokenDetails{}
+func CreateToken(userID int, accessSecret, refreshSecret string)( *models.TokenDetails,  error) {
+	td := &models.TokenDetails{}
 	var err error
 	
 	td.AtExpires = time.Now().Add(time.Minute * 20).Unix() // set mlsec token 20 min
@@ -50,7 +33,7 @@ func CreateToken(userID int, accessSecret, refreshSecret string)( *TokenDetails,
 	//set jwt data; key:value
 	atClaims := jwt.MapClaims{}
 	atClaims["authorization"]= true
-	atClaims["access_token"]=td.AccessToken
+	atClaims["access_uuid"]=td.AccessUuid
 	atClaims["user_id"]=userID
 	atClaims["expired"]=td.AtExpires
 
@@ -66,7 +49,7 @@ func CreateToken(userID int, accessSecret, refreshSecret string)( *TokenDetails,
 
 	//set refresh token
 	rtClaims := jwt.MapClaims{}
-	rtClaims["refresh_token"]=td.RefreshToken
+	rtClaims["refresh_uuid"]=td.RefreshUuid
 	rtClaims["user_id"]=userID
 	rtClaims["expired"]=td.RtExpires
 	
@@ -87,14 +70,7 @@ func CreateToken(userID int, accessSecret, refreshSecret string)( *TokenDetails,
 
 }
 
-func ExtractToken(r *http.Request) string {
-	bearToken := r.Header.Get("Authorization")
-	strArr := strings.Split(bearToken, " ")
-	if len(strArr) == 2 {
-		return strArr[1]
-	}
-	return ""
-}
+
 
 //signin -> createToken/setExpire -> save db; - return client;
 //middleware -> /handler -> checkTokenFromClient;

@@ -38,7 +38,14 @@ func (auth *AuthUseCase) hashPassword(password string) string {
 	// base64EncodingPasswordHash := base64.URLEncoding.EncodeToString(hashPasswordBytes)
 }
 
-func (a AuthUseCase) CreateSession(ctx context.Context, access string, refresh string, userID int) error {
-	return a.authRepo.CreateSession(ctx, access, refresh,  userID)
+func (a AuthUseCase) CreateSession(ctx context.Context, token *models.TokenDetails) error {
+	return a.authRepo.CreateSession(ctx,token)
 }
 	
+func (a AuthUseCase) DeleteSession(ctx context.Context, token *models.TokenDetails) error {
+	return a.authRepo.DeleteSession(ctx,token)
+}
+	
+func (a AuthUseCase) UpdateSession(ctx context.Context, token *models.TokenDetails) error {
+	return a.authRepo.UpdateSession(ctx,token)
+}

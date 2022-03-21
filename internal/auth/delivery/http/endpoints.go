@@ -6,7 +6,7 @@ import (
 	"github.com/devstackq/bazar/internal/auth/repository/psql"
 	"github.com/devstackq/bazar/internal/auth/usecase"
 	"github.com/devstackq/bazar/internal/config"
-
+	"github.com/devstackq/bazar/internal/middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
 )
@@ -22,5 +22,11 @@ func SetAuthEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, gr
 	{
 		auth.POST("/signup", handler.SignUp)
 		auth.POST("/signin", handler.SignIn)
+		// auth.POST("/refresh", 	handler.RefreshJwt)
+	}
+
+	refresh := group.Group("/refresh", middleware.AuthorizeRefreshJWT())
+	{
+		refresh.POST("", handler.RefreshJwt)
 	}
 }

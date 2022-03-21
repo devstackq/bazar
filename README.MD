@@ -40,11 +40,10 @@ Response {statusCode, Message}
 /v1/signin : POST
 Request: 
 {
-	string `json:"email"`
 	string `json:"username"`
 	string `json:"password"`
 }
-Response {statusCode, Message}
+Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
 
 Профиль

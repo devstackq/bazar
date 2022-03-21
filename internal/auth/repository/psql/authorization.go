@@ -3,7 +3,6 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"log"
 	"time"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -40,12 +39,28 @@ func (ur AuthorizationRepository) GetUser(ctx context.Context, username, passwor
 }
 
 
-// func (ur AuthorizationRepository)RemoveToken(ctx context.Context , access string,  refresh string, userID  int) error {
+func (ur AuthorizationRepository)CreateSession(ctx context.Context , token *models.TokenDetails) error {
+	query := `INSERT INTO bazar_session(access_uuid, refresh_uuid, user_id)values($1, $2, $3)`
+	// log.Print(refresh, "refr")
+	row := ur.db.QueryRowContext(ctx, query, token.AccessUuid, token.RefreshUuid, token.UserID)
+	if row.Err() != nil {
+		return row.Err()
+	}
+	return  nil
+}
 
-func (ur AuthorizationRepository)CreateSession(ctx context.Context , access string,  refresh string, userID  int) error {
-	query := `INSERT INTO bazar_session(access_token, refresh_token, user_id)values($1, $2, $3)`
-	log.Print(refresh, "refr")
-	row := ur.db.QueryRowContext(ctx, query, access, refresh, userID)
+func (ur AuthorizationRepository)UpdateSession(ctx context.Context , token *models.TokenDetails) error {
+	query := `UPDATE bazar_session SET access_uuid=$1, refresh_uuid=$2  WHERE user_ID=$3`
+	row := ur.db.QueryRowContext(ctx, query, token.AccessUuid, token.RefreshUuid, token.UserID)
+	if row.Err() != nil {
+		return row.Err()
+	}
+	return  nil
+}
+
+func (ur AuthorizationRepository)DeleteSession(ctx context.Context , token *models.TokenDetails) error {
+	query := `DELETE bazar_session WHERE user_ID=$1`
+	row := ur.db.QueryRowContext(ctx, query, token.UserID)
 	if row.Err() != nil {
 		return row.Err()
 	}
