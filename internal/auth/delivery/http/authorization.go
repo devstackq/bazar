@@ -10,7 +10,6 @@ import (
 )
 
 //todo: - token expires & user_id in redis -> check token_uuid;
-
 func (h *Handler) SignIn(c *gin.Context) {
 
 	var (
@@ -31,9 +30,13 @@ func (h *Handler) SignIn(c *gin.Context) {
 	defer cancel()
 
 	userID, err = h.useCases.SignIn(ctx, user.Username, user.Password)
-	if err != nil {
+	if err != nil  {
 		h.logger.Error(err)
-		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
+		if err.Error() == "sql: no rows in result set" {
+			responseWithStatus(c, http.StatusBadRequest, err.Error(), "Incorrect password or email", nil)
+			return
+		}
+		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "Internal server error", nil)
 		return
 	}
 
@@ -54,7 +57,7 @@ func (h *Handler) SignIn(c *gin.Context) {
 	c.Writer.Header().Set("access_token", token.AccessToken)
 
 	//check - passwoir, email - from decrypt( passwoir, email) ; -> compare DB
-	responseWithStatus(c, http.StatusOK, "success signin", "OK", token)
+	responseWithStatus(c, http.StatusOK, "success signin", "OK", nil)
 }
 
 func (h *Handler) SignUp(c *gin.Context) {
@@ -117,14 +120,11 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-
 	// log.Println("refresh tokenbs", token.AccessToken)
-
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
 
-	responseWithStatus(c, http.StatusCreated, "refresh token created", "Created", token)
-
+	responseWithStatus(c, http.StatusCreated, "refresh token created", "Created", nil)
 }
 
 //remove client & db jwt token; by user_id

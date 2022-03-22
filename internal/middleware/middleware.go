@@ -11,35 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// func AuthorizeJWT(secretKey string) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		//tok, err := ExtractTokenMetadata(c.Request)
-// 		token, err := VerifyToken(c.Request, secretKey) //check accesToken
-// 		if err != nil {
-// 			c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
-// 				Status:  "Info",
-// 				Message:  secretKey + "token expired or incorrect",
-// 				Data:    nil,
-// 			})
-// 			return
-// 		}
-// 		claims, ok := token.Claims.(jwt.MapClaims)
-// 		if ok && token.Valid {
-// 			// val, ok := redis.get(claims["access_uuid"])
-// 			c.Set("user_id", claims["user_id"].(float64)) //set context user_id
-// 			c.Next()
-// 		} else {
-// 				c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
-// 					Status:  "Info",
-// 					Message: "access token expired or incorrect",
-// 					Data:    nil,
-// 				})
-// 			}
-// 	}
-// }
-
 func AuthorizeJWT(secretKey string) gin.HandlerFunc {
-
 	return func(c *gin.Context) {
 		if token, err := VerifyToken(c.Request, secretKey); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
@@ -57,7 +29,7 @@ func AuthorizeJWT(secretKey string) gin.HandlerFunc {
 			} else {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
 					Status:  "Info",
-					Message: "refreshx token expired or incorrect",
+					Message: "refresh token expired or incorrect",
 					Data:    nil,
 				})
 			}
@@ -96,8 +68,6 @@ func ExtractTokenMetadata(r *http.Request) (*models.AccessDetails, error) {
 		return nil, err
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
-	// log.Println(claims, "cla")
-
 	if ok && token.Valid {
 		accessUuid, ok := claims["access_uuid"].(string)
 		if !ok {
@@ -113,13 +83,4 @@ func ExtractTokenMetadata(r *http.Request) (*models.AccessDetails, error) {
 		}, nil
 	}
 	return nil, err
-}
-
-func ValidateToken(encodedToken, secretKey string) (*jwt.Token, error) {
-	return jwt.Parse(encodedToken, func(token *jwt.Token) (interface{}, error) {
-		if _, isvalid := token.Method.(*jwt.SigningMethodHMAC); !isvalid {
-			return nil, fmt.Errorf("Invalid token", token.Header["alg"])
-		}
-		return []byte(secretKey), nil
-	})
 }

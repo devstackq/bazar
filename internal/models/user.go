@@ -15,5 +15,8 @@ type User struct {
 	CountryID int `json:"country_id"`
 	CityID int    `json:"city_id"`
 	RoleID int `json:"role_id"`
-	Token string  `json:"token"`
+	
+	Country string
+	City string
+	Role string
 }

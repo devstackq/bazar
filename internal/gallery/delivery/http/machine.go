@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 
@@ -21,7 +20,6 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		h.logger.Info("no set user_id in context")
 		return
 	}
-	log.Println("uid context", uid)
 
 	err = c.ShouldBindJSON(&machine)
 	if err != nil {
@@ -29,6 +27,8 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
+	machine.Creator.ID = strconv.Itoa(int(uid.(float64)))
+
 	lastID, err = h.useCases.Create(&machine)
 	if err != nil {
 		h.logger.Error(err)

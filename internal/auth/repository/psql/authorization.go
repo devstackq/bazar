@@ -28,7 +28,6 @@ func (ur AuthorizationRepository) CreateUser(ctx context.Context, user *models.U
 }
 
 func (ur AuthorizationRepository) GetUser(ctx context.Context, username, password string) ( lastID int, err  error) {
-	// var user models.User
 	sqlQuery := `SELECT user_id FROM bazar_user WHERE username = $1 AND password = $2`
 	row := ur.db.QueryRowContext(ctx, sqlQuery, username, password)
 	err = row.Scan(&lastID)

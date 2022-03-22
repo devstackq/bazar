@@ -7,7 +7,3 @@ import (
 func main() {
 	app.Start()
 }
-
-
-// check funtional app
-// start auth service

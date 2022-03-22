@@ -13,21 +13,7 @@ i3lock -i /home/student/Pictures/1.png
 
 insert into bazar_roles(name) values('saler');
 
-testdb=# insert into bazar_body_type(name) values('купе');
-testdb=# insert into bazar_brand(name) values('Tesla');
-testdb=# insert into bazar_category(name) values('легковые');
-testdb=# insert into bazar_city(name) values('Шарджа');
-testdb=# insert into bazar_country(name, city_id) values('ОАЭ',1);
-testdb=# insert into bazar_color(name) values('white');
-testdb=# insert into bazar_drive_unit(name) values('задний приводный');
-testdb=# insert into bazar_fuel(name) values('эелектричество');
-testdb=# insert into bazar_model(name) values('Model S3');
-testdb=# insert into bazar_state(name) values('Новый');
-testdb=# insert into bazar_trans(name) values('Автомат');
-insert into bazar_roles(name) values('saler');
-insert into bazar_currency(name) values('usd');
-
-  insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
+insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
 
 
 TODO:
@@ -45,11 +31,12 @@ middleware funcs; some helper func - general
 todo: middleware; and helper
 valid,delete, refresh token
 
-1 Middleware - auth user; - 1 middleware - all service
+1 Middleware - auth user; - 1 middleware - all service + 
+Auth - signin - token return; signup; RoleAdd + 
+2 Profile - middlew -> GetUserService(data), GetGallery(GetMyAddedMachine, ) +
 
-Auth - signin - token return; signup; RoleAdd
-
-2 Profile - middlew -> GetUserService(data), GetGallery(GetMyAddedMachine, )
+2.1 refactor -> getMachineId - sql query  +
+middleware - some handler - use
 
 3 FILE SERVER - photo
 

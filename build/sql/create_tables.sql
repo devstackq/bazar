@@ -23,7 +23,7 @@ CREATE TABLE bazar_model
     name VARCHAR(50) UNIQUE,
     brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+-- models currency
 CREATE TABLE bazar_currency
 (
     id BIGSERIAL PRIMARY KEY,
@@ -90,8 +90,8 @@ CREATE TABLE bazar_user
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
     created_at TIMESTAMP NOT NULL,
-    country_id  INTEGER NOT NULL,
-    city_id  INTEGER NOT NULL,
+    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
     role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- is_superuser BOOLEAN NOT NULL,
@@ -107,6 +107,7 @@ CREATE TABLE bazar_session
 );
 
     -- currency_id INTEGER NOT NULL REFERENCES bazar_currency(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    -- //todo referneces all table
 CREATE TABLE bazar_machine
 (
     machine_id BIGSERIAL PRIMARY KEY,
@@ -120,10 +121,10 @@ CREATE TABLE bazar_machine
     odometer DECIMAL NOT NULL,
     volume DECIMAL NOT NULL,
     horse_power INTEGER NOT NULL,
-    model_id INTEGER NOT NULL,
-    brand_id INTEGER NOT NULL,
-    country_id INTEGER NOT NULL,
-    city_id INTEGER NOT NULL,
+    model_id INTEGER NOT NULL REFERENCES bazar_model(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
     category_id INTEGER NOT NULL REFERENCES bazar_category(id) ON DELETE CASCADE ON UPDATE CASCADE,
     state_id INTEGER NOT NULL REFERENCES bazar_state(id) ON DELETE CASCADE ON UPDATE CASCADE, 
     fuel_id INTEGER NOT NULL REFERENCES bazar_fuel(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -131,9 +132,5 @@ CREATE TABLE bazar_machine
     trans_type_id INTEGER NOT NULL REFERENCES bazar_trans(id) ON DELETE CASCADE ON UPDATE CASCADE,
     body_type_id INTEGER NOT NULL REFERENCES bazar_body_type(id) ON DELETE CASCADE ON UPDATE CASCADE,
     color_id INTEGER NOT NULL REFERENCES bazar_color(id) ON DELETE CASCADE ON UPDATE CASCADE,
-
     creator_id INTEGER NOT NULL REFERENCES bazar_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
-

@@ -12,6 +12,7 @@ import (
 	httpAuth "github.com/devstackq/bazar/internal/auth/delivery/http"
 	"github.com/devstackq/bazar/internal/config"
 	httpGallery "github.com/devstackq/bazar/internal/gallery/delivery/http"
+	httpProfile "github.com/devstackq/bazar/internal/profile/delivery/http"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -98,7 +99,7 @@ func (a *App) Run(ctx context.Context) {
 
 	a.Logger.Info("shutting down web server...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second) 
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
@@ -108,8 +109,11 @@ func (a *App) Run(ctx context.Context) {
 
 }
 
+//all microservice connect 1 db
 func (a *App) setComponents() {
 	apiVersion := a.router.Group("/v1")
+
 	httpGallery.SetGalleryEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 	httpAuth.SetAuthEndpoints(a.cfg, a.db, a.Logger, apiVersion)
+	httpProfile.SetprofileEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 }

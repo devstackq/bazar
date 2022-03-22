@@ -24,10 +24,9 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 	{
 		filter.POST("", handler.GetFilteredMachine)
 	}
-
-	machine := group.Group("/machine", middleware.AuthorizeJWT("accessx"))
+	machine := group.Group("/machine", )
 	{
-		machine.POST("", handler.CreateMachine)
+		machine.POST("",middleware.AuthorizeJWT("accessx"), handler.CreateMachine)
 		machine.GET("/:id", handler.GetMachineByID)
 		machine.GET("", handler.GetListMachine)
 		machine.GET("/user/:id", handler.GetListMachineByUserID)
@@ -47,6 +46,7 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		category.GET("/:id", handler.GetCategoryByID)
 	}
 
+//another services?
 	trans := group.Group("/trans", middleware.AuthorizeJWT("accessx"))
 	{
 		trans.POST("", handler.CreateTransmission)
