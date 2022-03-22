@@ -7,7 +7,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type FilterRepository struct {
 	db *sql.DB
 }
@@ -18,29 +17,30 @@ func FilterRepoInit(db *sql.DB) *FilterRepository {
 	}
 }
 
-func (fr FilterRepository )GetListMachineByFilter(ctx context.Context, keys map[string]string)([]*models.Machine, error) {
+//sort & filter ? good practice
+
+func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[string]string) ([]*models.Machine, error) {
 
 	var result []*models.Machine
 	var err error
 
-query := `SELECT
-	machine_id,
-	vin,
-	title,
-	description, 
-	year,
-	price,
-	odometer,
-	created_at,
-	horse_power 
-FROM bazar_machine WHERE `
+	query := `SELECT
+		machine_id,
+		vin,
+		title,
+		description, 
+		year,
+		price,
+		odometer,
+		created_at,
+		horse_power 
+	FROM bazar_machine WHERE `
 
-query += prepareQuery(keys)
-
-// log.Println(query,12)
+	query += prepareQuery(keys)
+	// query += "ORDER BY created_at ASC"
 
 	rows, err := fr.db.QueryContext(ctx, query)
-	
+
 	if err != nil {
 		return nil, err
 	}
@@ -65,6 +65,5 @@ query += prepareQuery(keys)
 	if rows.Err() != nil {
 		return nil, err
 	}
-
 	return result, nil
 }

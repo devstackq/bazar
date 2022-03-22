@@ -10,14 +10,6 @@ import (
 )
 
 //todo: - token expires & user_id in redis -> check token_uuid;
-//refresh -> call -> if access expired
-//logout || refresh expired -> redirect signin
-
-//client -> signup/signin -> createToken, save Db, uuid
-//client -> send At; server Valid(at) - middleware
-//server(at)- invalid -> client send - (refresh) -> create New At, Rt
-//refresh - invalid -> redirect signin;
-//logout -> removeSession db, client;
 
 func (h *Handler) SignIn(c *gin.Context) {
 
@@ -57,8 +49,6 @@ func (h *Handler) SignIn(c *gin.Context) {
 	// err = h.useCases.CreateSession(ctx, token)
 	//refresh, /signin call
 	// err = h.useCases.UpdateSession(ctx, token)
-
-	// c.SetCookie("access-token", token.AccessToken, int(token.AtExpires), "", "", false, true)
 
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
@@ -108,10 +98,6 @@ func (h *Handler) SignUp(c *gin.Context) {
 
 //refresh - invalid -> redirect signin; else newToken
 func (h *Handler) RefreshJwt(c *gin.Context) {
-	//get refresh token; update AT, RT; - updateSessionDb();
-	//if !Valid(refresh) -> redirect signin, 401
-	//return token, 200
-	//middleware -> refreshJwt, ->   err = h.useCases.CreateSession(ctx, token)
 
 	var (
 		err   error
@@ -120,7 +106,7 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 
 	userID, ok := c.Get("user_id")
 	if !ok {
-		log.Println("!have value")
+		log.Println("not exist userId value")
 		responseWithStatus(c, http.StatusBadRequest, "refresh token incorrect", "no have userI_id, to refresh token", nil)
 		return
 	}
@@ -131,17 +117,21 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	// log.Println("set new token ", token.AccessToken)
+
+	// log.Println("refresh tokenbs", token.AccessToken)
 
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
 
-	responseWithStatus(c, http.StatusCreated, "refresh token created", "", nil)
+	responseWithStatus(c, http.StatusCreated, "refresh token created", "Created", token)
 
 }
-check fundtional all
-//logout -> removeSession db/redis, client;
+
+//remove client & db jwt token; by user_id
 func (h *Handler) Logout(c *gin.Context) {
-todo;
-	//remove client & db jwt token; by user_id
+//middleware - access_token == dbAccess_uuid; remove token db & client
+	c.Writer.Header().Set("refresh_token", "")
+	c.Writer.Header().Set("access_token", "")
+
+	responseWithStatus(c, http.StatusOK, "Success logout, remove tokens", "OK", nil)
 }

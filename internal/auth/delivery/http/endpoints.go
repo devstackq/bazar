@@ -25,8 +25,13 @@ func SetAuthEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, gr
 		// auth.POST("/refresh", 	handler.RefreshJwt)
 	}
 
-	refresh := group.Group("/refresh", middleware.AuthorizeRefreshJWT())
+	refresh := group.Group("/auth/refresh", middleware.AuthorizeJWT("refreshx"))//todo: env config
 	{
 		refresh.POST("", handler.RefreshJwt)
+	}
+
+	logout := group.Group("/auth/logout", middleware.AuthorizeJWT("accessx"))
+	{
+		logout.POST("", handler.Logout)
 	}
 }

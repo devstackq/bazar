@@ -17,10 +17,6 @@ const (
 	defaultAppMethodPost       = "POST"
 	defaultAppMethodPatch      = "PATCH"
 	defaultAppMethodDelete     = "DELETE"
-	defaultAppKapOriginS       = "https://*.kazatomprom.kz/"
-	defaultAppEKapOriginS      = "https://*-ekap.kazatomprom.kz/"
-	defaultAppKapOrigin        = "http://*-.kazatomprom.kz/"
-	defaultAppEKapOrigin       = "http://*-ekap.kazatomprom.kz/"
 	defaultAppExposeHeader     = "Authorization"
 	defaultAppAllowCredentials = true
 )
@@ -86,10 +82,7 @@ func GetConfig() *Config {
 					defaultAppMethodDelete,
 				}),
 				AllowOrigins: getEnvAsSlice("APP_CORS_ALLOW_ORIGINS", []string{
-					defaultAppKapOriginS,
-					defaultAppEKapOriginS,
-					defaultAppKapOrigin,
-					defaultAppEKapOrigin,
+					"http://localhost:6969/*",
 				}),
 				ExposeHeaders: getEnvAsSlice("APP_CORS_EXPOSE_HEADERS", []string{
 					defaultAppExposeHeader,
@@ -100,7 +93,7 @@ func GetConfig() *Config {
 
 		DB: &DBConf{
 			Dialect:  getEnvAsStr("POSTGRES_DIALECT", "pgx"),
-			Host:     getEnvAsStr("POSTGRES_URI", "127.0.0.1"), //postgresdb - for compose
+			Host:     getEnvAsStr("POSTGRES_URI", "localhost"), //postgresdb - for compose
 			Port:     getEnvAsStr("POSTGRES_PORT", "5432"),
 			Username: getEnvAsStr("POSTGRES_USER", "postgres"),
 			Password: getEnvAsStr("POSTGRES_PASSWORD", "postgres"),

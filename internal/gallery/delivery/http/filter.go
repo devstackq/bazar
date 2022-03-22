@@ -13,10 +13,15 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		result []*models.Machine
 		err    error
 	)
+// getDataFromDb
+	var filterKeys = []string{
+	"category", "state", "brand",
+	"model", "priceFrom", "priceTo",
+	"sort_created_at", "sort_price",
+	"sort_year", "sort_odometer" }
+	//filter & sort merged
 
-	filterKeys := []string{"category", "state", "brand", "model"}
-
-	keys, err := 	prepareQueryParam(c, filterKeys)
+	keys, err := prepareQueryParam(c, filterKeys)
 
 	if err != nil {
 		h.logger.Error(err)
@@ -24,8 +29,8 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		return
 	}
 
-		result, err = h.useCases.FilterUseCaseInterface.GetListMachineByFilter(keys)
-		if err != nil {
+	result, err = h.useCases.FilterUseCaseInterface.GetListMachineByFilter(keys)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -34,6 +39,6 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusNotFound, "Info, not found filtered items", "Info:", nil)
 		return
 	}
-	
+
 	responseWithStatus(c, http.StatusOK, "success return filtered cars", "OK", result)
 }

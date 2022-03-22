@@ -11,65 +11,58 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func AuthorizeJWT() gin.HandlerFunc {
+// func AuthorizeJWT(secretKey string) gin.HandlerFunc {
+// 	return func(c *gin.Context) {
+// 		//tok, err := ExtractTokenMetadata(c.Request)
+// 		token, err := VerifyToken(c.Request, secretKey) //check accesToken
+// 		if err != nil {
+// 			c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
+// 				Status:  "Info",
+// 				Message:  secretKey + "token expired or incorrect",
+// 				Data:    nil,
+// 			})
+// 			return
+// 		}
+// 		claims, ok := token.Claims.(jwt.MapClaims)
+// 		if ok && token.Valid {
+// 			// val, ok := redis.get(claims["access_uuid"])
+// 			c.Set("user_id", claims["user_id"].(float64)) //set context user_id
+// 			c.Next()
+// 		} else {
+// 				c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
+// 					Status:  "Info",
+// 					Message: "access token expired or incorrect",
+// 					Data:    nil,
+// 				})
+// 			}
+// 	}
+// }
+
+func AuthorizeJWT(secretKey string) gin.HandlerFunc {
+
 	return func(c *gin.Context) {
-		//tok, err := ExtractTokenMetadata(c.Request)
-		token, err := VerifyToken(c.Request, "accessx")//check accesToken
-		if err != nil {
+		if token, err := VerifyToken(c.Request, secretKey); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
-				Status: "Info",
-				Message: "access token expired or incorrect",
-				Data: nil,
+				Status:  "Info",
+				Message: secretKey + " token expired or incorrect1",
+				Data:    nil,
 			})
 			return
-		}
-		//tokenValid - ok; compare Uuid - db; setContext(user_id);  - else -> send 401; /refresh 
-		claims, ok := token.Claims.(jwt.MapClaims)
-
-		if ok  && token.Valid {
-		// check uuid Db
-		// val, ok := redis.get(claims["access_uuid"])
-
-		c.Set("user_id",  claims["user_id"].(float64))//set context user_id
-		c.Next()
-
 		} else {
-			// if access_uuid = equal(clinet access_uuid) -> update- refresh/access
-			// acs_uuid := claims["access_uuid"]
-			if err != nil {
+			claims, ok := token.Claims.(jwt.MapClaims)
+			if ok && token.Valid {
+				c.Set("user_id", claims["user_id"].(float64)) //set context user_id
+	 			// val, ok := redis.get(claims["access_uuid"])
+				c.Next()
+			} else {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
-					Status: "Info",
-					Message: "access token expired or incorrect",
-					Data: nil,
+					Status:  "Info",
+					Message: "refreshx token expired or incorrect",
+					Data:    nil,
 				})
 			}
 		}
-}
-}
-func AuthorizeRefreshJWT() gin.HandlerFunc {
-
-	return func(c *gin.Context) {
-	if 	token, err := VerifyToken(c.Request, "refreshx"); err != nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
-			Status: "Info",
-			Message: "refreshx token expired or incorrect1",
-			Data: nil,
-		})
-		return
-	}else {
-		claims, ok := token.Claims.(jwt.MapClaims)
-		if ok && token.Valid {
-			c.Set("user_id",  claims["user_id"].(float64))//set context user_id
-			c.Next()
-		}else {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
-				Status: "Info",
-				Message: "refreshx token expired or incorrect",
-				Data: nil,
-			})
-		}
 	}
-}
 }
 
 func ExtractToken(r *http.Request) string {

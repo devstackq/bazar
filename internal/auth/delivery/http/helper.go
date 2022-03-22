@@ -24,7 +24,7 @@ func CreateToken(userID int, accessSecret, refreshSecret string)( *models.TokenD
 	td := &models.TokenDetails{}
 	var err error
 	
-	td.AtExpires = time.Now().Add(time.Minute * 20).Unix() // set mlsec token 20 min
+	td.AtExpires = time.Now().Add(time.Second * 10).Unix() // set mlsec token 20 min
 	td.AccessUuid = uuid.New().String() //set access uuid
 	
 	td.RtExpires = time.Now().Add(time.Hour * 24 * 7).Unix() //set refreshTokenExpires - 7day
@@ -60,15 +60,17 @@ func CreateToken(userID int, accessSecret, refreshSecret string)( *models.TokenD
 	// td.SubTimeRefresh=  time.Unix(td.RtExpires, 0).Sub(time.Now()) //converting Unix to UTC(to Time object)
 
 	log.Println(td.SubTimeAccess, "remove token from sec")
+
 	go func (t time.Duration) {
 		time.AfterFunc(t, func() { 
-			log.Println("remove access token from db, and update token")
+			log.Println("remove access token from db, and update token, concurrent go")
 		 })
 	}(td.SubTimeAccess)
-
+	
 	return td, nil
-
 }
+
+// func setToken()
 
 
 

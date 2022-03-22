@@ -8,21 +8,20 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 	"github.com/gin-gonic/gin"
 )
+
 func (h *Handler) CreateMachine(c *gin.Context) {
 	var (
-		machine models.Machine		
-		err    error
-		lastID int
+		machine models.Machine
+		err     error
+		lastID  int
 	)
 
-	 	uid, ok := c.Get("user_id");
-		if !ok {
+	uid, ok := c.Get("user_id")
+	if !ok {
 		h.logger.Info("no set user_id in context")
-		// return
-		// log.Println("uid context", uid)
+		return
 	}
 	log.Println("uid context", uid)
-
 
 	err = c.ShouldBindJSON(&machine)
 	if err != nil {
@@ -41,9 +40,9 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 
 func (h *Handler) GetMachineByID(c *gin.Context) {
 	var (
-		result *models.Machine		
+		result *models.Machine
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -52,7 +51,7 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-//getUserID; byCarID
+	//getUserID; byCarID
 
 	result, err = h.useCases.GetMachineByID(id)
 	if err != nil {
@@ -65,7 +64,7 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 
 func (h *Handler) GetListMachine(c *gin.Context) {
 	var (
-		result []*models.Machine		
+		result []*models.Machine
 		err    error
 	)
 	result, err = h.useCases.GetRelevantMachines()
@@ -79,9 +78,9 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 
 func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 	var (
-		result []*models.Machine		
+		result []*models.Machine
 		err    error
-		id int
+		id     int
 	)
 	id, err = strconv.Atoi(c.Param("id"))
 	if err != nil {

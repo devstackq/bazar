@@ -19,7 +19,7 @@ insert into bazar_roles(name) values('saler');
   insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
 -------------------------------
 
-Создание юзера
+Создание юзера(продавец)
 
 /v1/signup : POST
 Request: 
@@ -34,7 +34,7 @@ Request:
 	int    `json:"city_id"`
 	int `json:"role_id"`
 }
-Response {statusCode, Message}
+Response {statusCode, Message, Header[access_token, refresh_token]}
 
 Вход в систему
 /v1/signin : POST
@@ -43,51 +43,42 @@ Request:
 	string `json:"username"`
 	string `json:"password"`
 }
+
+Response {statusCode, Message, Header[access_token, refresh_token]}
+------------------------------
+Обновление access/refresh токена
+/v1/refresh -> middlewares(return incorrect access token)
+Request(Header[refresh_token])
 Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
 
+
 Профиль
 
-header:token -  middleware(token->) getUserID
+Request : header[access_token]
+
 /v1/profile : GET
 Response:  {
     UserInfo
     ListCreatedCarsByUserID    
 }
 
-Вернет список созданных машин - пользователем созданных
-
-header:token -  middleware(token->) getUserID
-/v1/machine/user :GET
-
-Response {
-    []Machine{}...
-}
-
-Вернет информацию о продавце
-header:token -  middleware(token->) getUserID
-/v1/profile/bio
-Response{
-    User{...}
-}
-------------------------------
-
-header:token -  middleware(token->) getUserID
 Создание машины 
 Прежде чем добавить машины: -> добавить  в БД, админские crud(cateogry,model, brand, etc)
 
 /v1/machine : POST
 Request:
+ header[access_token]
 {
     "title": "Sale the best car, because i need money",
     "description": "this car bla bla...",
-    "year": 2000,
-    "price": 20000,
-    "odometer": 30002,
-    "horse_power": 100,
+    "year": 2009,
+    "price": 29500.1,
+    "odometer": 3000,
+    "horse_power": 200,
     "volume": 3.5,
     "trans": {
-        "id": 2
+        "id": 1
     },
     "body": {
         "id": 1
@@ -105,10 +96,10 @@ Request:
         }
     },
     "state": {
-        "id": 2
+        "id": 1
     },
     "country": {
-        "id": 2
+        "id": 1
     },
     "city": {
         "id": 1
@@ -120,7 +111,7 @@ Request:
         "id": 1
     },
     "creator": {
-        "id": 1
+        "id": "1"
     }
 }
 ------------------------------
@@ -149,46 +140,67 @@ Response : {
     []Machine{...}
 }
 ------------------------------
-
+for Guests:
+-------------------------------
+Вернет список созданных машин - пользователем созданных
+/v1/machine/user/:id :GET
+Response {
+    []Machine{}...
+}
+-------------------------------
+Вернет информацию о продавце
+/v1/profile/bio/:id
+Response{
+    User{...}
+}
+------------------------------
 Админка(опционалка) CRUD по:
 
 Категориям - Лешковые, Мотоциклы, Яхты...
+ header[access_token]
 /v1/category : POST; {"name" : ""}
 
 Состояние - Новые, БУ, Битые
+ header[access_token]
 /v1/state : POST; {"name" : ""}
 
 Бренд  - Tesla, Toyota...
+ header[access_token]
 /v1/brand : POST; {"name" : ""}
 
 Модель - Model X3, S;  Supra, Camry...
+ header[access_token]
 /v1/model/:brand_id : POST; {"name" : ""}
 
 Топливо - Дизель, Бензин, Электричество
+ header[access_token]
 /v1/fuel : POST; {"name" : ""}
 
 Трансмиссия - Акпп, Мкпп, Гибрид
+ header[access_token]
 /v1/trans : POST; {"name" : ""}
 
 Привод - Передний, Задний, Полный
+ header[access_token]
 /v1/drive_unit : POST; {"name" : ""}
 
 Тип кузова -  Седан, купе, кабриолет..
+ header[access_token]
 /v1/body_type : POST; {"name" : ""}
 
 Цвет - красный, белый...
+ header[access_token]
 /v1/color : POST; {"name" : ""}
 
 Страна - Каз-ан, Оаэ, Руссия...
+ header[access_token]
 /v1/country : POST; {"name" : ""}
 
 Город - Азтана, Дубай, Москоу
+ header[access_token]
 /v1/city/:country_id : POST; {"name" : ""}
 ------------------------------
-
 
 entity.POST("", handler.Create)
 entity.GET("", handler.GetList)
 entity.GET("/:id", handler.GetByID)
-
-
