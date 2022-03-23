@@ -129,17 +129,27 @@ Response{
 
 Фильтрация
 
-/v1/filter query-param : ["category", "state", "brand", "model"]
+/v1/filter query-param : ["category", "state", "brand", "model"] id
 Response : {
     []Machine{...}
 }
+
+Фидьтрация по цене - /v1/filter query-param [priceTo/proceFrom] float
+
+------------------------------
 
 Поиск по title или description
 /v1/search/:keyword :POST
 Response : {
     []Machine{...}
 }
+
 ------------------------------
+Сортировка
+/v1/filter query-param : ["category", "state", "brand", "model"] +  sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
+
+------------------------------
+
 for Guests:
 -------------------------------
 Вернет список созданных машин - пользователем созданных

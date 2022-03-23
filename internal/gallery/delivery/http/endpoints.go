@@ -12,9 +12,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-//cfg *config.Config,
+// cfg *config.Config,
 func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
-
 	machineRepos := repository.MachineReposInit(db)
 	machineUseCases := usecase.UseCasesInit(machineRepos)
 
@@ -24,9 +23,16 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 	{
 		filter.POST("", handler.GetFilteredMachine)
 	}
-	machine := group.Group("/machine", )
+	// middleware.AuthorizeJWT("accessx")
+	upload := group.Group("/file")
 	{
-		machine.POST("",middleware.AuthorizeJWT("accessx"), handler.CreateMachine)
+		upload.POST("/upload/:id", handler.Upload)
+		upload.POST("/download/:id", handler.Download)
+	}
+
+	machine := group.Group("/machine")
+	{
+		machine.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateMachine)
 		machine.GET("/:id", handler.GetMachineByID)
 		machine.GET("", handler.GetListMachine)
 		machine.GET("/user/:id", handler.GetListMachineByUserID)
@@ -46,7 +52,7 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		category.GET("/:id", handler.GetCategoryByID)
 	}
 
-//another services?
+	// another services?
 	trans := group.Group("/trans", middleware.AuthorizeJWT("accessx"))
 	{
 		trans.POST("", handler.CreateTransmission)

@@ -5,7 +5,6 @@ import (
 )
 
 func prepareQuery(keys map[string]string) (query string) {
-
 	idx := 0
 	tempSortKey := ""
 
@@ -16,7 +15,7 @@ func prepareQuery(keys map[string]string) (query string) {
 				if idx > 1 {
 					query += " AND "
 				}
-				//filter by price
+				// filter by price
 				if key == "priceTo" {
 					query += fmt.Sprintf(" %s", "price <="+val)
 				} else if key == "priceFrom" {
@@ -25,12 +24,12 @@ func prepareQuery(keys map[string]string) (query string) {
 					query += fmt.Sprintf(" %s", key+"_id="+val)
 				}
 			} else {
-			//add last key, sort 
-			tempSortKey= fmt.Sprintf("ORDER BY %s ", key[5:] +" "+ val)
+				// add last key, sort
+				tempSortKey = fmt.Sprintf("ORDER BY %s ", key[5:]+" "+val)
 			}
 		}
 	}
-	//add sort with filter
+	// add sort with filter
 	query += tempSortKey
 
 	return query

@@ -17,10 +17,9 @@ func FilterRepoInit(db *sql.DB) *FilterRepository {
 	}
 }
 
-//sort & filter ? good practice
+// sort & filter ? good practice
 
 func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[string]string) ([]*models.Machine, error) {
-
 	var result []*models.Machine
 	var err error
 
@@ -37,10 +36,8 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 	FROM bazar_machine WHERE `
 
 	query += prepareQuery(keys)
-	// query += "ORDER BY created_at ASC"
 
 	rows, err := fr.db.QueryContext(ctx, query)
-
 	if err != nil {
 		return nil, err
 	}
