@@ -1,7 +1,6 @@
 package models
 
-
 type State struct {
-	ID int 
+	ID   int
 	Name string
 }

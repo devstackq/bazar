@@ -15,19 +15,19 @@ func CountryUseCaseInit(r gallery.CountryRepoInterface) gallery.CountryUseCaseIn
 	return CountryUseCase{countryRepo: r}
 }
 
-func (cuc CountryUseCase) CreateCountry(c *models.Country) (int,error) {
+func (cuc CountryUseCase) CreateCountry(c *models.Country) (int, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.countryRepo.Create(ctx, c)
 }
 
-func (cuc CountryUseCase) GetCountryByID(id int)(*models.Country, error) {
+func (cuc CountryUseCase) GetCountryByID(id int) (*models.Country, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.countryRepo.GetByID(ctx, id)
 }
 
-func (cuc CountryUseCase) GetListCountry()([]*models.Country, error) {
+func (cuc CountryUseCase) GetListCountry() ([]*models.Country, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.countryRepo.GetList(ctx)

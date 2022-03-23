@@ -11,10 +11,9 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func SetprofileEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
-	
+func SetprofileEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
 	profileRepo := psql.ProfileRepositoryInit(db)
-	profileUseCase  := usecase.ProfileUseCaseInit(profileRepo)
+	profileUseCase := usecase.ProfileUseCaseInit(profileRepo)
 
 	handler := NewHandler(profileUseCase, logger, cfg)
 

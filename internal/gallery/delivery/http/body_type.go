@@ -9,11 +9,10 @@ import (
 )
 
 func (h *Handler) CreateBodyType(c *gin.Context) {
-
 	var (
-		argument *models.BodyType		
-		err    error
-		lastID int
+		argument *models.BodyType
+		err      error
+		lastID   int
 	)
 
 	err = c.ShouldBindJSON(&argument)
@@ -22,8 +21,8 @@ func (h *Handler) CreateBodyType(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.BodyTypeUseCaseInterface.CreateBodyType(argument)
-		if err != nil {
+	lastID, err = h.useCases.BodyTypeUseCaseInterface.CreateBodyType(argument)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -32,9 +31,8 @@ func (h *Handler) CreateBodyType(c *gin.Context) {
 }
 
 func (h *Handler) GetListBodyType(c *gin.Context) {
-
 	var (
-		result []*models.BodyType		
+		result []*models.BodyType
 		err    error
 	)
 
@@ -49,9 +47,9 @@ func (h *Handler) GetListBodyType(c *gin.Context) {
 
 func (h *Handler) GetBodyTypeByID(c *gin.Context) {
 	var (
-		result *models.BodyType		
+		result *models.BodyType
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -68,5 +66,3 @@ func (h *Handler) GetBodyTypeByID(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return BodyType ", "OK", result)
 }
-
-

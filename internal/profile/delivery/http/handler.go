@@ -10,9 +10,9 @@ type Handler struct {
 	profileUseCases profile.ProfileUseCasesInterface
 	// galleryUseCase gallery.UseCases
 	logger *logrus.Logger
-	cfg *config.Config
+	cfg    *config.Config
 }
 
-func NewHandler(profile profile.ProfileUseCasesInterface,  logger *logrus.Logger, cfg *config.Config) *Handler {
-	return &Handler{profileUseCases: profile,  logger: logger, cfg: cfg}
+func NewHandler(profile profile.ProfileUseCasesInterface, logger *logrus.Logger, cfg *config.Config) *Handler {
+	return &Handler{profileUseCases: profile, logger: logger, cfg: cfg}
 }

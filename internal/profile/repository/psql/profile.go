@@ -18,11 +18,10 @@ func ProfileRepositoryInit(db *sql.DB) profile.ProfileRepositoryInterface {
 	}
 }
 
-//or use -> anothre package/service  ? countryService.GetByID()?
+// or use -> anothre package/service  ? countryService.GetByID()?
 func (pr ProfileRepository) GetUserByID(ctx context.Context, id int) (*models.User, error) {
-
 	var result models.User
-	var err error 
+	var err error
 
 	sqlQuery := `SELECT
 	email, username,
@@ -44,7 +43,6 @@ func (pr ProfileRepository) GetUserByID(ctx context.Context, id int) (*models.Us
 }
 
 func (mr ProfileRepository) GetListMachineByUserID(ctx context.Context, id int) ([]*models.Machine, error) {
-
 	query := `SELECT
 	machine_id,
 	vin,
@@ -61,7 +59,6 @@ func (mr ProfileRepository) GetListMachineByUserID(ctx context.Context, id int) 
 	result := []*models.Machine{}
 
 	rows, err := mr.db.QueryContext(ctx, query, id)
-
 	if err != nil {
 		return nil, err
 	}

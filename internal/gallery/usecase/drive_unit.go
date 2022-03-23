@@ -15,19 +15,19 @@ func DriveUnitUseCaseInit(r gallery.DriveUnitRepoInterface) gallery.DriveUnitUse
 	return DriveUnitUseCase{driveUnitRepo: r}
 }
 
-func (cuc DriveUnitUseCase) CreateDriveUnit(c *models.DriveUnit) (int,error) {
+func (cuc DriveUnitUseCase) CreateDriveUnit(c *models.DriveUnit) (int, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.driveUnitRepo.Create(ctx, c)
 }
 
-func (cuc DriveUnitUseCase) GetDriveUnitByID(id int)(*models.DriveUnit, error) {
+func (cuc DriveUnitUseCase) GetDriveUnitByID(id int) (*models.DriveUnit, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.driveUnitRepo.GetByID(ctx, id)
 }
 
-func (cuc DriveUnitUseCase) GetListDriveUnit()([]*models.DriveUnit, error) {
+func (cuc DriveUnitUseCase) GetListDriveUnit() ([]*models.DriveUnit, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.driveUnitRepo.GetList(ctx)

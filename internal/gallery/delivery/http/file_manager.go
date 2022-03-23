@@ -61,9 +61,7 @@ func (h *Handler) Download(c *gin.Context) {
 	}
 
 	// io.Copy(c.Writer, result[1])
-
 	c.Status(200)
-
 	// todo :DetectContentType, customFunc ?
 }
 

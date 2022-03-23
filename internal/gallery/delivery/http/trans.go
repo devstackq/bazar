@@ -9,11 +9,10 @@ import (
 )
 
 func (h *Handler) CreateTransmission(c *gin.Context) {
-
 	var (
-		argument *models.Transmission		
-		err    error
-		lastID int
+		argument *models.Transmission
+		err      error
+		lastID   int
 	)
 
 	err = c.ShouldBindJSON(&argument)
@@ -22,8 +21,8 @@ func (h *Handler) CreateTransmission(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.TransUseCaseInterface.CreateTransmission(argument)
-		if err != nil {
+	lastID, err = h.useCases.TransUseCaseInterface.CreateTransmission(argument)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -32,9 +31,8 @@ func (h *Handler) CreateTransmission(c *gin.Context) {
 }
 
 func (h *Handler) GetListTransmission(c *gin.Context) {
-
 	var (
-		result []*models.Transmission		
+		result []*models.Transmission
 		err    error
 	)
 
@@ -46,11 +44,12 @@ func (h *Handler) GetListTransmission(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return list transmission", "OK", result)
 }
+
 func (h *Handler) GetTransmissionByID(c *gin.Context) {
 	var (
-		result *models.Transmission		
+		result *models.Transmission
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -68,5 +67,3 @@ func (h *Handler) GetTransmissionByID(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return transmission ", "OK", result)
 }
-
-

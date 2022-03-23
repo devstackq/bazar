@@ -9,9 +9,8 @@ import (
 )
 
 func (h *Handler) CreateBrand(c *gin.Context) {
-
 	var (
-		brand *models.Brand		
+		brand  *models.Brand
 		err    error
 		lastID int
 	)
@@ -22,8 +21,8 @@ func (h *Handler) CreateBrand(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.BrandUseCaseInterface.CreateBrand(brand)
-		if err != nil {
+	lastID, err = h.useCases.BrandUseCaseInterface.CreateBrand(brand)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -32,9 +31,8 @@ func (h *Handler) CreateBrand(c *gin.Context) {
 }
 
 func (h *Handler) GetListBrand(c *gin.Context) {
-
 	var (
-		result []*models.Brand		
+		result []*models.Brand
 		err    error
 	)
 
@@ -49,9 +47,9 @@ func (h *Handler) GetListBrand(c *gin.Context) {
 
 func (h *Handler) GetBrandByID(c *gin.Context) {
 	var (
-		result *models.Brand		
+		result *models.Brand
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -69,5 +67,3 @@ func (h *Handler) GetBrandByID(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return Brand ", "OK", result)
 }
-
-

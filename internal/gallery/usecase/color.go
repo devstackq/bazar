@@ -7,7 +7,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type ColorUseCase struct {
 	colorRepo gallery.ColorRepoInterface
 }
@@ -16,19 +15,19 @@ func ColorUseCaseInit(r gallery.ColorRepoInterface) gallery.ColorUseCaseInterfac
 	return ColorUseCase{colorRepo: r}
 }
 
-func (cuc ColorUseCase) CreateColor(c *models.Color) (int,error) {
+func (cuc ColorUseCase) CreateColor(c *models.Color) (int, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.colorRepo.Create(ctx, c)
 }
 
-func (cuc ColorUseCase) GetColorByID(id int)(*models.Color, error) {
+func (cuc ColorUseCase) GetColorByID(id int) (*models.Color, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.colorRepo.GetByID(ctx, id)
 }
 
-func (cuc ColorUseCase) GetListColor()([]*models.Color, error) {
+func (cuc ColorUseCase) GetListColor() ([]*models.Color, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.colorRepo.GetList(ctx)

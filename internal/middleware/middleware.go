@@ -23,8 +23,8 @@ func AuthorizeJWT(secretKey string) gin.HandlerFunc {
 		} else {
 			claims, ok := token.Claims.(jwt.MapClaims)
 			if ok && token.Valid {
-				c.Set("user_id", claims["user_id"].(float64)) //set context user_id
-	 			// val, ok := redis.get(claims["access_uuid"])
+				c.Set("user_id", claims["user_id"].(float64)) // set context user_id
+				// val, ok := redis.get(claims["access_uuid"])
 				c.Next()
 			} else {
 				c.AbortWithStatusJSON(http.StatusUnauthorized, models.Response{
@@ -47,7 +47,6 @@ func ExtractToken(r *http.Request) string {
 }
 
 func VerifyToken(r *http.Request, secretKey string) (*jwt.Token, error) {
-
 	tokenString := ExtractToken(r)
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {

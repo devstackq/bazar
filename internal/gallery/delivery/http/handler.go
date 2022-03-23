@@ -7,8 +7,9 @@ import (
 
 type Handler struct {
 	useCases gallery.UseCases
-	logger *logrus.Logger
+	logger   *logrus.Logger
 }
-func NewHandler(useCases gallery.UseCases, logger *logrus.Logger ) *Handler {
+
+func NewHandler(useCases gallery.UseCases, logger *logrus.Logger) *Handler {
 	return &Handler{useCases: useCases, logger: logger}
 }

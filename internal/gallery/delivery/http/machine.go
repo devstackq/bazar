@@ -51,7 +51,7 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-	//getUserID; byCarID
+	// getUserID; byCarID
 
 	result, err = h.useCases.GetMachineByID(id)
 	if err != nil {

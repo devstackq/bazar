@@ -8,7 +8,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type ColorRepository struct {
 	db *sql.DB
 }
@@ -19,8 +18,7 @@ func ColorRepoInit(db *sql.DB) gallery.ColorRepoInterface {
 	}
 }
 
-func (cr ColorRepository) GetByID(ctx context.Context, id int) (*models.Color,  error) {
-	
+func (cr ColorRepository) GetByID(ctx context.Context, id int) (*models.Color, error) {
 	var result models.Color
 	var err error
 
@@ -34,42 +32,40 @@ func (cr ColorRepository) GetByID(ctx context.Context, id int) (*models.Color,  
 	return &result, nil
 }
 
-func (cr ColorRepository) Create(ctx context.Context, cat *models.Color) (int,  error) {
+func (cr ColorRepository) Create(ctx context.Context, cat *models.Color) (int, error) {
 	sqlQuery := `INSERT INTO bazar_color(name) VALUES($1) RETURNING id`
-		var id int
-		var err error
+	var id int
+	var err error
 
 	row := cr.db.QueryRowContext(ctx, sqlQuery, cat.Name)
-		err = row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func (cr ColorRepository) GetList(ctx context.Context) ([]*models.Color,  error) {
-
-query := `SELECT id, name FROM bazar_color`
-result := []*models.Color{}
-rows, err := cr.db.QueryContext(ctx, query)
-
-if err != nil {
-	return nil, err
-}
-
-for rows.Next() {
-	temp := models.Color{}
-	if err = rows.Scan(
-		&temp.ID,
-		&temp.Name,
-	); err != nil {
+func (cr ColorRepository) GetList(ctx context.Context) ([]*models.Color, error) {
+	query := `SELECT id, name FROM bazar_color`
+	result := []*models.Color{}
+	rows, err := cr.db.QueryContext(ctx, query)
+	if err != nil {
 		return nil, err
 	}
-	result = append(result, &temp)
-}
 
-if rows.Err() != nil {
-	return nil, err
-}
-return result, nil
+	for rows.Next() {
+		temp := models.Color{}
+		if err = rows.Scan(
+			&temp.ID,
+			&temp.Name,
+		); err != nil {
+			return nil, err
+		}
+		result = append(result, &temp)
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+	return result, nil
 }

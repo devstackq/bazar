@@ -16,8 +16,7 @@ func responseWithStatus(c *gin.Context, status int, message, text string, data i
 }
 
 func prepareQueryParam(c *gin.Context, keys []string) (map[string]string, error) {
-
-	var result = map[string]string{}
+	result := map[string]string{}
 	var value string
 
 	for _, param := range keys {

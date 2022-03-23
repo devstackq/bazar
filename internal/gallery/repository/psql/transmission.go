@@ -7,7 +7,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type TransRepository struct {
 	db *sql.DB
 }
@@ -18,8 +17,7 @@ func TransRepoInit(db *sql.DB) *TransRepository {
 	}
 }
 
-func (tr TransRepository) GetByID(ctx context.Context, id int) (*models.Transmission,  error) {
-	
+func (tr TransRepository) GetByID(ctx context.Context, id int) (*models.Transmission, error) {
 	var result models.Transmission
 	var err error
 
@@ -33,31 +31,29 @@ func (tr TransRepository) GetByID(ctx context.Context, id int) (*models.Transmis
 	return &result, nil
 }
 
-func (tr TransRepository) Create(ctx context.Context, t *models.Transmission) (int,  error) {
+func (tr TransRepository) Create(ctx context.Context, t *models.Transmission) (int, error) {
 	sqlQuery := `INSERT INTO bazar_trans(name) VALUES($1) RETURNING id`
-		var id int
-		var err error
+	var id int
+	var err error
 
 	row := tr.db.QueryRowContext(ctx, sqlQuery, t.Name)
-		err = row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func (tr TransRepository) GetList(ctx context.Context) ([]*models.Transmission,  error) {
-
+func (tr TransRepository) GetList(ctx context.Context) ([]*models.Transmission, error) {
 	query := `SELECT id, name FROM bazar_trans`
-	
+
 	result := []*models.Transmission{}
-	
+
 	rows, err := tr.db.QueryContext(ctx, query)
-	
 	if err != nil {
 		return nil, err
 	}
-	
+
 	for rows.Next() {
 		temp := models.Transmission{}
 		if err = rows.Scan(
@@ -68,9 +64,9 @@ func (tr TransRepository) GetList(ctx context.Context) ([]*models.Transmission, 
 		}
 		result = append(result, &temp)
 	}
-	
+
 	if rows.Err() != nil {
 		return nil, err
 	}
 	return result, nil
-	}
+}

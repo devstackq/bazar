@@ -2,10 +2,9 @@ package db
 
 import (
 	"database/sql"
+	"log"
 
 	_ "github.com/jackc/pgx/stdlib"
-
-	"log"
 )
 
 type PostgreSqlDb struct {

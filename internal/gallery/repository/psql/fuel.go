@@ -8,7 +8,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type FuelRepository struct {
 	db *sql.DB
 }
@@ -19,8 +18,7 @@ func FuelRepoInit(db *sql.DB) gallery.FuelRepoInterface {
 	}
 }
 
-func (cr FuelRepository) GetByID(ctx context.Context, id int) (*models.Fuel,  error) {
-	
+func (cr FuelRepository) GetByID(ctx context.Context, id int) (*models.Fuel, error) {
 	var result models.Fuel
 	var err error
 
@@ -34,42 +32,40 @@ func (cr FuelRepository) GetByID(ctx context.Context, id int) (*models.Fuel,  er
 	return &result, nil
 }
 
-func (cr FuelRepository) Create(ctx context.Context, cat *models.Fuel) (int,  error) {
+func (cr FuelRepository) Create(ctx context.Context, cat *models.Fuel) (int, error) {
 	sqlQuery := `INSERT INTO bazar_fuel(name) VALUES($1) RETURNING id`
-		var id int
-		var err error
+	var id int
+	var err error
 
 	row := cr.db.QueryRowContext(ctx, sqlQuery, cat.Name)
-		err = row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func (cr FuelRepository) GetList(ctx context.Context) ([]*models.Fuel,  error) {
-
-query := `SELECT id, name FROM bazar_fuel`
-result := []*models.Fuel{}
-rows, err := cr.db.QueryContext(ctx, query)
-
-if err != nil {
-	return nil, err
-}
-
-for rows.Next() {
-	temp := models.Fuel{}
-	if err = rows.Scan(
-		&temp.ID,
-		&temp.Name,
-	); err != nil {
+func (cr FuelRepository) GetList(ctx context.Context) ([]*models.Fuel, error) {
+	query := `SELECT id, name FROM bazar_fuel`
+	result := []*models.Fuel{}
+	rows, err := cr.db.QueryContext(ctx, query)
+	if err != nil {
 		return nil, err
 	}
-	result = append(result, &temp)
-}
 
-if rows.Err() != nil {
-	return nil, err
-}
-return result, nil
+	for rows.Next() {
+		temp := models.Fuel{}
+		if err = rows.Scan(
+			&temp.ID,
+			&temp.Name,
+		); err != nil {
+			return nil, err
+		}
+		result = append(result, &temp)
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+	return result, nil
 }

@@ -28,8 +28,8 @@ type App struct {
 	Logger *logrus.Logger
 }
 
-//interface {Signup, Signin}; stuct Grpc - own realize; struct http - own realize, grpcServer
-//singletone - prepare app, connect layers with interface; init app
+// interface {Signup, Signin}; stuct Grpc - own realize; struct http - own realize, grpcServer
+// singletone - prepare app, connect layers with interface; init app
 
 func NewApp(cfg *config.Config) (*App, error) {
 	if cfg == nil {
@@ -39,7 +39,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 }
 
 func (a *App) Initialize() {
-
 	gin.SetMode(a.cfg.App.Mode)
 
 	a.router = gin.New()
@@ -56,7 +55,7 @@ func (a *App) Initialize() {
 		AllowWildcard:    true,
 	}))
 
-	//mongo case
+	// mongo case
 	// mongoObject := db.NewDbObject("mongodb", viper.GetString("mongo.username"), viper.GetString("mongo.password"), viper.GetString("mongo.host"), viper.GetString("mongo.port"), viper.GetString("mongo.dbName"), viper.GetString("mongo.user_collection"))
 	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
 
@@ -73,8 +72,7 @@ func (a *App) Initialize() {
 }
 
 func (a *App) Run(ctx context.Context) {
-
-	//func()
+	// func()
 	// var frontend fs.FS = os.DirFS("../../client/public")
 	// httpFS := http.FS(frontend)
 	// fileServer := http.FileServer(httpFS)
@@ -106,10 +104,9 @@ func (a *App) Run(ctx context.Context) {
 		a.Logger.Fatal("application forced to shutdown: ", err.Error())
 	}
 	a.Logger.Info("application exiting")
-
 }
 
-//all microservice connect 1 db
+// all microservice connect 1 db
 func (a *App) setComponents() {
 	apiVersion := a.router.Group("/v1")
 

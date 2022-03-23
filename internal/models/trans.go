@@ -1,7 +1,6 @@
 package models
 
-
 type Transmission struct {
-	ID int 
+	ID   int
 	Name string
 }

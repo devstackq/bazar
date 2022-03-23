@@ -1,6 +1,6 @@
 package models
 
 type City struct {
-	ID int 
+	ID   int
 	Name string
 }

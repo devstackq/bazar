@@ -9,9 +9,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//todo: - token expires & user_id in redis -> check token_uuid;
+// todo: - token expires & user_id in redis -> check token_uuid;
 func (h *Handler) SignIn(c *gin.Context) {
-
 	var (
 		user   *models.User
 		err    error
@@ -30,7 +29,7 @@ func (h *Handler) SignIn(c *gin.Context) {
 	defer cancel()
 
 	userID, err = h.useCases.SignIn(ctx, user.Username, user.Password)
-	if err != nil  {
+	if err != nil {
 		h.logger.Error(err)
 		if err.Error() == "sql: no rows in result set" {
 			responseWithStatus(c, http.StatusBadRequest, err.Error(), "Incorrect password or email", nil)
@@ -40,7 +39,7 @@ func (h *Handler) SignIn(c *gin.Context) {
 		return
 	}
 
-	//call signin/signup/refresh
+	// call signin/signup/refresh
 	token, err = CreateToken(userID, h.cfg.App.SecretAccess, h.cfg.App.SecretRefresh)
 	if err != nil {
 		h.logger.Error(err)
@@ -50,18 +49,15 @@ func (h *Handler) SignIn(c *gin.Context) {
 	token.UserID = userID
 
 	// err = h.useCases.CreateSession(ctx, token)
-	//refresh, /signin call
+	// refresh, /signin call
 	// err = h.useCases.UpdateSession(ctx, token)
 
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
-
-	//check - passwoir, email - from decrypt( passwoir, email) ; -> compare DB
 	responseWithStatus(c, http.StatusOK, "success signin", "OK", nil)
 }
 
 func (h *Handler) SignUp(c *gin.Context) {
-
 	var (
 		user   *models.User
 		err    error
@@ -99,9 +95,8 @@ func (h *Handler) SignUp(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success signup", "OK", lastID)
 }
 
-//refresh - invalid -> redirect signin; else newToken
+// refresh - invalid -> redirect signin; else newToken
 func (h *Handler) RefreshJwt(c *gin.Context) {
-
 	var (
 		err   error
 		token *models.TokenDetails
@@ -120,18 +115,15 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	// log.Println("refresh tokenbs", token.AccessToken)
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
 
 	responseWithStatus(c, http.StatusCreated, "refresh token created", "Created", nil)
 }
 
-//remove client & db jwt token; by user_id
+// remove client & db jwt token; by user_id
 func (h *Handler) Logout(c *gin.Context) {
-//middleware - access_token == dbAccess_uuid; remove token db & client
 	c.Writer.Header().Set("refresh_token", "")
 	c.Writer.Header().Set("access_token", "")
-
 	responseWithStatus(c, http.StatusOK, "Success logout, remove tokens", "OK", nil)
 }

@@ -15,9 +15,8 @@ func FilterUseCaseInit(r gallery.FilterRepoInterface) gallery.FilterUseCaseInter
 	return FilterUseCase{filterRepo: r}
 }
 
-func (cuc FilterUseCase)GetListMachineByFilter( keys map[string]string)( []*models.Machine, error) {
+func (cuc FilterUseCase) GetListMachineByFilter(keys map[string]string) ([]*models.Machine, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.filterRepo.GetListMachineByFilter(ctx, keys)
 }
-

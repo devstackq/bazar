@@ -16,7 +16,7 @@ type User struct {
 	Password string             `bson:"password"`
 }
 
-//convert struct user - to mongo struct
+// convert struct user - to mongo struct
 func toMongoUser(u *models.User) *User {
 	return &User{
 		Username: u.Username,
@@ -24,7 +24,7 @@ func toMongoUser(u *models.User) *User {
 	}
 }
 
-//convert mongo struct  - to model.User
+// convert mongo struct  - to model.User
 func toModel(u *User) *models.User {
 	return &models.User{
 		ID:       u.ID.Hex(),
@@ -37,7 +37,7 @@ type UserRepository struct {
 	db *mongo.Collection
 }
 
-//get from mongo databse - collection
+// get from mongo databse - collection
 func NewUserRepository(db *mongo.Database, colection string) *UserRepository {
 	return &UserRepository{
 		db: db.Collection(colection),
@@ -52,7 +52,7 @@ func (ur UserRepository) CreateUser(ctx context.Context, user *models.User) erro
 		log.Println(err)
 		return err
 	}
-	//set generated user id from mongo & convert to Hex & set user.ID
+	// set generated user id from mongo & convert to Hex & set user.ID
 	user.ID = res.InsertedID.(primitive.ObjectID).Hex()
 	log.Print("success insert new user by Id", user.ID)
 
@@ -60,19 +60,18 @@ func (ur UserRepository) CreateUser(ctx context.Context, user *models.User) erro
 }
 
 func (ur UserRepository) GetUser(ctx context.Context, username, password string) (*models.User, error) {
-	user := new(User) //mongoUser struct
-	//get data from mongo, write to mongo struct -> convert to model.User
+	user := new(User) // mongoUser struct
+	// get data from mongo, write to mongo struct -> convert to model.User
 
-	//find 1 object by keys {username, password}
+	// find 1 object by keys {username, password}
 	err := ur.db.FindOne(ctx, bson.M{
 		"username": username,
 		"password": password,
 	}).Decode(user) // finded object - set mongo User
-
 	if err != nil {
 		return nil, err
 	}
-	//retrun converted mongo -  default user struct
+	// retrun converted mongo -  default user struct
 	return toModel(user), nil
 }
 
@@ -80,4 +79,4 @@ func (ur UserRepository) GetUserPassword(ctx context.Context, username string) (
 	return "", nil
 }
 
-//create db; create colection; crud query
+// create db; create colection; crud query

@@ -8,10 +8,9 @@ import (
 )
 
 func (h *Handler) Search(c *gin.Context) {
-
 	var (
-		result []*models.Machine		
-		err    error
+		result  []*models.Machine
+		err     error
 		keyWord string
 	)
 	keyWord = c.Param("key_word")
@@ -21,9 +20,9 @@ func (h *Handler) Search(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-		result, err = h.useCases.SearchUseCaseInterface.SearchByKeyWord(keyWord)
-	
-if err != nil {
+	result, err = h.useCases.SearchUseCaseInterface.SearchByKeyWord(keyWord)
+
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return

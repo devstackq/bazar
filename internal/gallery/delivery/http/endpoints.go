@@ -23,10 +23,9 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 	{
 		filter.POST("", handler.GetFilteredMachine)
 	}
-	// middleware.AuthorizeJWT("accessx")
 	upload := group.Group("/file")
 	{
-		upload.POST("/upload/:id", handler.Upload)
+		upload.POST("/upload/:id", middleware.AuthorizeJWT("accessx"), handler.Upload)
 		upload.POST("/download/:id", handler.Download)
 	}
 
@@ -52,7 +51,7 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		category.GET("/:id", handler.GetCategoryByID)
 	}
 
-	// another services?
+	// vynewsti  another services?
 	trans := group.Group("/trans", middleware.AuthorizeJWT("accessx"))
 	{
 		trans.POST("", handler.CreateTransmission)

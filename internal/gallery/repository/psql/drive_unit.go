@@ -8,7 +8,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type DriveUnitRepository struct {
 	db *sql.DB
 }
@@ -19,8 +18,7 @@ func DriveUnitRepoInit(db *sql.DB) gallery.DriveUnitRepoInterface {
 	}
 }
 
-func (cr DriveUnitRepository) GetByID(ctx context.Context, id int) (*models.DriveUnit,  error) {
-	
+func (cr DriveUnitRepository) GetByID(ctx context.Context, id int) (*models.DriveUnit, error) {
 	var result models.DriveUnit
 	var err error
 
@@ -34,42 +32,40 @@ func (cr DriveUnitRepository) GetByID(ctx context.Context, id int) (*models.Driv
 	return &result, nil
 }
 
-func (cr DriveUnitRepository) Create(ctx context.Context, cat *models.DriveUnit) (int,  error) {
+func (cr DriveUnitRepository) Create(ctx context.Context, cat *models.DriveUnit) (int, error) {
 	sqlQuery := `INSERT INTO bazar_drive_unit(name) VALUES($1) RETURNING id`
-		var id int
-		var err error
+	var id int
+	var err error
 
 	row := cr.db.QueryRowContext(ctx, sqlQuery, cat.Name)
-		err = row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func (cr DriveUnitRepository) GetList(ctx context.Context) ([]*models.DriveUnit,  error) {
-
-query := `SELECT id, name FROM bazar_drive_unit`
-result := []*models.DriveUnit{}
-rows, err := cr.db.QueryContext(ctx, query)
-
-if err != nil {
-	return nil, err
-}
-
-for rows.Next() {
-	temp := models.DriveUnit{}
-	if err = rows.Scan(
-		&temp.ID,
-		&temp.Name,
-	); err != nil {
+func (cr DriveUnitRepository) GetList(ctx context.Context) ([]*models.DriveUnit, error) {
+	query := `SELECT id, name FROM bazar_drive_unit`
+	result := []*models.DriveUnit{}
+	rows, err := cr.db.QueryContext(ctx, query)
+	if err != nil {
 		return nil, err
 	}
-	result = append(result, &temp)
-}
 
-if rows.Err() != nil {
-	return nil, err
-}
-return result, nil
+	for rows.Next() {
+		temp := models.DriveUnit{}
+		if err = rows.Scan(
+			&temp.ID,
+			&temp.Name,
+		); err != nil {
+			return nil, err
+		}
+		result = append(result, &temp)
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+	return result, nil
 }

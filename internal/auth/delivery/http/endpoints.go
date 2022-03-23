@@ -11,11 +11,10 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func SetAuthEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
-	
+func SetAuthEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
 	authRepo := psql.AuthRepositoryInit(db)
-	authUseCases  := usecase.AuthUseCaseInit(authRepo, cfg.App.HashSalt, cfg.App.TokenTTL)
-	
+	authUseCases := usecase.AuthUseCaseInit(authRepo, cfg.App.HashSalt, cfg.App.TokenTTL)
+
 	handler := NewHandler(authUseCases, logger, cfg)
 
 	auth := group.Group("/auth")
@@ -24,7 +23,7 @@ func SetAuthEndpoints( cfg *config.Config, db *sql.DB, logger *logrus.Logger, gr
 		auth.POST("/signin", handler.SignIn)
 	}
 
-	refresh := group.Group("/auth/refresh", middleware.AuthorizeJWT("refreshx"))//todo: env config
+	refresh := group.Group("/auth/refresh", middleware.AuthorizeJWT("refreshx")) // todo: env config
 	{
 		refresh.POST("", handler.RefreshJwt)
 	}

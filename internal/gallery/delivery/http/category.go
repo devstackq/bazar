@@ -7,9 +7,10 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 	"github.com/gin-gonic/gin"
 )
+
 func (h *Handler) CreateCategory(c *gin.Context) {
 	var (
-		cat models.Category		
+		cat    models.Category
 		err    error
 		lastID int
 	)
@@ -29,9 +30,8 @@ func (h *Handler) CreateCategory(c *gin.Context) {
 }
 
 func (h *Handler) GetListCategories(c *gin.Context) {
-
 	var (
-		result []*models.Category		
+		result []*models.Category
 		err    error
 	)
 
@@ -44,12 +44,11 @@ func (h *Handler) GetListCategories(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success return list category", "OK", result)
 }
 
-
 func (h *Handler) GetCategoryByID(c *gin.Context) {
 	var (
-		result *models.Category		
+		result *models.Category
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))

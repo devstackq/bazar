@@ -20,7 +20,6 @@ func MachineRepoInit(db *sql.DB) *MachineRepository {
 }
 
 func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machine, error) {
-
 	var result models.Machine
 	var err error
 
@@ -44,7 +43,6 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		LEFT JOIN bazar_body_type AS bt ON bt.id = mch.body_type_id
 		LEFT JOIN bazar_color AS cr ON cr.id =  mch.color_id  
 	WHERE machine_id = $1`
-
 
 	err = mr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Creator.Phone,
@@ -77,7 +75,6 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 }
 
 func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*models.Machine, error) {
-
 	query := `SELECT
 	machine_id,
 	vin,
@@ -94,7 +91,6 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*mod
 	result := []*models.Machine{}
 
 	rows, err := mr.db.QueryContext(ctx, query, id)
-
 	if err != nil {
 		return nil, err
 	}
@@ -125,7 +121,6 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*mod
 }
 
 func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, error) {
-
 	query := `SELECT
 	machine_id,
 	vin,
@@ -141,7 +136,6 @@ func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, err
 	result := []*models.Machine{}
 
 	rows, err := mr.db.QueryContext(ctx, query)
-
 	if err != nil {
 		return nil, err
 	}

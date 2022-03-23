@@ -9,11 +9,10 @@ import (
 )
 
 func (h *Handler) CreateModel(c *gin.Context) {
-
 	var (
-		model *models.Model		
-		err    error
-		lastID int
+		model   *models.Model
+		err     error
+		lastID  int
 		brandID int
 	)
 	brandID, err = strconv.Atoi(c.Param("model_id"))
@@ -29,11 +28,11 @@ func (h *Handler) CreateModel(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-	
+
 	model.ID = brandID
 
-		lastID, err = h.useCases.ModelUseCaseInterface.CreateModel(model)
-		if err != nil {
+	lastID, err = h.useCases.ModelUseCaseInterface.CreateModel(model)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -42,10 +41,9 @@ func (h *Handler) CreateModel(c *gin.Context) {
 }
 
 func (h *Handler) GetListModelByBrandID(c *gin.Context) {
-
 	var (
-		result []*models.Model		
-		err    error
+		result  []*models.Model
+		err     error
 		brandID int
 	)
 
@@ -68,9 +66,9 @@ func (h *Handler) GetListModelByBrandID(c *gin.Context) {
 
 func (h *Handler) GetModelByID(c *gin.Context) {
 	var (
-		result *models.Model		
+		result *models.Model
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -88,5 +86,3 @@ func (h *Handler) GetModelByID(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return Model ", "OK", result)
 }
-
-

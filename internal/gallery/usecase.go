@@ -33,8 +33,8 @@ type FilterUseCaseInterface interface {
 }
 
 type SortUseCaseInterface interface {
-	SortByType(key string, filter map[string]string) ([]*models.Machine, error) //default, getFiltered data/ asc/desc
-	//priceAsc, dateAsc, yearAsc, kmsAsc, filter
+	SortByType(key string, filter map[string]string) ([]*models.Machine, error) // default, getFiltered data/ asc/desc
+	// priceAsc, dateAsc, yearAsc, kmsAsc, filter
 }
 
 type SearchUseCaseInterface interface {

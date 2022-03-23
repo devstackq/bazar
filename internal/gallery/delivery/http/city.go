@@ -9,12 +9,11 @@ import (
 )
 
 func (h *Handler) CreateCity(c *gin.Context) {
-
 	var (
-		city *models.City		
-		err    error
-		lastID int
-		countryID int 
+		city      *models.City
+		err       error
+		lastID    int
+		countryID int
 	)
 
 	countryID, err = strconv.Atoi(c.Param("country_id"))
@@ -32,8 +31,8 @@ func (h *Handler) CreateCity(c *gin.Context) {
 	}
 	city.ID = countryID
 
-		lastID, err = h.useCases.CityUseCaseInterface.CreateCity(city)
-		if err != nil {
+	lastID, err = h.useCases.CityUseCaseInterface.CreateCity(city)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -42,10 +41,9 @@ func (h *Handler) CreateCity(c *gin.Context) {
 }
 
 func (h *Handler) GetListCityByCountryID(c *gin.Context) {
-
 	var (
-		result []*models.City		
-		err    error
+		result    []*models.City
+		err       error
 		countryID int
 	)
 
@@ -55,7 +53,7 @@ func (h *Handler) GetListCityByCountryID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-	
+
 	result, err = h.useCases.CityUseCaseInterface.GetListCityByCountryID(countryID)
 	if err != nil {
 		h.logger.Error(err)
@@ -67,9 +65,9 @@ func (h *Handler) GetListCityByCountryID(c *gin.Context) {
 
 func (h *Handler) GetCityByID(c *gin.Context) {
 	var (
-		result *models.City		
+		result *models.City
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -87,5 +85,3 @@ func (h *Handler) GetCityByID(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return City ", "OK", result)
 }
-
-

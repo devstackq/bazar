@@ -8,7 +8,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type BodyTypeRepository struct {
 	db *sql.DB
 }
@@ -19,8 +18,7 @@ func BodyTypeRepoInit(db *sql.DB) gallery.BodyTypeRepoInterface {
 	}
 }
 
-func (cr BodyTypeRepository) GetByID(ctx context.Context, id int) (*models.BodyType,  error) {
-	
+func (cr BodyTypeRepository) GetByID(ctx context.Context, id int) (*models.BodyType, error) {
 	var result models.BodyType
 	var err error
 
@@ -34,42 +32,40 @@ func (cr BodyTypeRepository) GetByID(ctx context.Context, id int) (*models.BodyT
 	return &result, nil
 }
 
-func (cr BodyTypeRepository) Create(ctx context.Context, cat *models.BodyType) (int,  error) {
+func (cr BodyTypeRepository) Create(ctx context.Context, cat *models.BodyType) (int, error) {
 	sqlQuery := `INSERT INTO bazar_body_type(name) VALUES($1) RETURNING id`
-		var id int
-		var err error
+	var id int
+	var err error
 
 	row := cr.db.QueryRowContext(ctx, sqlQuery, cat.Name)
-		err = row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func (cr BodyTypeRepository) GetList(ctx context.Context) ([]*models.BodyType,  error) {
-
-query := `SELECT id, name FROM bazar_body_type`
-result := []*models.BodyType{}
-rows, err := cr.db.QueryContext(ctx, query)
-
-if err != nil {
-	return nil, err
-}
-
-for rows.Next() {
-	temp := models.BodyType{}
-	if err = rows.Scan(
-		&temp.ID,
-		&temp.Name,
-	); err != nil {
+func (cr BodyTypeRepository) GetList(ctx context.Context) ([]*models.BodyType, error) {
+	query := `SELECT id, name FROM bazar_body_type`
+	result := []*models.BodyType{}
+	rows, err := cr.db.QueryContext(ctx, query)
+	if err != nil {
 		return nil, err
 	}
-	result = append(result, &temp)
-}
 
-if rows.Err() != nil {
-	return nil, err
-}
-return result, nil
+	for rows.Next() {
+		temp := models.BodyType{}
+		if err = rows.Scan(
+			&temp.ID,
+			&temp.Name,
+		); err != nil {
+			return nil, err
+		}
+		result = append(result, &temp)
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+	return result, nil
 }

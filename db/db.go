@@ -1,7 +1,6 @@
 package db
 
-//ref send  - db layer
-
+// ref send  - db layer
 type StorageConnecter interface {
 	InitDb() (interface{}, error)
 	// SetConfig(user, password, host, port, dbName string)
@@ -10,22 +9,22 @@ type StorageConnecter interface {
 }
 
 type Config struct {
-	user      string
-	password  string
-	host      string
-	port      string
+	user     string
+	password string
+	host     string
+	port     string
 	// tableName string
-	dbName    string
+	dbName string
 }
 
-func NewDbObject(typeDb, user, password, host, port,  dbName string) StorageConnecter {
+func NewDbObject(typeDb, user, password, host, port, dbName string) StorageConnecter {
 	if typeDb == "mongodb" {
 		return &MongoDb{
-			Config{user, password, host, port,  dbName},
+			Config{user, password, host, port, dbName},
 		}
 	} else if typeDb == "postgresql" {
 		return &PostgreSqlDb{
-			Config{user, password, host, port,  dbName},
+			Config{user, password, host, port, dbName},
 		}
 	}
 	return nil

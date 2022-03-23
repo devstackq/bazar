@@ -1,6 +1,6 @@
 package models
 
 type BodyType struct {
-	ID int 
+	ID   int
 	Name string
 }

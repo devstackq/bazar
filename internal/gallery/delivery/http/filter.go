@@ -8,21 +8,20 @@ import (
 )
 
 func (h *Handler) GetFilteredMachine(c *gin.Context) {
-
 	var (
 		result []*models.Machine
 		err    error
 	)
-// getDataFromDb
-	var filterKeys = []string{
-	"category", "state", "brand",
-	"model", "priceFrom", "priceTo",
-	"sort_created_at", "sort_price",
-	"sort_year", "sort_odometer" }
-	//filter & sort merged
+	// getDataFromDb
+	filterKeys := []string{
+		"category", "state", "brand",
+		"model", "priceFrom", "priceTo",
+		"sort_created_at", "sort_price",
+		"sort_year", "sort_odometer",
+	}
+	// filter & sort merged
 
 	keys, err := prepareQueryParam(c, filterKeys)
-
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "query param error", nil)

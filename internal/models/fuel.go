@@ -1,7 +1,6 @@
 package models
 
-
 type Fuel struct {
-	ID int 
+	ID   int
 	Name string
 }

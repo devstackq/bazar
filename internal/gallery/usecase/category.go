@@ -15,19 +15,19 @@ func CategoryUseCaseInit(r gallery.CategoryRepoInterface) gallery.CategoryUseCas
 	return CategoryUseCase{categoryRepo: r}
 }
 
-func (cuc CategoryUseCase) CreateCategory(c *models.Category) (int,error) {
+func (cuc CategoryUseCase) CreateCategory(c *models.Category) (int, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.categoryRepo.Create(ctx, c)
 }
 
-func (cuc CategoryUseCase) GetByID(id int)(*models.Category, error) {
+func (cuc CategoryUseCase) GetByID(id int) (*models.Category, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.categoryRepo.GetByID(ctx, id)
 }
 
-func (cuc CategoryUseCase) GetListCategories()([]*models.Category, error) {
+func (cuc CategoryUseCase) GetListCategories() ([]*models.Category, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.categoryRepo.GetList(ctx)

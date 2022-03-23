@@ -9,11 +9,10 @@ import (
 )
 
 func (h *Handler) CreateFuel(c *gin.Context) {
-
 	var (
-		argument *models.Fuel		
-		err    error
-		lastID int
+		argument *models.Fuel
+		err      error
+		lastID   int
 	)
 
 	err = c.ShouldBindJSON(&argument)
@@ -22,8 +21,8 @@ func (h *Handler) CreateFuel(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-		lastID, err = h.useCases.FuelUseCaseInterface.CreateFuel(argument)
-		if err != nil {
+	lastID, err = h.useCases.FuelUseCaseInterface.CreateFuel(argument)
+	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
@@ -32,9 +31,8 @@ func (h *Handler) CreateFuel(c *gin.Context) {
 }
 
 func (h *Handler) GetListFuel(c *gin.Context) {
-
 	var (
-		result []*models.Fuel		
+		result []*models.Fuel
 		err    error
 	)
 
@@ -49,9 +47,9 @@ func (h *Handler) GetListFuel(c *gin.Context) {
 
 func (h *Handler) GetFuelByID(c *gin.Context) {
 	var (
-		result *models.Fuel		
+		result *models.Fuel
 		err    error
-		id int
+		id     int
 	)
 
 	id, err = strconv.Atoi(c.Param("id"))
@@ -69,5 +67,3 @@ func (h *Handler) GetFuelByID(c *gin.Context) {
 	}
 	responseWithStatus(c, http.StatusOK, "success return Fuel ", "OK", result)
 }
-
-

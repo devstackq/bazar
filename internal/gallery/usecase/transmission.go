@@ -21,13 +21,13 @@ func (tuc TransUseCase) CreateTransmission(t *models.Transmission) (int, error) 
 	return tuc.transRepo.Create(ctx, t)
 }
 
-func (tuc TransUseCase) GetTransmissionByID(id int)(*models.Transmission, error) {
+func (tuc TransUseCase) GetTransmissionByID(id int) (*models.Transmission, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return tuc.transRepo.GetByID(ctx, id)
 }
 
-func (cuc TransUseCase) GetListTransmission()([]*models.Transmission, error) {
+func (cuc TransUseCase) GetListTransmission() ([]*models.Transmission, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	return cuc.transRepo.GetList(ctx)

@@ -10,7 +10,6 @@ import (
 )
 
 func (h *Handler) GetProfileBio(c *gin.Context) {
-
 	var (
 		err    error
 		result *models.Profile

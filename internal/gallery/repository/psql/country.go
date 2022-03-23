@@ -7,7 +7,6 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
-
 type CountryRepository struct {
 	db *sql.DB
 }
@@ -18,8 +17,7 @@ func CountryRepoInit(db *sql.DB) *CountryRepository {
 	}
 }
 
-func (cr CountryRepository) GetByID(ctx context.Context, id int) (*models.Country,  error) {
-	
+func (cr CountryRepository) GetByID(ctx context.Context, id int) (*models.Country, error) {
 	var result models.Country
 	var err error
 
@@ -33,42 +31,40 @@ func (cr CountryRepository) GetByID(ctx context.Context, id int) (*models.Countr
 	return &result, nil
 }
 
-func (cr CountryRepository) Create(ctx context.Context, cat *models.Country) (int,  error) {
+func (cr CountryRepository) Create(ctx context.Context, cat *models.Country) (int, error) {
 	sqlQuery := `INSERT INTO bazar_country(name) VALUES($1) RETURNING id`
-		var id int
-		var err error
+	var id int
+	var err error
 
 	row := cr.db.QueryRowContext(ctx, sqlQuery, cat.Name)
-		err = row.Scan(&id)
+	err = row.Scan(&id)
 	if err != nil {
 		return 0, err
 	}
 	return id, nil
 }
 
-func (cr CountryRepository) GetList(ctx context.Context) ([]*models.Country,  error) {
-
-query := `SELECT id, name FROM bazar_country`
-result := []*models.Country{}
-rows, err := cr.db.QueryContext(ctx, query)
-
-if err != nil {
-	return nil, err
-}
-
-for rows.Next() {
-	temp := models.Country{}
-	if err = rows.Scan(
-		&temp.ID,
-		&temp.Name,
-	); err != nil {
+func (cr CountryRepository) GetList(ctx context.Context) ([]*models.Country, error) {
+	query := `SELECT id, name FROM bazar_country`
+	result := []*models.Country{}
+	rows, err := cr.db.QueryContext(ctx, query)
+	if err != nil {
 		return nil, err
 	}
-	result = append(result, &temp)
-}
 
-if rows.Err() != nil {
-	return nil, err
-}
-return result, nil
+	for rows.Next() {
+		temp := models.Country{}
+		if err = rows.Scan(
+			&temp.ID,
+			&temp.Name,
+		); err != nil {
+			return nil, err
+		}
+		result = append(result, &temp)
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+	return result, nil
 }
