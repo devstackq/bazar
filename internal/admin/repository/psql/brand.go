@@ -4,25 +4,25 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
-type CategoryRepository struct {
+type BrandRepository struct {
 	db *sql.DB
 }
 
-func CategoryRepoInit(db *sql.DB) gallery.CategoryRepoInterface {
-	return &CategoryRepository{
+func BrandRepoInit(db *sql.DB) admin.BrandRepoInterface {
+	return &BrandRepository{
 		db: db,
 	}
 }
 
-func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Category, error) {
-	var result models.Category
+func (cr BrandRepository) GetByID(ctx context.Context, id int) (*models.Brand, error) {
+	var result models.Brand
 	var err error
 
-	query := `SELECT name FROM bazar_category WHERE id = $1`
+	query := `SELECT name FROM bazar_brand WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -32,8 +32,8 @@ func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Categ
 	return &result, nil
 }
 
-func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (int, error) {
-	sqlQuery := `INSERT INTO bazar_category(name) VALUES($1) RETURNING id`
+func (cr BrandRepository) Create(ctx context.Context, cat *models.Brand) (int, error) {
+	sqlQuery := `INSERT INTO bazar_brand(name) VALUES($1) RETURNING id`
 	var id int
 	var err error
 
@@ -45,16 +45,16 @@ func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (
 	return id, nil
 }
 
-func (cr CategoryRepository) GetList(ctx context.Context) ([]*models.Category, error) {
-	query := `SELECT id, name FROM bazar_category`
-	result := []*models.Category{}
+func (cr BrandRepository) GetList(ctx context.Context) ([]*models.Brand, error) {
+	query := `SELECT id, name FROM bazar_brand`
+	result := []*models.Brand{}
 	rows, err := cr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		temp := models.Category{}
+		temp := models.Brand{}
 		if err = rows.Scan(
 			&temp.ID,
 			&temp.Name,

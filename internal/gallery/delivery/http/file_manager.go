@@ -18,7 +18,8 @@ const (
 	path            = "./images/"
 )
 
-// todo :refactor/ decopmpose
+// todo :refactor/ decopmpose -> to service side || pkg
+
 // else try - base64  https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 
 // helper

@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type BrandUseCase struct {
-	brandRepo gallery.BrandRepoInterface
+	brandRepo admin.BrandRepoInterface
 }
 
-func BrandUseCaseInit(r gallery.BrandRepoInterface) gallery.BrandUseCaseInterface {
+func BrandUseCaseInit(r admin.BrandRepoInterface) admin.BrandUseCaseInterface {
 	return BrandUseCase{brandRepo: r}
 }
 

@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type TransUseCase struct {
-	transRepo gallery.TransmissionRepoInterface
+	transRepo admin.TransmissionRepoInterface
 }
 
-func TransUseCaseInit(r gallery.TransmissionRepoInterface) gallery.TransUseCaseInterface {
+func TransUseCaseInit(r admin.TransmissionRepoInterface) admin.TransUseCaseInterface {
 	return TransUseCase{transRepo: r}
 }
 

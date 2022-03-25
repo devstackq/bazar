@@ -4,25 +4,25 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
-type DriveUnitRepository struct {
+type BodyTypeRepository struct {
 	db *sql.DB
 }
 
-func DriveUnitRepoInit(db *sql.DB) gallery.DriveUnitRepoInterface {
-	return &DriveUnitRepository{
+func BodyTypeRepoInit(db *sql.DB) admin.BodyTypeRepoInterface {
+	return &BodyTypeRepository{
 		db: db,
 	}
 }
 
-func (cr DriveUnitRepository) GetByID(ctx context.Context, id int) (*models.DriveUnit, error) {
-	var result models.DriveUnit
+func (cr BodyTypeRepository) GetByID(ctx context.Context, id int) (*models.BodyType, error) {
+	var result models.BodyType
 	var err error
 
-	query := `SELECT name FROM bazar_drive_unit WHERE id = $1`
+	query := `SELECT name FROM bazar_body_type WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -32,8 +32,8 @@ func (cr DriveUnitRepository) GetByID(ctx context.Context, id int) (*models.Driv
 	return &result, nil
 }
 
-func (cr DriveUnitRepository) Create(ctx context.Context, cat *models.DriveUnit) (int, error) {
-	sqlQuery := `INSERT INTO bazar_drive_unit(name) VALUES($1) RETURNING id`
+func (cr BodyTypeRepository) Create(ctx context.Context, cat *models.BodyType) (int, error) {
+	sqlQuery := `INSERT INTO bazar_body_type(name) VALUES($1) RETURNING id`
 	var id int
 	var err error
 
@@ -45,16 +45,16 @@ func (cr DriveUnitRepository) Create(ctx context.Context, cat *models.DriveUnit)
 	return id, nil
 }
 
-func (cr DriveUnitRepository) GetList(ctx context.Context) ([]*models.DriveUnit, error) {
-	query := `SELECT id, name FROM bazar_drive_unit`
-	result := []*models.DriveUnit{}
+func (cr BodyTypeRepository) GetList(ctx context.Context) ([]*models.BodyType, error) {
+	query := `SELECT id, name FROM bazar_body_type`
+	result := []*models.BodyType{}
 	rows, err := cr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		temp := models.DriveUnit{}
+		temp := models.BodyType{}
 		if err = rows.Scan(
 			&temp.ID,
 			&temp.Name,

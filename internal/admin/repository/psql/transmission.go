@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
@@ -11,7 +12,7 @@ type TransRepository struct {
 	db *sql.DB
 }
 
-func TransRepoInit(db *sql.DB) *TransRepository {
+func TransRepoInit(db *sql.DB) admin.TransmissionRepoInterface {
 	return &TransRepository{
 		db: db,
 	}

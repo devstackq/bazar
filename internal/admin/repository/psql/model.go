@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
@@ -12,7 +12,7 @@ type ModelRepository struct {
 	db *sql.DB
 }
 
-func ModelRepoInit(db *sql.DB) gallery.ModelRepoInterface {
+func ModelRepoInit(db *sql.DB) admin.ModelRepoInterface {
 	return &ModelRepository{
 		db: db,
 	}

@@ -4,25 +4,25 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
-type FuelRepository struct {
+type CategoryRepository struct {
 	db *sql.DB
 }
 
-func FuelRepoInit(db *sql.DB) gallery.FuelRepoInterface {
-	return &FuelRepository{
+func CategoryRepoInit(db *sql.DB) admin.CategoryRepoInterface {
+	return &CategoryRepository{
 		db: db,
 	}
 }
 
-func (cr FuelRepository) GetByID(ctx context.Context, id int) (*models.Fuel, error) {
-	var result models.Fuel
+func (cr CategoryRepository) GetByID(ctx context.Context, id int) (*models.Category, error) {
+	var result models.Category
 	var err error
 
-	query := `SELECT name FROM bazar_fuel WHERE id = $1`
+	query := `SELECT name FROM bazar_category WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -32,8 +32,8 @@ func (cr FuelRepository) GetByID(ctx context.Context, id int) (*models.Fuel, err
 	return &result, nil
 }
 
-func (cr FuelRepository) Create(ctx context.Context, cat *models.Fuel) (int, error) {
-	sqlQuery := `INSERT INTO bazar_fuel(name) VALUES($1) RETURNING id`
+func (cr CategoryRepository) Create(ctx context.Context, cat *models.Category) (int, error) {
+	sqlQuery := `INSERT INTO bazar_category(name) VALUES($1) RETURNING id`
 	var id int
 	var err error
 
@@ -45,16 +45,16 @@ func (cr FuelRepository) Create(ctx context.Context, cat *models.Fuel) (int, err
 	return id, nil
 }
 
-func (cr FuelRepository) GetList(ctx context.Context) ([]*models.Fuel, error) {
-	query := `SELECT id, name FROM bazar_fuel`
-	result := []*models.Fuel{}
+func (cr CategoryRepository) GetList(ctx context.Context) ([]*models.Category, error) {
+	query := `SELECT id, name FROM bazar_category`
+	result := []*models.Category{}
 	rows, err := cr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		temp := models.Fuel{}
+		temp := models.Category{}
 		if err = rows.Scan(
 			&temp.ID,
 			&temp.Name,

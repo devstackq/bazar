@@ -10,7 +10,8 @@ testUrl: http://localhost:6969
 
 -------------------------------
 Вначале надо создать роли
-header:token(admin) - optional
+
+header:token(admin)
 /v1/role : POST
 Request : {name : "saler"}
 -------------------------------
@@ -166,7 +167,10 @@ Response{
 ------------------------------
 Админка(опционалка) CRUD по:
 
-Категориям - Лешковые, Мотоциклы, Яхты...
+/v1/any/:id :GET;
+/v1/any :GET - list
+
+Категориям - Легковые, Мотоциклы, Яхты...
  header[access_token]
 /v1/category : POST; {"name" : ""}
 

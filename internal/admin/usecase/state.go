@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type StateUseCase struct {
-	stateRepo gallery.StateRepoInterface
+	stateRepo admin.StateRepoInterface
 }
 
-func StateUseCaseInit(r gallery.StateRepoInterface) gallery.StateUseCaseInterface {
+func StateUseCaseInit(r admin.StateRepoInterface) admin.StateUseCaseInterface {
 	return StateUseCase{stateRepo: r}
 }
 

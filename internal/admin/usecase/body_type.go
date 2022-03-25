@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type BodyTypeUseCase struct {
-	bodyTypeRepo gallery.BodyTypeRepoInterface
+	bodyTypeRepo admin.BodyTypeRepoInterface
 }
 
-func BodyTypeUseCaseInit(r gallery.BodyTypeRepoInterface) gallery.BodyTypeUseCaseInterface {
+func BodyTypeUseCaseInit(r admin.BodyTypeRepoInterface) admin.BodyTypeUseCaseInterface {
 	return BodyTypeUseCase{bodyTypeRepo: r}
 }
 

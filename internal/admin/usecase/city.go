@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type CityUseCase struct {
-	cityRepo gallery.CityRepoInterface
+	cityRepo admin.CityRepoInterface
 }
 
-func CityUseCaseInit(r gallery.CityRepoInterface) gallery.CityUseCaseInterface {
+func CityUseCaseInit(r admin.CityRepoInterface) admin.CityUseCaseInterface {
 	return CityUseCase{cityRepo: r}
 }
 

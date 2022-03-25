@@ -4,24 +4,25 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
-type CountryRepository struct {
+type StateRepository struct {
 	db *sql.DB
 }
 
-func CountryRepoInit(db *sql.DB) *CountryRepository {
-	return &CountryRepository{
+func StateRepoInit(db *sql.DB) admin.StateRepoInterface {
+	return &StateRepository{
 		db: db,
 	}
 }
 
-func (cr CountryRepository) GetByID(ctx context.Context, id int) (*models.Country, error) {
-	var result models.Country
+func (cr StateRepository) GetByID(ctx context.Context, id int) (*models.State, error) {
+	var result models.State
 	var err error
 
-	query := `SELECT name FROM bazar_country WHERE id = $1`
+	query := `SELECT name FROM bazar_state WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -31,8 +32,8 @@ func (cr CountryRepository) GetByID(ctx context.Context, id int) (*models.Countr
 	return &result, nil
 }
 
-func (cr CountryRepository) Create(ctx context.Context, cat *models.Country) (int, error) {
-	sqlQuery := `INSERT INTO bazar_country(name) VALUES($1) RETURNING id`
+func (cr StateRepository) Create(ctx context.Context, cat *models.State) (int, error) {
+	sqlQuery := `INSERT INTO bazar_state(name) VALUES($1) RETURNING id`
 	var id int
 	var err error
 
@@ -44,16 +45,16 @@ func (cr CountryRepository) Create(ctx context.Context, cat *models.Country) (in
 	return id, nil
 }
 
-func (cr CountryRepository) GetList(ctx context.Context) ([]*models.Country, error) {
-	query := `SELECT id, name FROM bazar_country`
-	result := []*models.Country{}
+func (cr StateRepository) GetList(ctx context.Context) ([]*models.State, error) {
+	query := `SELECT id, name FROM bazar_state`
+	result := []*models.State{}
 	rows, err := cr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		temp := models.Country{}
+		temp := models.State{}
 		if err = rows.Scan(
 			&temp.ID,
 			&temp.Name,

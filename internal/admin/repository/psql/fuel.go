@@ -4,25 +4,25 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
-type ColorRepository struct {
+type FuelRepository struct {
 	db *sql.DB
 }
 
-func ColorRepoInit(db *sql.DB) gallery.ColorRepoInterface {
-	return &ColorRepository{
+func FuelRepoInit(db *sql.DB) admin.FuelRepoInterface {
+	return &FuelRepository{
 		db: db,
 	}
 }
 
-func (cr ColorRepository) GetByID(ctx context.Context, id int) (*models.Color, error) {
-	var result models.Color
+func (cr FuelRepository) GetByID(ctx context.Context, id int) (*models.Fuel, error) {
+	var result models.Fuel
 	var err error
 
-	query := `SELECT name FROM bazar_color WHERE id = $1`
+	query := `SELECT name FROM bazar_fuel WHERE id = $1`
 	err = cr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -32,8 +32,8 @@ func (cr ColorRepository) GetByID(ctx context.Context, id int) (*models.Color, e
 	return &result, nil
 }
 
-func (cr ColorRepository) Create(ctx context.Context, cat *models.Color) (int, error) {
-	sqlQuery := `INSERT INTO bazar_color(name) VALUES($1) RETURNING id`
+func (cr FuelRepository) Create(ctx context.Context, cat *models.Fuel) (int, error) {
+	sqlQuery := `INSERT INTO bazar_fuel(name) VALUES($1) RETURNING id`
 	var id int
 	var err error
 
@@ -45,16 +45,16 @@ func (cr ColorRepository) Create(ctx context.Context, cat *models.Color) (int, e
 	return id, nil
 }
 
-func (cr ColorRepository) GetList(ctx context.Context) ([]*models.Color, error) {
-	query := `SELECT id, name FROM bazar_color`
-	result := []*models.Color{}
+func (cr FuelRepository) GetList(ctx context.Context) ([]*models.Fuel, error) {
+	query := `SELECT id, name FROM bazar_fuel`
+	result := []*models.Fuel{}
 	rows, err := cr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
 	for rows.Next() {
-		temp := models.Color{}
+		temp := models.Fuel{}
 		if err = rows.Scan(
 			&temp.ID,
 			&temp.Name,

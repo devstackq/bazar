@@ -9,10 +9,12 @@ import (
 	"time"
 
 	"github.com/devstackq/bazar/db"
+	httpAdmin "github.com/devstackq/bazar/internal/admin/delivery/http"
 	httpAuth "github.com/devstackq/bazar/internal/auth/delivery/http"
 	"github.com/devstackq/bazar/internal/config"
 	httpGallery "github.com/devstackq/bazar/internal/gallery/delivery/http"
 	httpProfile "github.com/devstackq/bazar/internal/profile/delivery/http"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -113,4 +115,5 @@ func (a *App) setComponents() {
 	httpGallery.SetGalleryEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 	httpAuth.SetAuthEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 	httpProfile.SetprofileEndpoints(a.cfg, a.db, a.Logger, apiVersion)
+	httpAdmin.SetAdminEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 }

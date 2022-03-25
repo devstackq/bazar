@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type ColorUseCase struct {
-	colorRepo gallery.ColorRepoInterface
+	colorRepo admin.ColorRepoInterface
 }
 
-func ColorUseCaseInit(r gallery.ColorRepoInterface) gallery.ColorUseCaseInterface {
+func ColorUseCaseInit(r admin.ColorRepoInterface) admin.ColorUseCaseInterface {
 	return ColorUseCase{colorRepo: r}
 }
 

@@ -3,15 +3,15 @@ package usecase
 import (
 	"context"
 
-	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/devstackq/bazar/internal/admin"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type DriveUnitUseCase struct {
-	driveUnitRepo gallery.DriveUnitRepoInterface
+	driveUnitRepo admin.DriveUnitRepoInterface
 }
 
-func DriveUnitUseCaseInit(r gallery.DriveUnitRepoInterface) gallery.DriveUnitUseCaseInterface {
+func DriveUnitUseCaseInit(r admin.DriveUnitRepoInterface) admin.DriveUnitUseCaseInterface {
 	return DriveUnitUseCase{driveUnitRepo: r}
 }
 
