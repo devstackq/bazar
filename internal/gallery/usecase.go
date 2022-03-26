@@ -11,12 +11,14 @@ type MachineUseCaseInterface interface {
 
 type FilterUseCaseInterface interface {
 	GetListMachineByFilter(map[string]string) ([]*models.Machine, error)
-	// GetListMachineByRangePrice(map[string]string)([]*models.Machine, error) // price=from=to
+}
+type FileManagerUseCaseInterface interface {
+	CreateSrc([]string, int) error
+	GetListSrc(int) ([]string, error)
 }
 
 type SortUseCaseInterface interface {
 	SortByType(key string, filter map[string]string) ([]*models.Machine, error) // default, getFiltered data/ asc/desc
-	// priceAsc, dateAsc, yearAsc, kmsAsc, filter
 }
 
 type SearchUseCaseInterface interface {
@@ -27,4 +29,5 @@ type UseCases struct {
 	MachineUseCaseInterface
 	FilterUseCaseInterface
 	SearchUseCaseInterface
+	FileManagerUseCaseInterface
 }

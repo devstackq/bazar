@@ -3,9 +3,9 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"log"
 	"time"
 
+	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
 )
 
@@ -13,7 +13,7 @@ type MachineRepository struct {
 	db *sql.DB
 }
 
-func MachineRepoInit(db *sql.DB) *MachineRepository {
+func MachineRepoInit(db *sql.DB) gallery.MachineRepoInterface {
 	return &MachineRepository{
 		db: db,
 	}
@@ -85,8 +85,9 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*mod
 	odometer,
 	created_at,
 	horse_power,
-	volume
-	FROM bazar_machine where creator_id = $1`
+	volume,
+	FROM bazar_machine
+	WHERE creator_id = $1`
 
 	result := []*models.Machine{}
 
@@ -121,6 +122,7 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*mod
 }
 
 func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, error) {
+
 	query := `SELECT
 	machine_id,
 	vin,
@@ -132,7 +134,9 @@ func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, err
 	volume, 
 	created_at,
 	horse_power
-	FROM bazar_machine`
+	FROM bazar_machine
+	ORDER BY created_at DESC LIMIT 20`
+
 	result := []*models.Machine{}
 
 	rows, err := mr.db.QueryContext(ctx, query)
@@ -156,7 +160,12 @@ func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, err
 		); err != nil {
 			return nil, err
 		}
-
+		//get first photo
+		srcQuery := `SELECT path FROM bazar_machine_image WHERE machine_id = $1`
+		err = mr.db.QueryRowContext(ctx, srcQuery, temp.ID).Scan(&temp.MainImage)
+		if err != nil && err.Error() != "sql: no rows in result set" {
+			return nil, err
+		}
 		result = append(result, &temp)
 	}
 	if rows.Err() != nil {
@@ -171,7 +180,7 @@ func (mr MachineRepository) Create(ctx context.Context, item *models.Machine) (i
 		state_id, brand_id, model_id, creator_id, fuel_id, drive_unit_id,
 		trans_type_id, body_type_id, color_id, odometer, horse_power, volume)
 	VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) RETURNING machine_id`
-	log.Println(item)
+
 	row := mr.db.QueryRowContext(ctx, sqlQuery, item.VIN, item.Title, item.Description, item.Year, item.Price, time.Now(), time.Now(),
 		item.City.ID, item.Country.ID, item.Category.ID, item.State.ID, item.Brand.ID,
 		item.Brand.Model.ID, item.Creator.ID, item.Fuel.ID, item.DriveUnit.ID,

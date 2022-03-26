@@ -35,6 +35,10 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
+	//upload photo
+	// c.Params = append(c.Params, gin.Param{"id", strconv.Itoa(lastID)})
+	// h.Upload(c)
+
 	responseWithStatus(c, http.StatusOK, "machine success created", "OK", lastID)
 }
 
@@ -51,7 +55,6 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-	// getUserID; byCarID
 
 	result, err = h.useCases.GetMachineByID(id)
 	if err != nil {
@@ -59,6 +62,14 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
+
+	result.Images, err = h.useCases.FileManagerUseCaseInterface.GetListSrc(id)
+	if err != nil {
+		h.logger.Error(err)
+		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
+		return
+	}
+
 	responseWithStatus(c, http.StatusOK, "success retrun machine", "OK", result)
 }
 
@@ -68,23 +79,15 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 		err    error
 	)
 
-	result, err = h.useCases.GetRelevantMachines()
+	result, err = h.useCases.GetRelevantMachines() //default created date; desc
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	//todo : get cars - own images
 
 	responseWithStatus(c, http.StatusOK, "success retrun list machines", "OK", result)
 }
-
-// todo
-// add field - company Name; Signup; add Table Company
-// auth -> screen
-// profile fix - getList
-// GetListCars -> + photo each car add;
-// fileServer - send bsae64 ? octet-stream ?
 
 func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 	var (

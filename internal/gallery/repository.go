@@ -21,8 +21,14 @@ type FilterRepoInterface interface {
 	GetListMachineByFilter(context.Context, map[string]string) ([]*models.Machine, error)
 }
 
+type FileManagerRepoInterface interface {
+	CreateSrc(context.Context, []string, int) error
+	GetListSrc(context.Context, int) ([]string, error)
+}
+
 type Repositories struct {
 	MachineRepoInterface
 	SearchRepoInterface
 	FilterRepoInterface
+	FileManagerRepoInterface
 }

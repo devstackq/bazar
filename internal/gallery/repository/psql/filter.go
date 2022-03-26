@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
 )
 
@@ -11,7 +12,7 @@ type FilterRepository struct {
 	db *sql.DB
 }
 
-func FilterRepoInit(db *sql.DB) *FilterRepository {
+func FilterRepoInit(db *sql.DB) gallery.FilterRepoInterface {
 	return &FilterRepository{
 		db: db,
 	}

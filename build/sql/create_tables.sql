@@ -103,6 +103,13 @@ CREATE TABLE bazar_user
 --     name VARCHAR(50) NOT NULL  
 -- );
 
+CREATE TABLE bazar_machine_image
+(
+    id BIGSERIAL PRIMARY KEY,
+    path VARCHAR(300) NOT NULL UNIQUE,
+    machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 CREATE TABLE bazar_session
 (
     id BIGSERIAL PRIMARY KEY,

@@ -40,7 +40,6 @@ func (ur AuthorizationRepository) GetUser(ctx context.Context, username, passwor
 
 func (ur AuthorizationRepository) CreateSession(ctx context.Context, token *models.TokenDetails) error {
 	query := `INSERT INTO bazar_session(access_uuid, refresh_uuid, user_id)values($1, $2, $3)`
-	// log.Print(refresh, "refr")
 	row := ur.db.QueryRowContext(ctx, query, token.AccessUuid, token.RefreshUuid, token.UserID)
 	if row.Err() != nil {
 		return row.Err()

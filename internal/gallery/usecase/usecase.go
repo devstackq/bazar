@@ -6,8 +6,9 @@ import (
 
 func UseCasesInit(r gallery.Repositories) gallery.UseCases {
 	return gallery.UseCases{
-		MachineUseCaseInterface: MachineUseCaseInit(r.MachineRepoInterface),
-		FilterUseCaseInterface:  FilterUseCaseInit(r.FilterRepoInterface),
-		SearchUseCaseInterface:  SearchUseCaseInit(r.SearchRepoInterface),
+		MachineUseCaseInterface:     MachineUseCaseInit(r.MachineRepoInterface),
+		FilterUseCaseInterface:      FilterUseCaseInit(r.FilterRepoInterface),
+		SearchUseCaseInterface:      SearchUseCaseInit(r.SearchRepoInterface),
+		FileManagerUseCaseInterface: FileManagerUseCaseInit(r.FileManagerRepoInterface),
 	}
 }

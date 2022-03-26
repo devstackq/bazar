@@ -29,7 +29,7 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 	upload := group.Group("/file")
 	{
 		upload.POST("/upload/:id", middleware.AuthorizeJWT("accessx"), handler.Upload)
-		upload.POST("/download/:id", handler.Download)
+		// upload.POST("/download/:id", handler.Download)
 	}
 
 	machine := group.Group("/machine")
@@ -40,8 +40,8 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		machine.GET("/user/:id", handler.GetListMachineByUserID)
 		// machine.PATCH("/:id", handler.UpdateMachine)
 		// machine.DELETE("/:id", handler.DeleteMachineByID)
-		//	Вернет список созданных машин - пользователем созданных
-		//	/v1/machine/user/:id :GET
+		//Вернет список созданных машин - пользователем созданных
+		///v1/machine/user/:id :GET
 	}
 
 	search := group.Group("/search")
