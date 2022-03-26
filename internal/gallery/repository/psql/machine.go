@@ -64,7 +64,7 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		&result.Fuel.Name,
 		&result.DriveUnit.Name,
 		&result.Transmission.Name,
-		&result.Brand.Name,
+		&result.BodyType.Name,
 		&result.Color.Name,
 	)
 

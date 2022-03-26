@@ -87,6 +87,7 @@ CREATE TABLE bazar_user
     username VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(128) NOT NULL,
     phone DECIMAL NOT NULL,
+    company VARCHAR(150) NOT NULL UNIQUE,
     first_name VARCHAR(150) NOT NULL,
     last_name VARCHAR(150) NOT NULL,
     created_at TIMESTAMP NOT NULL,
@@ -96,6 +97,11 @@ CREATE TABLE bazar_user
 );
 -- is_superuser BOOLEAN NOT NULL,
  -- session_key VARCHAR(50) NOT NULL PRIMARY KEY,
+-- CREATE TABLE bazar_company
+-- (
+--     id BIGSERIAL PRIMARY KEY,
+--     name VARCHAR(50) NOT NULL  
+-- );
 
 CREATE TABLE bazar_session
 (

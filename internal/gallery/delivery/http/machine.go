@@ -67,14 +67,24 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 		result []*models.Machine
 		err    error
 	)
+
 	result, err = h.useCases.GetRelevantMachines()
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
+	//todo : get cars - own images
+
 	responseWithStatus(c, http.StatusOK, "success retrun list machines", "OK", result)
 }
+
+// todo
+// add field - company Name; Signup; add Table Company
+// auth -> screen
+// profile fix - getList
+// GetListCars -> + photo each car add;
+// fileServer - send bsae64 ? octet-stream ?
 
 func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 	var (
@@ -94,5 +104,7 @@ func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
+	//todo : get cars - own images
+
 	responseWithStatus(c, http.StatusOK, "success returun user  list machines", "OK", result)
 }

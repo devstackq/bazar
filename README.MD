@@ -25,17 +25,18 @@ insert into bazar_roles(name) values('saler');
 /v1/signup : POST
 Request: 
 {
-	string `json:"email"`
-	string `json:"username"`
-	int `json:"phone"`
-	string `json:"first_name"`
-	string `json:"last_name"`
-	string `json:"password"`
-    int `json:"country_id"`
-	int    `json:"city_id"`
-	int `json:"role_id"`
+	string  email
+	string username
+	int phone
+	string first_name
+	string last_name
+	string password
+    string company
+    int country_id -> fetch(/v1/country)
+	int    city_id -> fetch(/v1/city/:countryID)
 }
 Response {statusCode, Message, Header[access_token, refresh_token]}
+------------------------------
 
 Вход в систему
 /v1/signin : POST
@@ -47,12 +48,20 @@ Request:
 
 Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
-Обновление access/refresh токена
+
+Обновление access/refresh токена, при случаях 401 статуса
 /v1/refresh -> middlewares(return incorrect access token)
 Request(Header[refresh_token])
+
 Response {statusCode, Message, Header[access_token, refresh_token]}
+(Если refresh токен устарел, то redirect - signin)
 ------------------------------
 
+Выход из системы
+/v1/logout
+Request(Header[access_token])
+Response {statusCode, Message}
+------------------------------
 
 Профиль
 
@@ -61,8 +70,9 @@ Request : header[access_token]
 /v1/profile : GET
 Response:  {
     UserInfo
-    ListCreatedCarsByUserID    
+    ListCreatedCarsByUserID
 }
+------------------------------
 
 Создание машины 
 Прежде чем добавить машины: -> добавить  в БД, админские crud(cateogry,model, brand, etc)
@@ -70,6 +80,8 @@ Response:  {
 /v1/machine : POST
 Request:
  header[access_token]
+ По спискам  transmision, brand, category, etc -> fetch(v1/trans, v1/category, etc...)
+
 {
     "title": "Sale the best car, because i need money",
     "description": "this car bla bla...",
@@ -110,23 +122,30 @@ Request:
     },
     "drive_unit": {
         "id": 1
-    },
-    "creator": {
-        "id": "1"
     }
 }
+
+создание машины, затем выгрузка фото на файловый сервер
+async, await
 ------------------------------
 
 Главная:
+
+Вернет список машин, по дате добавления
+/v1/machine : GET
+Response{
+    []Machine{...}
+}
+------------------------------
+
+Карточка машины 
 
 Вернет машину по его ID
 /v1/machine/:id : GET
 Response{
     Machine{...}
 }
-
-Вернет список машин, по дате добавления
-/v1/machine : GET
+------------------------------
 
 Фильтрация
 
@@ -135,36 +154,20 @@ Response : {
     []Machine{...}
 }
 
-Фидьтрация по цене - /v1/filter query-param [priceTo/proceFrom] float
-
+Фильтрация по цене - /v1/filter query-param [priceTo/proceFrom] float
 ------------------------------
 
 Поиск по title или description
-/v1/search/:keyword :POST
+/v1/search/:POST query-param key_word
 Response : {
     []Machine{...}
 }
-
-------------------------------
-Сортировка
-/v1/filter query-param : ["category", "state", "brand", "model"] +  sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
-
 ------------------------------
 
-for Guests:
--------------------------------
-Вернет список созданных машин - пользователем созданных
-/v1/machine/user/:id :GET
-Response {
-    []Machine{}...
-}
--------------------------------
-Вернет информацию о продавце
-/v1/profile/bio/:id
-Response{
-    User{...}
-}
+Сортировка, (может включать поля фильтрации)
+/v1/filter query-param : ["category", "state", "brand", "model", priceFrom, priceTo] +  sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
 ------------------------------
+
 Админка(опционалка) CRUD по:
 
 /v1/any/:id :GET;

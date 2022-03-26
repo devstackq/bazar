@@ -25,9 +25,10 @@ func (pr ProfileRepository) GetUserByID(ctx context.Context, id int) (*models.Us
 
 	sqlQuery := `SELECT
 	email, username,
-	phone, first_name,
-	last_name, created_at,
-	rl.name, ctr.name, ct.name
+	phone, first_name, 
+	last_name,company,
+	created_at, rl.name, ctr.name,
+	ct.name
 	FROM bazar_user AS u
 	LEFT JOIN bazar_country AS ctr ON ctr.id = u.country_id
 	LEFT JOIN bazar_city AS ct ON ct.id = u.city_id
@@ -35,15 +36,17 @@ func (pr ProfileRepository) GetUserByID(ctx context.Context, id int) (*models.Us
 	WHERE user_id = $1`
 
 	row := pr.db.QueryRowContext(ctx, sqlQuery, id)
-	err = row.Scan(&result.Email, &result.Username, &result.Phone, &result.FirstName, &result.LaststName, &result.CreatedAt, &result.Role, &result.Country, &result.City)
+	err = row.Scan(&result.Email, &result.Username, &result.Phone, &result.FirstName, &result.LaststName, &result.Company, &result.CreatedAt, &result.Role, &result.Country, &result.City)
 	if err != nil {
 		return nil, err
 	}
 	return &result, nil
 }
 
+//or company_id?
 func (mr ProfileRepository) GetListMachineByUserID(ctx context.Context, id int) ([]*models.Machine, error) {
-	query := `SELECT
+	query :=
+		`SELECT
 	machine_id,
 	vin,
 	title,

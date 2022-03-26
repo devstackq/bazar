@@ -13,13 +13,14 @@ func (h *Handler) Search(c *gin.Context) {
 		err     error
 		keyWord string
 	)
-	keyWord = c.Param("key_word")
+	// keyWord = c.Param("key_word")
 
-	if keyWord == "" {
+	if keyWord = c.Query("key_word"); keyWord == "" {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
+
 	result, err = h.useCases.SearchUseCaseInterface.SearchByKeyWord(keyWord)
 
 	if err != nil {

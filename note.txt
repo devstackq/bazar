@@ -52,4 +52,16 @@ Optional :
 Pagination - 
 add currency; currencyType table 
 Админ панель
-ssd
+db transcation
+
+todo:
+add field - company Name; Signup; add Table Company +
+auth -> screen - send client  =
+profile fix - getList
+
+GetListCars -> + photo each car add;
+fileServer - send bsae64 ? octet-stream ?
+1. send only src(client - static[src])
+2. send like []byte || base64
+
+Main photo -> set; default [0];
