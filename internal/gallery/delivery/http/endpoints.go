@@ -37,7 +37,7 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		machine.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateMachine)
 		machine.GET("/:id", handler.GetMachineByID)
 		machine.GET("", handler.GetListMachine)
-		machine.GET("/user/:id", handler.GetListMachineByUserID)
+		machine.GET("/user/:id", handler.GetListMachineByUserID) // or companyID cars ?
 		// machine.PATCH("/:id", handler.UpdateMachine)
 		// machine.DELETE("/:id", handler.DeleteMachineByID)
 		//Вернет список созданных машин - пользователем созданных

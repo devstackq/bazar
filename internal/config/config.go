@@ -82,7 +82,7 @@ func GetConfig() *Config {
 					defaultAppMethodDelete,
 				}),
 				AllowOrigins: getEnvAsSlice("APP_CORS_ALLOW_ORIGINS", []string{
-					"http://localhost:6969/*",
+					"*",
 				}),
 				ExposeHeaders: getEnvAsSlice("APP_CORS_EXPOSE_HEADERS", []string{
 					defaultAppExposeHeader,

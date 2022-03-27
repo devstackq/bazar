@@ -20,6 +20,8 @@ const (
 // else try - base64  https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 
 func (h *Handler) Upload(c *gin.Context) {
+	// file, err := c.FormFile("image")
+	// c.SaveUploadedFile(file)
 
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		// http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -95,7 +97,7 @@ func (h *Handler) Upload(c *gin.Context) {
 			http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 			return
 		}
-		listSrc = append(listSrc, src)
+		listSrc = append(listSrc, src[1:])
 
 	}
 	//save in db src

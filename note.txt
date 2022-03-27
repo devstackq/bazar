@@ -49,20 +49,11 @@ middleware - some handler - use
 
 
 Optional :
-Pagination - 
 add currency; currencyType table 
-Админ панель
+Админ панель +
 db transcation
 
 
 todo
-Client sync
-
-GetListCars -> + photo each car add;
-fileServer - send bsae64 ? octet-stream ?
-1. send only src(client - static[src])
-2. send like []byte || base64
-
-if []ListCars -> 
-Main photo -> set; default [0];
-else -> 
+sync client; check main page + 
+pagintaion cars 

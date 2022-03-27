@@ -3,3 +3,4 @@
 /bazarapp
 .env
 /images
+*.txt

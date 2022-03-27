@@ -57,7 +57,7 @@ func (a *App) Initialize() {
 		AllowWildcard:    true,
 	}))
 
-	// mongo case
+	a.router.Static("/images/", "./images")
 	// mongoObject := db.NewDbObject("mongodb", viper.GetString("mongo.username"), viper.GetString("mongo.password"), viper.GetString("mongo.host"), viper.GetString("mongo.port"), viper.GetString("mongo.dbName"), viper.GetString("mongo.user_collection"))
 	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
 
@@ -74,12 +74,6 @@ func (a *App) Initialize() {
 }
 
 func (a *App) Run(ctx context.Context) {
-	// func()
-	// var frontend fs.FS = os.DirFS("../../client/public")
-	// httpFS := http.FS(frontend)
-	// fileServer := http.FileServer(httpFS)
-	// serveIndex := serveFileContents("index.html", httpFS)
-	// http.Handle("/", intercept404(fileServer, serveIndex))
 
 	srv := http.Server{
 		Addr:           a.cfg.App.Port,
