@@ -2,6 +2,7 @@ package v1
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/devstackq/bazar/internal/models"
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,8 @@ func (h *Handler) Search(c *gin.Context) {
 		result  []*models.Machine
 		err     error
 		keyWord string
+		value   string
+		pageNum int
 	)
 	// keyWord = c.Param("key_word")
 
@@ -21,7 +24,19 @@ func (h *Handler) Search(c *gin.Context) {
 		return
 	}
 
-	result, err = h.useCases.SearchUseCaseInterface.SearchByKeyWord(keyWord)
+	if value = c.Query("page_num"); value == "" {
+		//set default
+		value = "1"
+	}
+
+	pageNum, err = strconv.Atoi(value)
+	if err != nil || pageNum < 0 {
+		h.logger.Error(err)
+		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
+		return
+	}
+
+	result, err = h.useCases.SearchUseCaseInterface.SearchByKeyWord(keyWord, pageNum)
 
 	if err != nil {
 		h.logger.Error(err)

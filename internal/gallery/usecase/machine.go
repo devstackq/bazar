@@ -39,10 +39,10 @@ func (muc MachineUseCase) GetMachineByID(id int) (*models.Machine, error) {
 	return machine, nil
 }
 
-func (muc MachineUseCase) GetRelevantMachines() ([]*models.Machine, error) {
+func (muc MachineUseCase) GetRelevantMachines(pageNum int) ([]*models.Machine, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	list, err := muc.machineRepo.GetList(ctx)
+	list, err := muc.machineRepo.GetList(ctx, pageNum)
 	if err != nil {
 		return nil, err
 	}

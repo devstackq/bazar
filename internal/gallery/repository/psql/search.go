@@ -17,12 +17,19 @@ func SearchRepoInit(db *sql.DB) *SearchRepository {
 	}
 }
 
-func (sr SearchRepository) Search(ctx context.Context, keyword string) ([]*models.Machine, error) {
+func (sr SearchRepository) Search(ctx context.Context, keyword string, pageNum int) ([]*models.Machine, error) {
+	var limit = 9
+	pageNum = limit * (pageNum - 1)
+
 	var result []*models.Machine
 
-	query := "SELECT machine_id, title, vin, description, year, price FROM bazar_machine WHERE title LIKE $1 OR description LIKE $1"
+	query := `SELECT 
+	machine_id, title, vin, description, year, price
+	FROM bazar_machine
+	WHERE title LIKE $1 OR description 
+	LIKE $1 LIMIT $2 OFFSET $3`
 
-	rows, err := sr.db.Query(query, "%"+keyword+"%")
+	rows, err := sr.db.Query(query, "%"+keyword+"%", limit, pageNum)
 	if err != nil {
 		return nil, err
 	}

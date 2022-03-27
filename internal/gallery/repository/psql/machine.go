@@ -121,7 +121,10 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*mod
 	return result, nil
 }
 
-func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, error) {
+func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models.Machine, error) {
+
+	var limit = 9
+	var result = []*models.Machine{}
 
 	query := `SELECT
 	machine_id,
@@ -135,11 +138,13 @@ func (mr MachineRepository) GetList(ctx context.Context) ([]*models.Machine, err
 	created_at,
 	horse_power
 	FROM bazar_machine
-	ORDER BY created_at DESC LIMIT 20`
+	ORDER BY created_at DESC LIMIT $1 OFFSET $2`
 
-	result := []*models.Machine{}
+	pageNum = limit * (pageNum - 1)
 
-	rows, err := mr.db.QueryContext(ctx, query)
+	// log.Println(limit, pageNum)
+
+	rows, err := mr.db.QueryContext(ctx, query, limit, pageNum)
 	if err != nil {
 		return nil, err
 	}

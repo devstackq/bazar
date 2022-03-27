@@ -15,8 +15,8 @@ func SearchUseCaseInit(r gallery.SearchRepoInterface) gallery.SearchUseCaseInter
 	return SearchUseCase{searchRepo: r}
 }
 
-func (suc SearchUseCase) SearchByKeyWord(key string) ([]*models.Machine, error) {
+func (suc SearchUseCase) SearchByKeyWord(key string, pageNum int) ([]*models.Machine, error) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	return suc.searchRepo.Search(ctx, key)
+	return suc.searchRepo.Search(ctx, key, pageNum)
 }

@@ -132,7 +132,8 @@ async, await
 Главная:
 
 Вернет список машин, по дате добавления
-/v1/machine : GET
+пагинация по query-param; page_num; по умолчанию = 1 (выдаст 9 машин)
+/v1/machine?page_num=2 : GET
 Response{
     []Machine{...}
 }

@@ -9,12 +9,12 @@ import (
 type MachineRepoInterface interface {
 	Create(context.Context, *models.Machine) (int, error)
 	GetByID(context.Context, int) (*models.Machine, error)
-	GetList(context.Context) ([]*models.Machine, error)
+	GetList(context.Context, int) ([]*models.Machine, error)
 	GetListByUserID(context.Context, int) ([]*models.Machine, error)
 }
 
 type SearchRepoInterface interface {
-	Search(context.Context, string) ([]*models.Machine, error)
+	Search(context.Context, string, int) ([]*models.Machine, error)
 }
 
 type FilterRepoInterface interface {

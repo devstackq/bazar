@@ -5,7 +5,7 @@ import "github.com/devstackq/bazar/internal/models"
 type MachineUseCaseInterface interface {
 	Create(*models.Machine) (int, error)
 	GetMachineByID(int) (*models.Machine, error)
-	GetRelevantMachines() ([]*models.Machine, error)
+	GetRelevantMachines(int) ([]*models.Machine, error)
 	GetListMachineByUserID(int) ([]*models.Machine, error)
 }
 
@@ -22,7 +22,7 @@ type SortUseCaseInterface interface {
 }
 
 type SearchUseCaseInterface interface {
-	SearchByKeyWord(string) ([]*models.Machine, error)
+	SearchByKeyWord(string, int) ([]*models.Machine, error)
 }
 
 type UseCases struct {

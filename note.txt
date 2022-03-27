@@ -57,3 +57,5 @@ db transcation
 todo
 sync client; check main page + 
 pagintaion cars 
+
+git push https://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@github.com/devstackq/bazar.git

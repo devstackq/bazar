@@ -75,11 +75,22 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 
 func (h *Handler) GetListMachine(c *gin.Context) {
 	var (
-		result []*models.Machine
-		err    error
+		result  []*models.Machine
+		err     error
+		pageNum int
+		value   string
 	)
+	if value = c.Query("page_num"); value == "" {
+		value = "1"
+	}
+	pageNum, err = strconv.Atoi(value)
+	if err != nil || pageNum < 0 {
+		h.logger.Error(err)
+		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
+		return
+	}
 
-	result, err = h.useCases.GetRelevantMachines() //default created date; desc
+	result, err = h.useCases.GetRelevantMachines(pageNum) //default created date; desc
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
