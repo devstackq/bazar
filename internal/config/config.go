@@ -93,7 +93,7 @@ func GetConfig() *Config {
 
 		DB: &DBConf{
 			Dialect:  getEnvAsStr("POSTGRES_DIALECT", "pgx"),
-			Host:     getEnvAsStr("POSTGRES_URI", "localhost"), // postgresdb - for compose
+			Host:     getEnvAsStr("POSTGRES_URI", "postgres"), // postgresdb - for compose
 			Port:     getEnvAsStr("POSTGRES_PORT", "5432"),
 			Username: getEnvAsStr("POSTGRES_USER", "postgres"),
 			Password: getEnvAsStr("POSTGRES_PASSWORD", "postgres"),
