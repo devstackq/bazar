@@ -3,9 +3,11 @@ import { API } from '../config';
 
 const ShowImage = ({ item, url }) => (
 //todo like - carousel, more 1 image
+console.log(item.main_image, 213),
 
 <div className="product-img">
-        {item.main_image != "" ? (
+        {
+        item.main_image != "" ? (
         <img src={`${API}/images/${item.main_image}`} alt={item.name} className="card-img mb-2"
             style={{ maxHeight: '90%', maxWidth: '100%' }} />
         ):

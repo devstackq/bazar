@@ -13,10 +13,11 @@ const getWidth = () => window.innerWidth
  */
 const Slider = props => {
   const { slides } = props
-console.log(props, 'images slider')
   const firstSlide = slides[0]
   const secondSlide = slides[1]
   const lastSlide = slides[slides.length - 1]
+
+  console.log(props, 'images slider', firstSlide)
 
   const [state, setState] = useState({
     activeSlide: 0,

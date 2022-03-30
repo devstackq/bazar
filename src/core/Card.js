@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import ShowImage from './Image';
-// import ShowCarousel from './Carousel'
 import Slider from './slider/Slider'
 import '../style.css';
 import moment from 'moment';
 import { addItems, updateItem, removeItem } from './helpers';
+import { API } from '../config';
+
 
 
 const Card = ({ product, showViewProductButton = true, showAddToCartButton = true, cartUpdate = false, showRemoveProductButton = false, setRun = f => f, run = undefined, machineByID = false }) => {
 
     const [redirect, setRedirect] = useState(false);
     const [count, setCount] = useState(product.count);
+    const [images, setImages] = useState([])
 
     const showViewButton = showViewProductButton => {
         return (
@@ -105,9 +107,17 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
     //     return (
     //     <p className="lead mt-2">{product.substring(0, 400)}</p>
     //     );
-
     // };
 
+    const loadImages = paths => {
+
+        let seq = []
+        for (let i = 0; i < paths.length; i++) {
+            seq.push(`${API}${paths[i]}`)
+        }
+        setImages(seq)
+        return
+    }
 
     return (
         <div className="card">
@@ -120,11 +130,14 @@ const Card = ({ product, showViewProductButton = true, showAddToCartButton = tru
                     (
                         <ShowImage item={product} url='machine' />
                     ) :
-                    // use map -> send images ? 
-                    
-                    <Slider  slides={product.images}/> ,
-                     <p className='black-10 text-danger'> trans: {product.trans.Name}</p>
+                        fix image, & all images 
+                    (images.length > 0 ? (
+                        <Slider slides = {images} />
+                        )
+                        : loadImages(product.images)
+                    ),
 
+                    <p className='black-10 text-danger'> trans: {product.trans.Name}</p>
                 }
 
                 <p className="lead mt-2">Title: {product.title}</p>
