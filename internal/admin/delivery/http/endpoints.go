@@ -26,9 +26,9 @@ func SetAdminEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, gr
 
 	}
 
-	category := group.Group("/category", middleware.AuthorizeJWT("accessx"))
+	category := group.Group("/category")
 	{
-		category.POST("", handler.CreateCategory)
+		category.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateCategory)
 		category.GET("", handler.GetListCategories)
 		category.GET("/:id", handler.GetCategoryByID)
 	}

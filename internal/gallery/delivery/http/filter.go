@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -20,6 +21,7 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		"sort_year", "sort_odometer",
 	}
 	// filter & sort merged
+	add filter - by year
 
 	keys, err := prepareQueryParam(c, filterKeys)
 	if err != nil {
@@ -38,6 +40,7 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusNotFound, "Info, not found filtered items", "Info:", nil)
 		return
 	}
-
+	log.Println(result[0].MainImage, result[1].MainImage, 123)
+	// log.Println(result, " filtered vals")
 	responseWithStatus(c, http.StatusOK, "success return filtered cars", "OK", result)
 }

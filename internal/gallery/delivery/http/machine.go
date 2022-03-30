@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -55,6 +56,7 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
+	log.Print("get by id ", id)
 
 	result, err = h.useCases.GetMachineByID(id)
 	if err != nil {

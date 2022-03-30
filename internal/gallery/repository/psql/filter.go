@@ -34,10 +34,11 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 		odometer,
 		created_at,
 		horse_power 
-	FROM bazar_machine WHERE `
+	FROM bazar_machine  `
 
 	query += prepareQuery(keys)
 
+	// log.Println(query, 12)
 	rows, err := fr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err

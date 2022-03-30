@@ -57,7 +57,7 @@ func (a *App) Initialize() {
 		AllowWildcard:    true,
 	}))
 
-	a.router.Static("/images/", "./images")
+	// a.router.Static("/images/", "./images")
 	// mongoObject := db.NewDbObject("mongodb", viper.GetString("mongo.username"), viper.GetString("mongo.password"), viper.GetString("mongo.host"), viper.GetString("mongo.port"), viper.GetString("mongo.dbName"), viper.GetString("mongo.user_collection"))
 	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
 
@@ -105,6 +105,7 @@ func (a *App) Run(ctx context.Context) {
 // all microservice connect 1 db
 func (a *App) setComponents() {
 	apiVersion := a.router.Group("/v1")
+	apiVersion.Static("/images/", "./images")
 
 	httpGallery.SetGalleryEndpoints(a.cfg, a.db, a.Logger, apiVersion)
 	httpAuth.SetAuthEndpoints(a.cfg, a.db, a.Logger, apiVersion)

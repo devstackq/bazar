@@ -29,6 +29,10 @@ func prepareQuery(keys map[string]string) (query string) {
 			}
 		}
 	}
+	//case if only sort
+	if query != "" {
+		query = "WHERE " + query
+	}
 	// add sort with filter
 	query += tempSortKey
 

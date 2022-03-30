@@ -34,7 +34,6 @@ func (h *Handler) GetListCategories(c *gin.Context) {
 		result []*models.Category
 		err    error
 	)
-
 	result, err = h.useCases.CategoryUseCaseInterface.GetListCategories()
 	if err != nil {
 		h.logger.Error(err)

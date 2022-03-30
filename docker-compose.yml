@@ -15,20 +15,20 @@ services:
     restart: always
     # restart : unless-stopped
 
-  server:
-    image: bazar-app
-    container_name: bazar-app
-    build: ./
-    # command: ./app
-    ports:
-      - 6969:6969
-    depends_on:
-      - postgresdb
-    networks:
-      - darknet
-    volumes:
-      - ./bazar-app:/opt/bazar-app
-    restart : unless-stopped  
+  # server:
+  #   image: bazar-app
+  #   container_name: bazar-app
+  #   build: ./
+  #   # command: ./app
+  #   ports:
+  #     - 6969:6969
+  #   depends_on:
+  #     - postgresdb
+  #   networks:
+  #     - darknet
+  #   volumes:
+  #     - ./bazar-app:/opt/bazar-app
+  #   restart : unless-stopped  
 
 networks:
   darknet:
