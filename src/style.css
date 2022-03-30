@@ -1,0 +1,39 @@
+.jumbotron {
+    width: 30wh;
+    height: 20vh;
+    color: #fff;
+    background: linear-gradient(25deg, #5cab1b, #c97113);
+    background-size: 400% 400%;
+
+}
+
+.black-10 {
+    background: #f2f2f2;
+}
+
+.name {
+    background: linen;
+    color: #000;
+    font-weight: bold;
+}
+
+.black-9 {
+    background: #f2f2f2;
+}
+
+.black-8 {
+    background: #f2f2f2;
+}
+
+.cart-badge {
+    font-size: 15px;
+    color: #000;
+}
+.navbar-right {
+    position: absolute;
+    right: 0;
+    background: #5d1693;
+}
+.navbar-right li {
+    display: inline-block
+}
