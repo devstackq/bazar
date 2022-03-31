@@ -38,7 +38,6 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 
 	query += prepareQuery(keys)
 
-	// log.Println(query, 12)
 	rows, err := fr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err

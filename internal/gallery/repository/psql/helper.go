@@ -15,17 +15,22 @@ func prepareQuery(keys map[string]string) (query string) {
 				if idx > 1 {
 					query += " AND "
 				}
-				// filter by price
-				if key == "priceTo" {
-					query += fmt.Sprintf(" %s", "price <="+val)
+				//year range
+				if key == "yearFrom" {
+					query += fmt.Sprintf(" %s", "year >= "+val)
+				} else if key == "yearTo" {
+					query += fmt.Sprintf(" %s", "year <= "+val)
+				} else if key == "priceTo" {
+					// filter by price
+					query += fmt.Sprintf(" %s", "price <= "+val)
 				} else if key == "priceFrom" {
 					query += fmt.Sprintf(" %s", "price >= "+val)
 				} else {
-					query += fmt.Sprintf(" %s", key+"_id="+val)
+					query += fmt.Sprintf(" %s", key+"_id= "+val)
 				}
 			} else {
 				// add last key, sort
-				tempSortKey = fmt.Sprintf("ORDER BY %s ", key[5:]+" "+val)
+				tempSortKey = fmt.Sprintf(" ORDER BY %s ", key[5:]+" "+val)
 			}
 		}
 	}

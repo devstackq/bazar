@@ -17,11 +17,10 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 	filterKeys := []string{
 		"category", "state", "brand",
 		"model", "priceFrom", "priceTo",
+		"yearFrom", "yearTo",
 		"sort_created_at", "sort_price",
 		"sort_year", "sort_odometer",
 	}
-	// filter & sort merged
-	add filter - by year
 
 	keys, err := prepareQueryParam(c, filterKeys)
 	if err != nil {

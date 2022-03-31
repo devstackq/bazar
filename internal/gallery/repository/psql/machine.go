@@ -3,6 +3,7 @@ package psql
 import (
 	"context"
 	"database/sql"
+	"log"
 	"time"
 
 	"github.com/devstackq/bazar/internal/gallery"
@@ -24,7 +25,7 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 	var err error
 
 	query := `SELECT
-		usr.phone, usr.first_name, vin, title,
+		usr.phone, usr.first_name, vin, title, phone, 
 		description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
@@ -49,6 +50,7 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		&result.Creator.FirstName,
 		&result.VIN,
 		&result.Title,
+		&result.Creator.Phone,
 		&result.Description,
 		&result.Year,
 		&result.Price,
@@ -136,6 +138,7 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 	odometer,
 	volume, 
 	created_at,
+	phone,
 	horse_power
 	FROM bazar_machine
 	ORDER BY created_at DESC LIMIT $1 OFFSET $2`
@@ -161,6 +164,7 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 			&temp.Odometer,
 			&temp.Volume,
 			&temp.CreatedAt,
+			&temp.Creator.Phone,
 			&temp.HorsePower,
 		); err != nil {
 			return nil, err
@@ -171,6 +175,7 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 		if err != nil && err.Error() != "sql: no rows in result set" {
 			return nil, err
 		}
+		log.Println(temp.MainImage, "main img each car")
 		result = append(result, &temp)
 	}
 	if rows.Err() != nil {

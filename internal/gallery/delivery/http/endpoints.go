@@ -43,10 +43,8 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		//Вернет список созданных машин - пользователем созданных
 		///v1/machine/user/:id :GET
 	}
-
 	search := group.Group("/search")
 	{
 		search.POST("", handler.Search)
 	}
-
 }
