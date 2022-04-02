@@ -138,14 +138,11 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 	odometer,
 	volume, 
 	created_at,
-	phone,
 	horse_power
 	FROM bazar_machine
 	ORDER BY created_at DESC LIMIT $1 OFFSET $2`
 
 	pageNum = limit * (pageNum - 1)
-
-	// log.Println(limit, pageNum)
 
 	rows, err := mr.db.QueryContext(ctx, query, limit, pageNum)
 	if err != nil {
@@ -164,7 +161,6 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 			&temp.Odometer,
 			&temp.Volume,
 			&temp.CreatedAt,
-			&temp.Creator.Phone,
 			&temp.HorsePower,
 		); err != nil {
 			return nil, err

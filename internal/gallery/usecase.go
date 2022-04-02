@@ -1,6 +1,8 @@
 package gallery
 
-import "github.com/devstackq/bazar/internal/models"
+import (
+	"github.com/devstackq/bazar/internal/models"
+)
 
 type MachineUseCaseInterface interface {
 	Create(*models.Machine) (int, error)
@@ -10,7 +12,7 @@ type MachineUseCaseInterface interface {
 }
 
 type FilterUseCaseInterface interface {
-	GetListMachineByFilter(map[string]string) ([]*models.Machine, error)
+	GetListMachineByFilter(map[string]string, int) ([]*models.Machine, error)
 }
 type FileManagerUseCaseInterface interface {
 	CreateSrc([]string, int) error

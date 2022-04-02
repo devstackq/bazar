@@ -89,7 +89,6 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
-	// log.Println("get list handler")
 
 	result, err = h.useCases.GetRelevantMachines(pageNum) //default created date; desc
 	if err != nil {

@@ -9,15 +9,11 @@ testUrl: http://localhost:6969
 
 
 -------------------------------
-Вначале надо создать роли
-
+Создание ролей(админ, продавец)
 header:token(admin)
 /v1/role : POST
 Request : {name : "saler"}
--------------------------------
 insert into bazar_roles(name) values('saler');
-
-  insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
 -------------------------------
 
 Создание юзера(продавец)
@@ -49,18 +45,18 @@ Request:
 Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
 
-Обновление access/refresh токена, при случаях 401 статуса
-/v1/refresh -> middlewares(return incorrect access token)
-Request(Header[refresh_token])
-
+Обновление access токена, при   статусе 401
+/v1/refresh -> POST
+Request(Header[refresh_token]) 
 Response {statusCode, Message, Header[access_token, refresh_token]}
+------------------------------
 (Если refresh токен устарел, то redirect - signin)
 ------------------------------
 
 Выход из системы
 /v1/logout
 Request(Header[access_token])
-Response {statusCode, Message}
+Response {statusCode, Message, Remove access/refresh token}
 ------------------------------
 
 Профиль
@@ -80,7 +76,7 @@ Response:  {
 /v1/machine : POST
 Request:
  header[access_token]
- По спискам  transmision, brand, category, etc -> fetch(v1/trans, v1/category, etc...)
+Список полей с данными для :   transmision, brand, category, etc -> fetch(v1/trans, v1/category, etc...)
 
 {
     "title": "Sale the best car, because i need money",
@@ -124,20 +120,31 @@ Request:
         "id": 1
     }
 }
-
-создание машины, затем выгрузка фото на файловый сервер
+Response {Status, lastCarID}
 async, await
+
+Zатем выгрузка фото на файловый сервер
+/v1/file/upload/lastCarID
+Request {key : MultipartFile}
+Resonse : {Status, Message}
 ------------------------------
 
 Главная:
 
 Вернет список машин, по дате добавления
-пагинация по query-param; page_num; по умолчанию = 1 (выдаст 9 машин)
+пагинация по query-param; page_num; по умолчанию = 1 ( и выдаст 9 машин)
 /v1/machine?page_num=2 : GET
 Response{
     []Machine{...}
 }
 ------------------------------
+Optional(in further); todo test
+Пагинация 
+/v1/machine?page_num
+offset = default 9
+может и с фильтром/сортировкой - работать
+------------------------------
+
 
 Карточка машины 
 
@@ -148,7 +155,7 @@ Response{
 }
 ------------------------------
 
-Фильтрация
+Фильтрация, по категории, состоянию,  бренду, модели
 
 /v1/filter query-param : ["category", "state", "brand", "model"] id
 Response : {
@@ -166,10 +173,11 @@ Response : {
 ------------------------------
 
 Сортировка, (может включать поля фильтрации)
-/v1/filter query-param : ["category", "state", "brand", "model", priceFrom, priceTo] +  sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
+/v1/filter query-param : ["category", "state", "brand", "model", priceFrom, priceTo] +  
+sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
 ------------------------------
 
-Админка(опционалка) CRUD по:
+Админка(опционалка) на будущее CRUD по:
 
 /v1/any/:id :GET;
 /v1/any :GET - list

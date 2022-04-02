@@ -12,27 +12,21 @@ import (
 )
 
 const (
-	MAX_UPLOAD_SIZE = 1024 * 1024 // 10MB
+	MAX_UPLOAD_SIZE = 1024 * 1024 // 1MB
 	path            = "./images/"
 )
 
 // todo :refactor/ decopmpose -> to service side || pkg
-// else try - base64  https://www.sanarias.com/blog/1214PlayingwithimagesinHTTPresponseingolang
 
 func (h *Handler) Upload(c *gin.Context) {
-	// file, err := c.FormFile("image")
-	// c.SaveUploadedFile(file)
 
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
-		// http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Println("req, parseMultipart", err)
 		return
 	}
 	// Get a reference to the fileHeaders.
 	// They are accessible only after ParseMultipartForm is called
 	files := c.Request.MultipartForm.File["image"]
-	// async; create machine -> proccessing photo  ? js
-	// setPhoto - user_id, machine_id
 
 	machine_id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -18,7 +18,7 @@ type SearchRepoInterface interface {
 }
 
 type FilterRepoInterface interface {
-	GetListMachineByFilter(context.Context, map[string]string) ([]*models.Machine, error)
+	GetListMachineByFilter(context.Context, map[string]string, int) ([]*models.Machine, error)
 }
 
 type FileManagerRepoInterface interface {

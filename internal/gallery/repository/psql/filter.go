@@ -3,6 +3,7 @@ package psql
 import (
 	"context"
 	"database/sql"
+	"log"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
@@ -20,9 +21,11 @@ func FilterRepoInit(db *sql.DB) gallery.FilterRepoInterface {
 
 // sort & filter ? good practice
 
-func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[string]string) ([]*models.Machine, error) {
+func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[string]string, pageNum int) ([]*models.Machine, error) {
+
 	var result []*models.Machine
 	var err error
+	var limit = 9
 
 	query := `SELECT
 		machine_id,
@@ -38,7 +41,10 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 
 	query += prepareQuery(keys)
 
-	rows, err := fr.db.QueryContext(ctx, query)
+	query += ` LIMIT $1 OFFSET $2`
+	log.Println(query)
+	rows, err := fr.db.QueryContext(ctx, query, limit, pageNum)
+
 	if err != nil {
 		return nil, err
 	}
