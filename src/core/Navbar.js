@@ -1,7 +1,8 @@
-import React, { Fragment } from 'react';
+// import React, { Fragment } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { signout, isAuthenticated } from '../auth/index';
 import { itemTotal } from './helpers';
+import React, { useState, useEffect } from 'react';
 
 
 const isActive = (history, path) => {
@@ -12,90 +13,91 @@ const isActive = (history, path) => {
     }
 };
 
-const Navbar = ({ history }) => (
+const Navbar = ({ history }) => {
 
-    <div>
+    const [modalState, setModalState] = useState(false)
+    
+    const changeState = ()=> {
+        console.log(modalState, 'change')
+        setModalState(!modalState)
+    }
 
-        <ul className="nav nav-tabs bg-warning">
-            <li className="nav-item">
-                <Link className="nav-link" style={isActive(history, '/')} to="/"> Home</Link>
-            </li>
-            <li className="nav-item">
-                <Link className="nav-link" style={isActive(history, '/shop')} to="/shop"> Shop</Link>
-            </li>
-            <li className="nav-item">
-                <Link
-                    className="nav-link"
-                    style={isActive(history, "/cart")}
-                    to="/cart"
-                >
-                    Cart{" "}
-                    <sup>
-                        <small className="cart-badge">{itemTotal()}</small>
-                    </sup>
-                </Link>
-            </li>
+    return (
 
-            {isAuthenticated() && isAuthenticated().user.role === 0 && (
-                <>
-         
+        <div>
+
+            <ul className="nav nav-tabs bg-warning">
+                <li className="nav-item">
+                    <Link className="nav-link" style={isActive(history, '/')} to="/"> Home</Link>
+                </li>
+
+                <li className="nav-item">
+                    <Link className="nav-link" style={isActive(history, '/about')} to="/about"> About us</Link>
+                </li>
+
+                {/* profile page ? */}
+                {isAuthenticated() && isAuthenticated().user.role === 0 && (
+                    <>
+                        <li className="nav-item">
+                            <Link
+                                className="nav-link"
+                                style={isActive(history, "/user/dashboard")}
+                                to="/user/dashboard"
+                            >
+                                Dashboard
+                            </Link>
+                        </li>
+                    </>
+                )}
+
+                {isAuthenticated() && isAuthenticated().user.role === 1 && (
                     <li className="nav-item">
                         <Link
                             className="nav-link"
-                            style={isActive(history, "/user/dashboard")}
-                            to="/user/dashboard"
+                            style={isActive(history, "/profile")}
+                            to="/profile"
                         >
-                            Dashboard
-                    </Link>
+                            Profile
+                        </Link>
                     </li>
-        
+                )}
 
-                </>
-            )}
-
-            {isAuthenticated() && isAuthenticated().user.role === 1 && (
-                <li className="nav-item">
-                    <Link
-                        className="nav-link"
-                        style={isActive(history, "/admin/dashboard")}
-                        to="/admin/dashboard"
-                    >
-                        ADmin
-                    </Link>
-                </li>
-            )}
-
-
-
-
-            {!isAuthenticated() && (
-                
-                    <div className='navbar-right'>
-                    <li className="nav-item">
-                        <Link className="nav-link" style={isActive(history, '/signin')} to="/signin"> Signin</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" style={isActive(history, '/signup')} to="/signup"> Signup</Link>
-                    </li>
+                {!isAuthenticated() &&  (
+                    <div className='navbar-center'>
+                        <li className="nav-item">
+                            <button onClick={changeState} > To Sale !</button>
+                        </li>
                     </div>
-                
-            )}
+                )}
 
-            {isAuthenticated() && (
-                <li className="nav-item navbar-right">
-                    <span className="nav-link"
-                        style={{ cursor: 'pointer', color: '#fff' }}
-                        onClick={() => signout(() => {
-                            history.push('/');
-                        })
-                        }
-                    > Sign out
-                    </span>
-                </li>
-            )}
-        </ul>
+                { !isAuthenticated() &&  modalState ? (
 
-    </div>
-);
+                    <div className='navbar-right'>
+                        <li className="nav-item">
+                            <Link className="nav-link" style={isActive(history, '/signin')} to="/signin"> Signin</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" style={isActive(history, '/signup')} to="/signup"> Signup</Link>
+                        </li>
+                    </div>
+                ) : null }
+
+                {isAuthenticated() && (
+                    <li className="nav-item navbar-right">
+                        <span className="nav-link"
+                            style={{ cursor: 'pointer', color: '#fff' }}
+                            onClick={() => signout(() => {
+                                history.push('/');
+                            })
+                            }
+                        > Sign out
+                        </span>
+                    </li>
+                )}
+            </ul>
+
+        </div>
+    )
+}
 
 export default withRouter(Navbar);

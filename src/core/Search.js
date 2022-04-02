@@ -17,11 +17,14 @@ const Search = () => {
 
     const loadCategories = () => {
         getCategories().then(data => {
-            console.log(data,123)
-            if (data.error) {
-                console.log(data.error);
-            } else {
-                setData({ ...data, categories: data.Data });
+            // console.log(data,123)
+            if (data != undefined) {
+
+                if (data.error) {
+                    console.log(data.error);
+                } else {
+                    setData({ ...data, categories: data.Data });
+                }
             }
         });
     };
@@ -74,8 +77,8 @@ const Search = () => {
                 <div className="row">
                     {results.map((product, i) => (
                         <div key={i} className='col-3 mb-3'>
-                        <Card product={product} />
-                    </div>
+                            <Card product={product} />
+                        </div>
                     ))}
                 </div>
             </div>

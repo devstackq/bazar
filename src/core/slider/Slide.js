@@ -3,6 +3,8 @@ import React, { memo } from 'react'
 import { css, jsx } from '@emotion/core'
 
 const Slide = ({ content, width }) => {
+ console.log(content, width, 'slide content')
+  
   return (
     <div
       css={css`

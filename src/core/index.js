@@ -1,9 +1,11 @@
 import { API } from '../config';
 import queryString from "query-string";
 
+// return fetch(`${API}/filter?${key}=${val}`, {
+
 export const getProducts = (key, val) => {
-    return fetch(`${API}/filter?${key}=${val}`, {
-        method: 'POST'
+    return fetch(`${API}/machine`, {
+        method: 'GET'
     })
         .then(response => {
             return response.json()

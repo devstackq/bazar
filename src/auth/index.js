@@ -20,7 +20,7 @@ export const signup = user => {
 
 
 export const signin = user => {
-    return fetch(`${API}/signin`, {
+    return fetch(`${API}/auth/signin`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -29,9 +29,14 @@ export const signin = user => {
         body: JSON.stringify(user)
     })
         .then(response => {
-            return response.json()
-        })
+            if ( response.status != 200) {
+                return response.statusText
+            }else {
+                return response.json()
+        }
+    })
         .catch(err => {
+            alert('password or login incorrect')
             console.log(err)
         })
 };

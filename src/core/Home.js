@@ -27,7 +27,8 @@ const Home = () => {
     // };
 
     const loadProductsByArrival = () => {
-        getProducts('sort_created_at', 'asc')
+        // getProducts('sort_created_at', 'asc')
+        getProducts()
             .then(data =>  {
                 if (data.error) {
                     setError(data.error);
@@ -51,22 +52,21 @@ const Home = () => {
             {   productsByArrival != undefined && productsByArrival.Data != undefined  ?  (
                 productsByArrival.Data.map((product, i) => (
                     <div key={i} className='col-3 mb-3'>
-                        <Card product={product} />
+                        <Card product={product} machineByID = {false} />
                     </div>
                 ))
                )  : null
             }
             </div>
-
+{/* 
             <h2 className="mb-4">Best Sellers</h2>
             <div className="row">
                 {productsBySell.map((product, i) => (
                     <div key={i} className='col-3 mb-3'>
-                        <Card product={product} />
+                        <Card product={product}  machineByID = {false}/>
                     </div>
-
                 ))}
-            </div>
+            </div> */}
         </Layout>
     );
 };

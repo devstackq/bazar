@@ -24,7 +24,9 @@
 .black-8 {
     background: #f2f2f2;
 }
-
+.card-body p {
+    font-size: 13px;
+}
 .cart-badge {
     font-size: 15px;
     color: #000;
@@ -37,3 +39,9 @@
 .navbar-right li {
     display: inline-block
 }
+                            
+.sliderimg{
+    width: 100%;
+    height: 100vh;
+    object-fit: cover
+  }

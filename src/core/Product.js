@@ -6,13 +6,14 @@ import Card from './Card';
 const Product = props => {
 
     const [product, setProduct] = useState({});
-    const [related, setRelated] = useState([]);
+    // const [related, setRelated] = useState([]);
     const [error, setError] = useState(false);
 
     const loadSingleProduct = productId => {
         read(productId).then(data => {
             if (data.error) {
                 setError(data.error);
+                return
             } else {
                 setProduct(data.Data);
             }
@@ -25,18 +26,20 @@ const Product = props => {
     }, [props]);
 
     return (
-        <Layout title={product && product.name} description={`$ ${product.price} `} className="container-fluid">
 
+        product != null  ? (
+        <Layout title={product && product.name} description={`$ ${product.price} `} className="container-fluid">
             <div className="row">
-                <div className='col-8'>
+                <div className='col-12'>
                     {
-                        product && product.description &&
-                        <div className='col-16 mb-3'> <Card product={product} showViewProductButton={false} machineByID={true} />  </div>
+                        product != null && product.description &&
+                        <div className='col-12 p-2'> <Card product={product} showViewProductButton={false} machineByID={true} />  </div>
                     }
                 </div>
             </div>
 
         </Layout>
+        ): console.log('not found ')
     )
 }
 

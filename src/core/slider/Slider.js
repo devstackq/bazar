@@ -12,12 +12,13 @@ const getWidth = () => window.innerWidth
  * @function Slider
  */
 const Slider = props => {
+
   const { slides } = props
+  console.log(slides.length, "len slide item")
+
   const firstSlide = slides[0]
   const secondSlide = slides[1]
   const lastSlide = slides[slides.length - 1]
-
-  console.log(props, 'images slider', firstSlide)
 
   const [state, setState] = useState({
     activeSlide: 0,
@@ -142,7 +143,7 @@ const Slider = props => {
   }
 
   return (
-    <div css={SliderCSS} ref={sliderRef}>
+    <div id='sliderID' css={SliderCSS} ref={sliderRef}>
       <SliderContent
         translate={translate}
         transition={transition}
@@ -164,7 +165,6 @@ const Slider = props => {
 const SliderCSS = css`
   position: relative;
   height: 100vh;
-  width: 100vw;
   margin: 0 auto;
   overflow: hidden;
   white-space: nowrap;

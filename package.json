@@ -8,9 +8,11 @@
     "moment": "^2.24.0",
     "query-string": "^6.8.3",
     "react": "^16.9.0",
+    "react-alice-carousel": "^2.5.1",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
+    "react-slick": "^0.28.1",
     "react-toggle-switch": "^3.0.4"
   },
   "scripts": {
