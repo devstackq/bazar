@@ -1,0 +1,61 @@
+
+- gallery - send - all data - > listCategory,  listModel, listAge, etc
+- profile - createNewCar - listCategory, listModel, etc
+//sort by asc, desc date; price min-max, category, etc
+//fileserver - multi photo - for save phot local
+TechSpec list
+
+filter - 1 field || 1 query - complex filter
+
+-------------------------------
+
+i3lock -i /home/student/Pictures/1.png
+
+insert into bazar_roles(name) values('saler');
+
+insert into bazar_user(email, password, phone, username, first_name, last_name, created_at, role_id, country_id) values('devstackq@mail.kz', 'password', 87471370784, 'devstackq', 'Bekzh', 'Satarkul', '2022-04-12 04:05:06', 1,1);
+
+
+TODO:
+container psql stop - data clear - fix
+make file fix 
+вынести в отдельный слои - category; model, brand etc
+middleware funcs; some helper func - general
+
+
+//signin -> createToken/setExpire -> save db; - return client;
+//middleware -> /handler -> checkTokenFromClient;
+//refreshToken -> when: timeExpire;
+//removeToken - logout || expire;
+
+todo: middleware; and helper
+valid,delete, refresh token
+
+1 Middleware - auth user; - 1 middleware - all service + 
+Auth - signin - token return; signup; RoleAdd + 
+2 Profile - middlew -> GetUserService(data), GetGallery(GetMyAddedMachine, ) +
+
+2.1 refactor -> getMachineId - sql query  +
+middleware - some handler - use
+
+3 FILE SERVER - photo
+
+4 ApiGateway
+
+Функицонал: авторизация(по токену), фильтрация(по параметрам), профайлЮзера(машины автора), галерея, машинаПоАйди, создатьМашинку
+Карусель фотографий
+Сортировка Asc/Desc date; ByPrice; by AGE
+
+
+
+Optional :
+add currency; currencyType table 
+Админ панель +
+db transcation
+
+
+todo
+sync client; check main page + 
+pagintaion cars +
+
+git push https://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@github.com/devstackq/bazar.git
