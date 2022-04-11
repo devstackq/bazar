@@ -15,17 +15,50 @@ func responseWithStatus(c *gin.Context, status int, message, text string, data i
 	})
 }
 
-func prepareQueryParam(c *gin.Context, keys []string) (map[string]string, error) {
-	result := map[string]string{}
-	var value string
+// func prepareQueryParam(c *gin.Context, keys []string) (map[string]string, error) {
+// 	result := map[string]string{}
+// 	var value string
 
-	for _, param := range keys {
-		if value = c.Query(param); value != "" {
-			result[param] = value
+// 	for _, param := range keys {
+// 		if value = c.Query(param); value != "" {
+// 			result[param] = value
+// 		}
+// 	}
+// 	if len(result) == 0 {
+// 		return nil, fmt.Errorf("filter param is empty")
+// 	}
+// 	return result, nil
+// }
+
+func prepareQueryParam(c *gin.Context, keys *models.QueryParams) (*models.QueryParams, error) {
+	var value string
+	// ref
+	keys.Filter["category"] = ""
+	keys.Filter["state"] = ""
+	keys.Filter["brand"] = ""
+	keys.Filter["model"] = ""
+	keys.Filter["priceFrom"] = ""
+	keys.Filter["priceTo"] = ""
+	keys.Filter["yearFrom"] = ""
+	keys.Filter["yearTo"] = ""
+
+	keys.Sort["sort_created_at"] = ""
+	keys.Sort["sort_price"] = ""
+	keys.Sort["sort_year"] = ""
+	keys.Sort["sort_odometer"] = ""
+
+	for key := range keys.Filter {
+		if value = c.Query(key); value != "" {
+			keys.Filter[key] = value
 		}
 	}
-	if len(result) == 0 {
-		return nil, fmt.Errorf("filter param is empty")
+	for key := range keys.Sort {
+		if value = c.Query(key); value != "" {
+			keys.Sort[key] = value
+		}
 	}
-	return result, nil
+	if len(keys.Filter) == 0 && len(keys.Sort) == 0 {
+		return nil, fmt.Errorf("Filter && sort params is empty")
+	}
+	return keys, nil
 }

@@ -12,7 +12,8 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// cfg *config.Config,
+// update further
+
 func SetAdminEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
 	adminRepos := repository.AdminReposInit(db)
 	adminUseCases := usecase.UseCasesInit(adminRepos)
@@ -33,66 +34,68 @@ func SetAdminEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, gr
 		category.GET("/:id", handler.GetCategoryByID)
 	}
 
-	trans := group.Group("/trans", middleware.AuthorizeJWT("accessx"))
+	trans := group.Group("/transmission")
 	{
-		trans.POST("", handler.CreateTransmission)
+		trans.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateTransmission)
 		trans.GET("", handler.GetListTransmission)
 		trans.GET("/:id", handler.GetTransmissionByID)
 	}
-	state := group.Group("/state", middleware.AuthorizeJWT("accessx"))
+
+	state := group.Group("/state")
 	{
-		state.POST("", handler.CreateState)
+		state.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateState)
 		state.GET("", handler.GetListState)
 		state.GET("/:id", handler.GetStateByID)
 	}
 
-	country := group.Group("/country", middleware.AuthorizeJWT("accessx"))
+	country := group.Group("/country")
 	{
-		country.POST("", handler.CreateCountry)
+		country.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateCountry)
 		country.GET("", handler.GetListCountry)
 		country.GET("/:id", handler.GetCountryByID)
 	}
 
-	city := group.Group("/city", middleware.AuthorizeJWT("accessx"))
+	city := group.Group("/city")
 	{
-		city.POST("/:country_id", handler.CreateCity)
-		city.GET("country/:id", handler.GetListCityByCountryID)
+		city.POST("/:country_id", middleware.AuthorizeJWT("accessx"), handler.CreateCity)
+		city.GET("/country/:id", handler.GetListCityByCountryID)
 		city.GET("/:id", handler.GetCityByID)
 	}
-	brand := group.Group("/brand", middleware.AuthorizeJWT("accessx"))
+
+	brand := group.Group("/brand")
 	{
-		brand.POST("", handler.CreateBrand)
+		brand.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateBrand)
 		brand.GET("", handler.GetListBrand)
 		brand.GET("/:id", handler.GetBrandByID)
 	}
-	model := group.Group("/model", middleware.AuthorizeJWT("accessx"))
+	model := group.Group("/model")
 	{
-		model.POST("/:model_id", handler.CreateModel)
+		model.POST("/:model_id", middleware.AuthorizeJWT("accessx"), handler.CreateModel)
 		model.GET("/brand/:id", handler.GetListModelByBrandID)
 		model.GET("/:id", handler.GetModelByID)
 	}
-	fuel := group.Group("/fuel", middleware.AuthorizeJWT("accessx"))
+	fuel := group.Group("/fuel")
 	{
-		fuel.POST("", handler.CreateFuel)
+		fuel.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateFuel)
 		fuel.GET("", handler.GetListFuel)
 		fuel.GET("/:id", handler.GetFuelByID)
 	}
-	driveUnit := group.Group("/drive_unit", middleware.AuthorizeJWT("accessx"))
+	driveUnit := group.Group("/drive_unit")
 	{
-		driveUnit.POST("", handler.CreateDriveUnit)
+		driveUnit.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateDriveUnit)
 		driveUnit.GET("", handler.GetListDriveUnit)
 		driveUnit.GET("/:id", handler.GetDriveUnitByID)
 	}
-	bodyType := group.Group("/body_type", middleware.AuthorizeJWT("accessx"))
+	bodyType := group.Group("/body_type")
 	{
-		bodyType.POST("", handler.CreateBodyType)
+		bodyType.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateBodyType)
 		bodyType.GET("", handler.GetListBodyType)
 		bodyType.GET("/:id", handler.GetBodyTypeByID)
 	}
 
-	color := group.Group("/color", middleware.AuthorizeJWT("accessx"))
+	color := group.Group("/color")
 	{
-		color.POST("", handler.CreateColor)
+		color.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateColor)
 		color.GET("", handler.GetListColor)
 		color.GET("/:id", handler.GetColorByID)
 	}

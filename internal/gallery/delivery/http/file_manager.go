@@ -19,7 +19,6 @@ const (
 // todo :refactor/ decopmpose -> to service side || pkg
 
 func (h *Handler) Upload(c *gin.Context) {
-
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		log.Println("req, parseMultipart", err)
 		return
@@ -94,7 +93,7 @@ func (h *Handler) Upload(c *gin.Context) {
 		listSrc = append(listSrc, src[1:])
 
 	}
-	//save in db src
+	// save in db src
 	err = h.useCases.FileManagerUseCaseInterface.CreateSrc(listSrc, machine_id)
 	if err != nil {
 		log.Println("upload db ", err)

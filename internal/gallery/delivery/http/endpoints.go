@@ -12,25 +12,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-//auth; machine - crud; filter/sort/search
-//profile; photo
+// auth; machine - crud; filter/sort/search
+// profile; photo
+// cfg *config.Config
 
-// cfg *config.Config,
 func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
 	machineRepos := repository.MachineReposInit(db)
 	machineUseCases := usecase.UseCasesInit(machineRepos)
 
 	handler := NewHandler(machineUseCases, logger)
-
-	filter := group.Group("/filter")
-	{
-		filter.POST("", handler.GetFilteredMachine)
-	}
-	upload := group.Group("/file")
-	{
-		upload.POST("/upload/:id", middleware.AuthorizeJWT("accessx"), handler.Upload)
-		// upload.POST("/download/:id", handler.Download)
-	}
 
 	machine := group.Group("/machine")
 	{
@@ -40,11 +30,10 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 		machine.GET("/user/:id", handler.GetListMachineByUserID) // or companyID cars ?
 		// machine.PATCH("/:id", handler.UpdateMachine)
 		// machine.DELETE("/:id", handler.DeleteMachineByID)
-		//Вернет список созданных машин - пользователем созданных
-		///v1/machine/user/:id :GET
-	}
-	search := group.Group("/search")
-	{
-		search.POST("", handler.Search)
+		///v1/machine/user/:id :GET, user cereated cars
+		machine.POST("/filter", handler.GetFilteredMachine)
+		machine.POST("/upload/:id", middleware.AuthorizeJWT("accessx"), handler.Upload)
+		machine.POST("/search", handler.Search)
+
 	}
 }

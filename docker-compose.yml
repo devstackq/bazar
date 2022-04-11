@@ -2,7 +2,7 @@ version: '3.8'
   
 services:
   postgresdb:
-    container_name: pastgresdb
+    container_name: postgresdb
     image: postgres:latest
     ports:
       - "5432:5432"
@@ -12,7 +12,9 @@ services:
       - POSTGRES_DATABASE=testdb
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
+      - ./build/sql/:/docker-entrypoint-initdb.d
     restart: always
+
     # restart : unless-stopped
 
   # server:

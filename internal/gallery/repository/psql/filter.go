@@ -20,12 +20,10 @@ func FilterRepoInit(db *sql.DB) gallery.FilterRepoInterface {
 }
 
 // sort & filter ? good practice
-
-func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[string]string, pageNum int) ([]*models.Machine, error) {
-
+func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *models.QueryParams, pageNum int) ([]*models.Machine, error) {
 	var result []*models.Machine
 	var err error
-	var limit = 9
+	limit := 9
 
 	query := `SELECT
 		machine_id,
@@ -35,16 +33,18 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 		year,
 		price,
 		odometer,
-		created_at,
-		horse_power 
+		created_at
 	FROM bazar_machine  `
 
 	query += prepareQuery(keys)
 
-	query += ` LIMIT $1 OFFSET $2`
-	log.Println(query)
-	rows, err := fr.db.QueryContext(ctx, query, limit, pageNum)
+	query += ` LIMIT $1 OFFSET $2 `
 
+	log.Println(query, "filter")
+
+	pageNum = limit * (pageNum - 1)
+
+	rows, err := fr.db.QueryContext(ctx, query, limit, pageNum)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +60,6 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 			&temp.Price,
 			&temp.Odometer,
 			&temp.CreatedAt,
-			&temp.HorsePower,
 		); err != nil {
 			return nil, err
 		}
@@ -69,5 +68,7 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys map[
 	if rows.Err() != nil {
 		return nil, err
 	}
+	log.Println(len(result), "len res", pageNum, limit)
+
 	return result, nil
 }

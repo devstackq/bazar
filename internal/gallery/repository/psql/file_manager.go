@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/devstackq/bazar/internal/gallery"
@@ -21,7 +20,6 @@ func FileManagerRepoInit(db *sql.DB) gallery.FileManagerRepoInterface {
 }
 
 func BulkInsert(rows []string, id int) (string, []interface{}, error) {
-
 	valueStrings := make([]string, 0, len(rows))
 	valueArgs := make([]interface{}, 0, len(rows)*2)
 	i := 0
@@ -38,12 +36,11 @@ func BulkInsert(rows []string, id int) (string, []interface{}, error) {
 }
 
 func (ur FileManagerRepository) CreateSrc(ctx context.Context, listSrc []string, machineID int) error {
-
 	query, args, err := BulkInsert(listSrc, machineID)
 	if err != nil {
 		return err
 	}
-	log.Println(query, args)
+	// log.Println(query, args)
 	_, err = ur.db.ExecContext(ctx, query, args...)
 
 	if err != nil {
@@ -53,7 +50,6 @@ func (ur FileManagerRepository) CreateSrc(ctx context.Context, listSrc []string,
 }
 
 func (ur FileManagerRepository) GetListSrc(ctx context.Context, machineID int) ([]string, error) {
-
 	query := `SELECT path FROM bazar_machine_image WHERE machine_id = $1`
 
 	result := []string{}

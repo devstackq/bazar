@@ -14,8 +14,8 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		err     error
 		lastID  int
 	)
-
-	uid, ok := c.Get("user_id")
+	// get user id from token
+	userId, ok := c.Get("user_id")
 	if !ok {
 		h.logger.Info("no set user_id in context")
 		return
@@ -27,7 +27,7 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "Input error", nil)
 		return
 	}
-	machine.Creator.ID = strconv.Itoa(int(uid.(float64)))
+	machine.Creator.ID = strconv.Itoa(int(userId.(float64)))
 
 	lastID, err = h.useCases.Create(&machine)
 	if err != nil {
@@ -35,7 +35,7 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	//upload photo
+	// upload photo
 	// c.Params = append(c.Params, gin.Param{"id", strconv.Itoa(lastID)})
 	// h.Upload(c)
 
@@ -90,7 +90,7 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 		return
 	}
 
-	result, err = h.useCases.GetRelevantMachines(pageNum) //default created date; desc
+	result, err = h.useCases.GetRelevantMachines(pageNum) // default created date; desc
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
@@ -118,7 +118,7 @@ func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	//todo : get cars - own images
+	// todo : get cars - own images
 
 	responseWithStatus(c, http.StatusOK, "success returun user  list machines", "OK", result)
 }

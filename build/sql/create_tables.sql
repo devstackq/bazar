@@ -1,10 +1,15 @@
+-- in furhter..
+--CREATE TABLE bazar_company
+--CREATE TABLE bazar_language
+--CREATE TABLE bazar_currency
+
 -- yacht, car, rocket, etc
 CREATE TABLE bazar_category
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50)
 );
--- new, b/u, razbit
+-- new, b/u, broken
 CREATE TABLE bazar_state
 (
     id BIGSERIAL PRIMARY KEY,
@@ -23,49 +28,49 @@ CREATE TABLE bazar_model
     name VARCHAR(50) UNIQUE,
     brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
--- models currency
-CREATE TABLE bazar_currency
-(
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
-);
 
+-- dizel, oil
 CREATE TABLE bazar_fuel
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
+-- mechanic, automat
 CREATE TABLE bazar_drive_unit
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE bazar_trans
+-- pered, zad, oba
+CREATE TABLE bazar_transmission
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
+-- kabriolet, sedan
 CREATE TABLE bazar_body_type
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
+-- red, white
 CREATE TABLE bazar_color
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
-
--- country, city
+-- Kz, Oae
 CREATE TABLE bazar_country
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
+
+-- Almaty, Dubai
 CREATE TABLE bazar_city
 (
     id BIGSERIAL PRIMARY KEY,
@@ -95,21 +100,14 @@ CREATE TABLE bazar_user
     city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
     role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
--- is_superuser BOOLEAN NOT NULL,
- -- session_key VARCHAR(50) NOT NULL PRIMARY KEY,
--- CREATE TABLE bazar_company
--- (
---     id BIGSERIAL PRIMARY KEY,
---     name VARCHAR(50) NOT NULL  
--- );
-
+--src to images for Car by id
 CREATE TABLE bazar_machine_image
 (
     id BIGSERIAL PRIMARY KEY,
-    path VARCHAR(300) NOT NULL UNIQUE,
+    path VARCHAR(300) NOT NULL,
     machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+--now, not use
 CREATE TABLE bazar_session
 (
     id BIGSERIAL PRIMARY KEY,
@@ -119,8 +117,12 @@ CREATE TABLE bazar_session
     user_id INTEGER NOT NULL REFERENCES bazar_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE UNIQUE
 );
 
-    -- currency_id INTEGER NOT NULL REFERENCES bazar_currency(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    -- //todo referneces all table
+CREATE TABLE bazar_test
+(
+    id BIGSERIAL PRIMARY KEY
+)
+
+--machine
 CREATE TABLE bazar_machine
 (
     machine_id BIGSERIAL PRIMARY KEY,
