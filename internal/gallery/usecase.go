@@ -12,16 +12,16 @@ type MachineUseCaseInterface interface {
 }
 
 type FilterUseCaseInterface interface {
-	GetListMachineByFilter(map[string]string, int) ([]*models.Machine, error)
+	GetListMachineByFilter(*models.QueryParams, int) ([]*models.Machine, error)
 }
 type FileManagerUseCaseInterface interface {
 	CreateSrc([]string, int) error
 	GetListSrc(int) ([]string, error)
 }
 
-type SortUseCaseInterface interface {
-	SortByType(key string, filter map[string]string) ([]*models.Machine, error) // default, getFiltered data/ asc/desc
-}
+// type SortUseCaseInterface interface {
+// 	SortByType(key string, filter map[string]string) ([]*models.Machine, error) // default, getFiltered data/ asc/desc
+// }
 
 type SearchUseCaseInterface interface {
 	SearchByKeyWord(string, int) ([]*models.Machine, error)

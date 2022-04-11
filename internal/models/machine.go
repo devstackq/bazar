@@ -11,23 +11,34 @@ type Machine struct {
 	Description  string    `json:"description"`
 	Year         int       `json:"year"`
 	Price        float64   `json:"price"`
-	MainImage    string    `json:"main_image"` //src to fs; static
+	MainImage    string    `json:"main_image"` // src to fs; static
 	Images       []string  `json:"images"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	Odometer     float64   `json:"odometer"`
 	HorsePower   int       `json:"horse_power"`
 	Volume       float32   `json:"volume"`
-	Transmission `json:"trans"`
-	BodyType     `json:"body"`
+	Transmission `json:"transmission"`
+	BodyType     `json:"body_type"`
 	Color        `json:"color"`
 	Category     `json:"category"`
-	Brand        `json:"brand"`
 	State        `json:"state"`
 	Country      `json:"country"`
-	City         `json:"city"`
 	Fuel         `json:"fuel"`
 	DriveUnit    `json:"drive_unit"`
-	Model        `json:"model"`
+	Brand        `json:"brand"`
 	Creator      User `json:"creator"`
+}
+
+// filter/sort
+type QueryParams struct {
+	Sort   map[string]string
+	Filter map[string]string
+}
+
+func NewQueryParams() *QueryParams {
+	return &QueryParams{
+		Sort:   make(map[string]string),
+		Filter: make(map[string]string),
+	}
 }

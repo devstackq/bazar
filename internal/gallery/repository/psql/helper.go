@@ -2,20 +2,20 @@ package psql
 
 import (
 	"fmt"
+
+	"github.com/devstackq/bazar/internal/models"
 )
 
-func prepareQuery(keys map[string]string) (query string) {
-	idx := 0
+func prepareQuery(keys *models.QueryParams) (query string) {
 	tempSortKey := ""
+	idx := 0
 
-	for key, val := range keys {
-		if val != "" {
-			idx++
-			if key != "sort_created_at" && key != "sort_price" && key != "sort_year" && key != "sort_odometer" {
-				if idx > 1 {
+	if len(keys.Filter) > 0 {
+		for key, val := range keys.Filter {
+			if val != "" {
+				if idx >= 1 && idx < len(keys.Filter)-1 {
 					query += " AND "
 				}
-				//year range
 				if key == "yearFrom" {
 					query += fmt.Sprintf(" %s", "year >= "+val)
 				} else if key == "yearTo" {
@@ -28,13 +28,20 @@ func prepareQuery(keys map[string]string) (query string) {
 				} else {
 					query += fmt.Sprintf(" %s", key+"_id= "+val)
 				}
-			} else {
-				// add last key, sort
+				idx++
+			}
+		}
+	}
+
+	if len(keys.Sort) > 0 {
+		for key, val := range keys.Sort {
+			if val != "" {
 				tempSortKey = fmt.Sprintf(" ORDER BY %s ", key[5:]+" "+val)
 			}
 		}
 	}
-	//case if only sort
+
+	// case if only sort
 	if query != "" {
 		query = "WHERE " + query
 	}

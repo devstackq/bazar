@@ -76,7 +76,7 @@ Response:  {
 /v1/machine : POST
 Request:
  header[access_token]
-Список полей с данными для :   transmision, brand, category, etc -> fetch(v1/trans, v1/category, etc...)
+Список полей с данными для :   transmision, brand, category, etc -> fetch(v1/transmission, v1/category, etc...)
 
 {
     "title": "Sale the best car, because i need money",
@@ -86,10 +86,10 @@ Request:
     "odometer": 3000,
     "horse_power": 200,
     "volume": 3.5,
-    "trans": {
+    "transmission": {
         "id": 1
     },
-    "body": {
+    "body_type": {
         "id": 1
     },
     "color": {
@@ -108,11 +108,12 @@ Request:
         "id": 1
     },
     "country": {
-        "id": 1
+        "id": 1,
+           "city": {
+             "id": 1
+        }
     },
-    "city": {
-        "id": 1
-    },
+
     "fuel": {
         "id": 1
     },
@@ -120,11 +121,13 @@ Request:
         "id": 1
     }
 }
+
 Response {Status, lastCarID}
 async, await
 
 Zатем выгрузка фото на файловый сервер
-/v1/file/upload/lastCarID
+
+/v1/machine/upload/lastCarID
 Request {key : MultipartFile}
 Resonse : {Status, Message}
 ------------------------------
@@ -132,7 +135,7 @@ Resonse : {Status, Message}
 Главная:
 
 Вернет список машин, по дате добавления
-пагинация по query-param; page_num; по умолчанию = 1 ( и выдаст 9 машин)
+пагинация по query-param; page_num; по умолчанию = 1 ( выдает по  9 машин)
 /v1/machine?page_num=2 : GET
 Response{
     []Machine{...}
@@ -145,7 +148,6 @@ offset = default 9
 может и с фильтром/сортировкой - работать
 ------------------------------
 
-
 Карточка машины 
 
 Вернет машину по его ID
@@ -157,23 +159,23 @@ Response{
 
 Фильтрация, по категории, состоянию,  бренду, модели
 
-/v1/filter query-param : ["category", "state", "brand", "model"] id
+/v1/machine/filter query-param : ["category", "state", "brand", "model"] id
 Response : {
     []Machine{...}
 }
 
-Фильтрация по цене - /v1/filter query-param [priceTo/proceFrom] float
+Фильтрация по цене - /v1/machine/filter query-param [priceTo/proceFrom] float
 ------------------------------
 
 Поиск по title или description
-/v1/search/:POST query-param key_word
+/v1/machine/search/:POST query-param key_word
 Response : {
     []Machine{...}
 }
 ------------------------------
 
 Сортировка, (может включать поля фильтрации)
-/v1/filter query-param : ["category", "state", "brand", "model", priceFrom, priceTo] +  
+/v1/machine/filter query-param : ["category", "state", "brand", "model", priceFrom, priceTo] +  
 sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
 ------------------------------
 
@@ -204,7 +206,7 @@ sort_created_at/sort_price/sort_year/sort_odometer - asc/desc
 
 Трансмиссия - Акпп, Мкпп, Гибрид
  header[access_token]
-/v1/trans : POST; {"name" : ""}
+/v1/transmission : POST; {"name" : ""}
 
 Привод - Передний, Задний, Полный
  header[access_token]
