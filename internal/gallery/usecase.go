@@ -29,6 +29,3 @@ type UseCases struct {
 	SearchUseCaseInterface
 	FileManagerUseCaseInterface
 }
-
-// todo GetListMachineByUserID pagination
-// add swagger

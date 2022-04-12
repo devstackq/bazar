@@ -17,7 +17,6 @@ func (puc ProfileUseCase) GetBioByUserID(ctx context.Context, id int) (*models.P
 	// 	return nil, err
 	// }
 	result.Bio = bio
-	// result.Machines = machines
 
 	return &result, nil
 }
