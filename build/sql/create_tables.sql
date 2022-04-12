@@ -2,6 +2,9 @@
 --CREATE TABLE bazar_company
 --CREATE TABLE bazar_language
 --CREATE TABLE bazar_currency
+--CREATE TABLE bazar_favorite
+--CREATE TABLE bazar_statistic
+
 
 -- yacht, car, rocket, etc
 CREATE TABLE bazar_category
@@ -117,10 +120,6 @@ CREATE TABLE bazar_session
     user_id INTEGER NOT NULL REFERENCES bazar_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE UNIQUE
 );
 
-CREATE TABLE bazar_test
-(
-    id BIGSERIAL PRIMARY KEY
-)
 
 --machine
 CREATE TABLE bazar_machine

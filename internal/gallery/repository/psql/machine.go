@@ -76,24 +76,28 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 	return &result, nil
 }
 
-func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*models.Machine, error) {
+// or company_id?
+
+func (mr MachineRepository) GetListByUserID(ctx context.Context, id float64, pageNum int) ([]*models.Machine, error) {
+	limit := 9
 	query := `SELECT
 	machine_id,
-	vin,
 	title,
-	description, 
-	year,
 	price,
-	odometer,
 	created_at,
-	horse_power,
-	volume,
-	FROM bazar_machine
-	WHERE creator_id = $1`
+	mdl.name,
+	brd.name
+	FROM bazar_machine  AS mch
+	LEFT JOIN bazar_model AS mdl ON mdl.id =  mch.model_id 
+	LEFT JOIN bazar_brand AS brd ON  brd.id= mch.brand_id 
+	WHERE creator_id = $1
+	ORDER BY created_at DESC LIMIT $2 OFFSET $3`
+
+	pageNum = limit * (pageNum - 1)
 
 	result := []*models.Machine{}
 
-	rows, err := mr.db.QueryContext(ctx, query, id)
+	rows, err := mr.db.QueryContext(ctx, query, id, limit, pageNum)
 	if err != nil {
 		return nil, err
 	}
@@ -102,15 +106,11 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id int) ([]*mod
 
 		if err = rows.Scan(
 			&temp.ID,
-			&temp.VIN,
 			&temp.Title,
-			&temp.Description,
-			&temp.Year,
 			&temp.Price,
-			&temp.Odometer,
 			&temp.CreatedAt,
-			&temp.HorsePower,
-			&temp.Volume,
+			&temp.Brand.Model.Name,
+			&temp.Brand.Name,
 		); err != nil {
 			return nil, err
 		}
@@ -129,16 +129,20 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 	result := []*models.Machine{}
 
 	query := `SELECT
-		machine_id,
-		vin,
-		title,
-		description, 
-		year,
-		price,
-		odometer,
-		created_at
-	FROM bazar_machine
-	ORDER BY created_at DESC LIMIT $1 OFFSET $2`
+	machine_id,
+	vin,
+	title,
+	description,
+	year,
+	price,
+	odometer,
+	created_at,
+	mdl.name,
+	brd.name
+	FROM bazar_machine  AS mch
+	LEFT JOIN bazar_model AS mdl ON mdl.id =  mch.model_id 
+	LEFT JOIN bazar_brand AS brd ON  brd.id= mch.brand_id 
+	ORDER BY created_at DESC LIMIT $1 OFFSET $2 `
 
 	pageNum = limit * (pageNum - 1)
 
@@ -158,6 +162,8 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 			&temp.Price,
 			&temp.Odometer,
 			&temp.CreatedAt,
+			&temp.Brand.Name,
+			&temp.Brand.Model.Name,
 		); err != nil {
 			return nil, err
 		}

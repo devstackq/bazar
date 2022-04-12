@@ -3,9 +3,6 @@ package db
 // ref send  - db layer
 type StorageConnecter interface {
 	InitDb() (interface{}, error)
-	// SetConfig(user, password, host, port, dbName string)
-	// InitMongoDb() (*mongo.Database, error)
-	// InitPostgresDb() (*sql.DB, error)
 }
 
 type Config struct {

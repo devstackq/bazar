@@ -12,11 +12,7 @@ type User struct {
 	LaststName string    `json:"last_name"`
 	Password   string    `json:"password"`
 	CreatedAt  time.Time `json:"created_at"`
-	CountryID  int       `json:"country_id"`
-	CityID     int       `json:"city_id"`
-	RoleID     int       `json:"role_id"`
 	Company    string    `json:"company"`
-	Country    string
-	City       string
-	Role       string
+	Country    Country   `json:"country"`
+	Role       Role      `json:"role"`
 }

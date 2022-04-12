@@ -36,57 +36,9 @@ func (pr ProfileRepository) GetUserByID(ctx context.Context, id int) (*models.Us
 	WHERE user_id = $1`
 
 	row := pr.db.QueryRowContext(ctx, sqlQuery, id)
-	err = row.Scan(&result.Email, &result.Username, &result.Phone, &result.FirstName, &result.LaststName, &result.Company, &result.CreatedAt, &result.Role, &result.Country, &result.City)
+	err = row.Scan(&result.Email, &result.Username, &result.Phone, &result.FirstName, &result.LaststName, &result.Company, &result.CreatedAt, &result.Role.Name, &result.Country.Name, &result.Country.City.Name)
 	if err != nil {
 		return nil, err
 	}
 	return &result, nil
-}
-
-//or company_id?
-func (mr ProfileRepository) GetListMachineByUserID(ctx context.Context, id int) ([]*models.Machine, error) {
-	query :=
-		`SELECT
-	machine_id,
-	vin,
-	title,
-	description, 
-	year,
-	price,
-	odometer,
-	created_at,
-	horse_power,
-	volume
-	FROM bazar_machine where creator_id = $1`
-
-	result := []*models.Machine{}
-
-	rows, err := mr.db.QueryContext(ctx, query, id)
-	if err != nil {
-		return nil, err
-	}
-	for rows.Next() {
-		temp := models.Machine{}
-
-		if err = rows.Scan(
-			&temp.ID,
-			&temp.VIN,
-			&temp.Title,
-			&temp.Description,
-			&temp.Year,
-			&temp.Price,
-			&temp.Odometer,
-			&temp.CreatedAt,
-			&temp.HorsePower,
-			&temp.Volume,
-		); err != nil {
-			return nil, err
-		}
-
-		result = append(result, &temp)
-	}
-	if rows.Err() != nil {
-		return nil, err
-	}
-	return result, nil
 }

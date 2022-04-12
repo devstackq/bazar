@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// or  sql query - getCreatedMachines ?
 func (h *Handler) GetProfileBio(c *gin.Context) {
 	var (
 		err    error
