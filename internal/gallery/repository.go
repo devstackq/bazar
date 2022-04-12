@@ -10,7 +10,7 @@ type MachineRepoInterface interface {
 	Create(context.Context, *models.Machine) (int, error)
 	GetByID(context.Context, int) (*models.Machine, error)
 	GetList(context.Context, int) ([]*models.Machine, error)
-	GetListByUserID(context.Context, int) ([]*models.Machine, error)
+	GetListByUserID(context.Context, float64, int) ([]*models.Machine, error)
 }
 
 type SearchRepoInterface interface {

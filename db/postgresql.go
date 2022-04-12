@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"log"
 
 	_ "github.com/jackc/pgx/stdlib"
 )
@@ -12,7 +11,6 @@ type PostgreSqlDb struct {
 }
 
 func (p *PostgreSqlDb) InitDb() (interface{}, error) {
-	log.Println(p.Config, "config")
 	db, err := sql.Open("postgres", "postgres://"+p.Config.user+":"+p.Config.password+"@"+p.Config.host+"/"+p.Config.dbName+"?sslmode=disable")
 	if err != nil {
 		return nil, err

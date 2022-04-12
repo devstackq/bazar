@@ -8,7 +8,7 @@ type MachineUseCaseInterface interface {
 	Create(*models.Machine) (int, error)
 	GetMachineByID(int) (*models.Machine, error)
 	GetRelevantMachines(int) ([]*models.Machine, error)
-	GetListMachineByUserID(int) ([]*models.Machine, error)
+	GetListMachineByUserID(float64, int) ([]*models.Machine, error)
 }
 
 type FilterUseCaseInterface interface {
@@ -18,10 +18,6 @@ type FileManagerUseCaseInterface interface {
 	CreateSrc([]string, int) error
 	GetListSrc(int) ([]string, error)
 }
-
-// type SortUseCaseInterface interface {
-// 	SortByType(key string, filter map[string]string) ([]*models.Machine, error) // default, getFiltered data/ asc/desc
-// }
 
 type SearchUseCaseInterface interface {
 	SearchByKeyWord(string, int) ([]*models.Machine, error)
@@ -33,3 +29,6 @@ type UseCases struct {
 	SearchUseCaseInterface
 	FileManagerUseCaseInterface
 }
+
+// todo GetListMachineByUserID pagination
+// add swagger

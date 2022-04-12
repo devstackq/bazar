@@ -1,8 +1,10 @@
 package v1
 
 import (
+	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/devstackq/bazar/internal/models"
 	"github.com/gin-gonic/gin"
@@ -16,16 +18,14 @@ func (h *Handler) Search(c *gin.Context) {
 		value   string
 		pageNum int
 	)
-	// keyWord = c.Param("key_word")
 
-	if keyWord = c.Query("key_word"); keyWord == "" {
+	if keyWord = c.Query("key_word"); keyWord == "" && len(strings.Trim(keyWord, " ")) > 0 {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "input error", nil)
 		return
 	}
 
 	if value = c.Query("page_num"); value == "" {
-		//set default
 		value = "1"
 	}
 
@@ -48,5 +48,6 @@ func (h *Handler) Search(c *gin.Context) {
 		responseWithStatus(c, http.StatusNotFound, "not found by keyword", "Info", result)
 		return
 	}
+	log.Println(result, "search res")
 	responseWithStatus(c, http.StatusOK, "find machine by keyword", "OK", result)
 }

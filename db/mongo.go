@@ -13,8 +13,6 @@ type MongoDb struct {
 }
 
 func (m *MongoDb) InitDb() (interface{}, error) {
-	//"mongodb://" + "mongo" + ":" + "password" + "@" + "mongo:27017"
-	//.SetAuth(cred)
 	client, err := mongo.NewClient(options.Client().ApplyURI(m.Config.host + m.Config.port))
 	if err != nil {
 		return nil, err
@@ -29,7 +27,7 @@ func (m *MongoDb) InitDb() (interface{}, error) {
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
 	// m.db = client.Database(m.Config.name)
-	// return client.Database(m.Config.tableName), nil
+	// m.Config.tableName
+	return client.Database("tablename"), nil
 }

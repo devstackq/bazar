@@ -12,12 +12,12 @@ func (puc ProfileUseCase) GetBioByUserID(ctx context.Context, id int) (*models.P
 	if err != nil {
 		return nil, err
 	}
-	machines, err := puc.profileRepo.GetListMachineByUserID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
+	// machines, err := puc.profileRepo.GetListMachineByUserID(ctx, id)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	result.Bio = bio
-	result.Machines = machines
+	// result.Machines = machines
 
 	return &result, nil
 }

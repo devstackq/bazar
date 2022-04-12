@@ -83,3 +83,5 @@ func ExtractTokenMetadata(r *http.Request) (*models.AccessDetails, error) {
 	}
 	return nil, err
 }
+
+// add etc functions from all handlers, DRY

@@ -57,7 +57,6 @@ func (a *App) Initialize() {
 		AllowWildcard:    true,
 	}))
 
-	// a.router.Static("/images/", "./images")
 	// mongoObject := db.NewDbObject("mongodb", viper.GetString("mongo.username"), viper.GetString("mongo.password"), viper.GetString("mongo.host"), viper.GetString("mongo.port"), viper.GetString("mongo.dbName"), viper.GetString("mongo.user_collection"))
 	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
 
@@ -74,7 +73,6 @@ func (a *App) Initialize() {
 }
 
 func (a *App) Run(ctx context.Context) {
-
 	srv := http.Server{
 		Addr:           a.cfg.App.Port,
 		Handler:        a.router,
