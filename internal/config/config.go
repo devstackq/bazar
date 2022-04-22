@@ -45,7 +45,7 @@ type AppCfg struct {
 type DBConf struct {
 	Dialect  string
 	Host     string
-	Port     string
+	Port     int
 	Username string
 	Password string
 	DBName   string
@@ -93,8 +93,8 @@ func GetConfig() *Config {
 
 		DB: &DBConf{
 			Dialect:  getEnvAsStr("POSTGRES_DIALECT", "pgx"),
-			Host:     getEnvAsStr("POSTGRES_URI", "127.0.0.1"), // postgresdb - for compose
-			Port:     getEnvAsStr("POSTGRES_PORT", "5432"),
+			Host:     getEnvAsStr("POSTGRES_URI", "postgresdb"), // 127.0.0.1 ?  postgresdb - for compose
+			Port:     getEnvAsInt("POSTGRES_PORT", 5432),
 			Username: getEnvAsStr("POSTGRES_USER", "postgres"),
 			Password: getEnvAsStr("POSTGRES_PASSWORD", "postgres"),
 			DBName:   getEnvAsStr("POSTGRES_DB", "testdb"),

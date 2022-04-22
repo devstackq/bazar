@@ -1,31 +1,34 @@
 -- in furhter..
---CREATE TABLE bazar_company
---CREATE TABLE bazar_language
---CREATE TABLE bazar_currency
+--CREATE TABLE IF NOT EXISTS  bazar_company
+--CREATE TABLE IF NOT EXISTS  bazar_language
+--CREATE TABLE IF NOT EXISTS  bazar_currency
 --CREATE TABLE bazar_favorite
 --CREATE TABLE bazar_statistic
 
+-- CREATE USER devstackq;
+CREATE DATABASE IF NOT EXISTS testdb;
+-- GRANT ALL PRIVILEGES ON DATABASE testdb TO devstackq;
 
 -- yacht, car, rocket, etc
-CREATE TABLE bazar_category
+CREATE TABLE IF NOT EXISTS  bazar_category
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50)
 );
 -- new, b/u, broken
-CREATE TABLE bazar_state
+CREATE TABLE IF NOT EXISTS  bazar_state
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50)
 );
 -- brands car
-CREATE TABLE bazar_brand
+CREATE TABLE IF NOT EXISTS  bazar_brand
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE
 );
 -- models cars
-CREATE TABLE bazar_model
+CREATE TABLE IF NOT EXISTS  bazar_model
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE,
@@ -33,62 +36,62 @@ CREATE TABLE bazar_model
 );
 
 -- dizel, oil
-CREATE TABLE bazar_fuel
+CREATE TABLE IF NOT EXISTS  bazar_fuel
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- mechanic, automat
-CREATE TABLE bazar_drive_unit
+CREATE TABLE IF NOT EXISTS  bazar_drive_unit
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- pered, zad, oba
-CREATE TABLE bazar_transmission
+CREATE TABLE IF NOT EXISTS  bazar_transmission
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- kabriolet, sedan
-CREATE TABLE bazar_body_type
+CREATE TABLE IF NOT EXISTS  bazar_body_type
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- red, white
-CREATE TABLE bazar_color
+CREATE TABLE IF NOT EXISTS  bazar_color
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 -- Kz, Oae
-CREATE TABLE bazar_country
+CREATE TABLE IF NOT EXISTS  bazar_country
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- Almaty, Dubai
-CREATE TABLE bazar_city
+CREATE TABLE IF NOT EXISTS  bazar_city
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 -- admin, saler, buyer
-CREATE TABLE bazar_roles
+CREATE TABLE IF NOT EXISTS  bazar_roles
 (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- authorization
-CREATE TABLE bazar_user
+CREATE TABLE IF NOT EXISTS  bazar_user
 (
     user_id BIGSERIAL PRIMARY KEY,
     email varchar(255) NOT NULL UNIQUE,
@@ -104,14 +107,14 @@ CREATE TABLE bazar_user
     role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 --src to images for Car by id
-CREATE TABLE bazar_machine_image
+CREATE TABLE IF NOT EXISTS  bazar_machine_image
 (
     id BIGSERIAL PRIMARY KEY,
     path VARCHAR(300) NOT NULL,
     machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 --now, not use
-CREATE TABLE bazar_session
+CREATE TABLE IF NOT EXISTS  bazar_session
 (
     id BIGSERIAL PRIMARY KEY,
     access_uuid VARCHAR(100) NOT NULL UNIQUE,
@@ -122,7 +125,7 @@ CREATE TABLE bazar_session
 
 
 --machine
-CREATE TABLE bazar_machine
+CREATE TABLE IF NOT EXISTS  bazar_machine
 (
     machine_id BIGSERIAL PRIMARY KEY,
     vin VARCHAR(200) NOT NULL UNIQUE,

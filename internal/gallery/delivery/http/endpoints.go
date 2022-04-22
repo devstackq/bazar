@@ -13,8 +13,6 @@ import (
 )
 
 // auth; machine - crud; filter/sort/search
-// profile; photo
-// cfg *config.Config
 
 func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, group *gin.RouterGroup) {
 	machineRepos := repository.MachineReposInit(db)
