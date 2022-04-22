@@ -5,9 +5,9 @@
 --CREATE TABLE bazar_favorite
 --CREATE TABLE bazar_statistic
 
--- CREATE USER devstackq;
+CREATE USER docker;
 CREATE DATABASE IF NOT EXISTS testdb;
--- GRANT ALL PRIVILEGES ON DATABASE testdb TO devstackq;
+GRANT ALL PRIVILEGES ON DATABASE testdb TO docker;
 
 -- yacht, car, rocket, etc
 CREATE TABLE IF NOT EXISTS  bazar_category

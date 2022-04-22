@@ -17,6 +17,7 @@ ENV  POSTGRES_URI=postgresdb
 ENV  POSTGRES_PORT=5432
 ENV  POSTGRES_DB=testdb
 
+
 RUN chmod 777 postgres-data
 
 RUN go build  ./cmd/bazar/main.go
