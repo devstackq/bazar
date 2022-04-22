@@ -2,10 +2,10 @@ bazar-platform
 
 Golang/Postgres
 
-запуск БД в контейнере
+запуск БД  и приложения в докере
 docker-compose up
 
-Функциональность:
+Функциональность bazar-platform:
 
 url : http://localhost:6969
 -------------------------------
@@ -72,7 +72,7 @@ Request : {name : "saler"}; Response{Status, Message}
 
 Создание юзера(продавец)
 
-/v1/signup : POST
+/v1/auth/signup : POST
 Request: 
 
 {
@@ -102,7 +102,7 @@ Response {statusCode, Message, Set Header[access_token, refresh_token]}
 ------------------------------
 
 Вход в систему
-/v1/signin : POST
+/v1/auth/signin : POST
 Request: 
 {
 	 string username
@@ -113,7 +113,7 @@ Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
 
 Обновление access токена, при  статусе 401
-/v1/refresh -> POST
+/v1/auth/refresh -> POST
 Request(Header[refresh_token]) 
 Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
@@ -121,7 +121,7 @@ Response {statusCode, Message, Header[access_token, refresh_token]}
 ------------------------------
 
 Выход из системы
-/v1/logout
+/v1/auth/logout
 Request(Header[access_token])
 Response {statusCode, Message, Remove access/refresh token}
 ------------------------------

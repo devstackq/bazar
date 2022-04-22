@@ -1,36 +1,26 @@
-version: '3.8'
-  
+version: '3.9'
 services:
-  postgresdb:
+  postgres:
     container_name: postgresdb
     image: postgres:latest
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DATABASE=testdb
     volumes:
       - ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
       - ./postgres-data:/var/lib/postgresql/data
-    restart: always
+    restart : unless-stopped
 
-    # restart : unless-stopped
-
-  # server:
-  #   image: bazar-app
-  #   container_name: bazar-app
-  #   build: ./
-  #   # command: ./app
-  #   ports:
-  #     - 6969:6969
-  #   depends_on:
-  #     - postgresdb
-  #   networks:
-  #     - darknet
-  #   volumes:
-  #     - ./bazar-app:/opt/bazar-app
-  #   restart : unless-stopped  
+  server:
+    # container_name: serverx
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 6969:6969
+    depends_on:
+      - postgres
+    networks:
+      - darknet
 
 networks:
   darknet:
@@ -38,4 +28,3 @@ networks:
 
 volumes:
    postgres-data:
-#   bazar-app:

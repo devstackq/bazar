@@ -1,5 +1,5 @@
 /help
-/postgres-data
+# /postgres-data
 /bazarapp
 .env
 /images

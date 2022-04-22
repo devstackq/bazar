@@ -8,12 +8,14 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/devstackq/bazar/db"
 	httpAdmin "github.com/devstackq/bazar/internal/admin/delivery/http"
+	"github.com/devstackq/bazar/internal/admin/repository/psql"
 	httpAuth "github.com/devstackq/bazar/internal/auth/delivery/http"
 	"github.com/devstackq/bazar/internal/config"
 	httpGallery "github.com/devstackq/bazar/internal/gallery/delivery/http"
 	httpProfile "github.com/devstackq/bazar/internal/profile/delivery/http"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -40,6 +42,16 @@ func NewApp(cfg *config.Config) (*App, error) {
 	return &App{cfg: cfg}, nil
 }
 
+// @title        Bazar service
+// @version      1.0
+
+// @securityDefinitions.apikey  ApiKeyAuth
+// @in                          header
+// @name                        Authorization
+
+// @BasePath  /
+// @schemes   http
+
 func (a *App) Initialize() {
 	gin.SetMode(a.cfg.App.Mode)
 
@@ -57,17 +69,15 @@ func (a *App) Initialize() {
 		AllowWildcard:    true,
 	}))
 
-	// mongoObject := db.NewDbObject("mongodb", viper.GetString("mongo.username"), viper.GetString("mongo.password"), viper.GetString("mongo.host"), viper.GetString("mongo.port"), viper.GetString("mongo.dbName"), viper.GetString("mongo.user_collection"))
-	// repo := mongoRepo.NewUserRepository(db.(*mongo.Database), viper.GetString("mongo.user_collection"))
-
-	sqlObject := db.NewDbObject("postgresql", a.cfg.DB.Username, a.cfg.DB.Password, a.cfg.DB.Host, a.cfg.DB.Port, a.cfg.DB.DBName)
-	db, err := sqlObject.InitDb()
+	db, err := psql.InitDb(*a.cfg)
 	if err != nil {
-		log.Println(err)
+		log.Println(err, "db err")
 		return
 	}
-	a.db = db.(*sql.DB)
+	a.db = db
 	a.Logger.Info("intialize postgres...")
+	a.router.GET("/v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	// 	authUseCase: usecase.NewAuthUseCase(repo, []byte(viper.GetString("auth.hash_salt")), []byte(viper.GetString("auth.secret_key")), viper.GetDuration("auth.token_ttl")),
 	a.setComponents()
 }
