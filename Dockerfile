@@ -22,7 +22,7 @@ RUN chmod 777 postgres-data
 
 FROM heroku/heroku:18
 WORKDIR /app
-COPY /root/main /app
+COPY . /app
 
 FROM postgres:latest
 # RUN   ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
