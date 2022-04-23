@@ -19,6 +19,7 @@ ENV  POSTGRES_DB=testdb
 
 RUN chmod 777 postgres-data
 
+RUN go build  ./cmd/bazar/main.go
 
 FROM heroku/heroku:18
 WORKDIR /app
@@ -28,7 +29,6 @@ FROM postgres:latest
 # RUN   ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
 # CMD [ "./main" ]
-RUN go build  ./cmd/bazar/main.go
 
 
 CMD ["./main"]
