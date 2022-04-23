@@ -21,15 +21,12 @@ RUN chmod 777 postgres-data
 
 
 # CMD [ "./main" ]
+FROM postgres:latest
+RUN   ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
 FROM heroku/heroku:18
 WORKDIR /app
-COPY --from=0 /root/main /app
-
-FROM postgres:latest
-# RUN ./build/create_tables /docker/entrypoint-initdb.d/create_tables.sql
-RUN      - ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+# COPY --from=0 /root/main /app
 
 RUN go build  ./cmd/bazar/main.go
-
 CMD ["./main"]
