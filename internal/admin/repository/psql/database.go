@@ -10,8 +10,6 @@ import (
 func InitDb(cfg config.Config) (*sql.DB, error) {
 	log.Println(cfg.DB, "db config")
 
-	// psqlInfo := "host=postgresdb dbname=testdb user=postgres password=postgres port=5432"
-
 	psqlInfo := "postgres://rwecsnywflfryx:04d64cea97a6d17d7b4de6b5e9b0755e2ab090bbdc24b1be7e11943d618c777c@ec2-44-199-143-43.compute-1.amazonaws.com:5432/dffqhfqt0ef62l"
 
 	// psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
