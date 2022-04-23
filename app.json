@@ -1,0 +1,1 @@
+{ "name": "bazar app", "image": "heroku/go:1.7", "mount_dir": "src/github.com/devstackq/bazar", "repository": "http://github.com/devstackq/bazar", "addons": [ "heroku-postgresql" ]   }

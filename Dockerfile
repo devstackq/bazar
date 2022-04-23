@@ -22,4 +22,10 @@ RUN chmod 777 postgres-data
 
 RUN go build  ./cmd/bazar/main.go
 
-CMD [ "./main" ]
+# CMD [ "./main" ]
+
+
+FROM heroku/heroku:18
+WORKDIR /app
+COPY --from=0 /root/main /app
+CMD ["./main"]
