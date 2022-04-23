@@ -17,10 +17,8 @@ ENV  POSTGRES_URI=postgresdb
 ENV  POSTGRES_PORT=5432
 ENV  POSTGRES_DB=testdb
 
-
 RUN chmod 777 postgres-data
 
-RUN go build  ./cmd/bazar/main.go
 
 # CMD [ "./main" ]
 
@@ -29,6 +27,9 @@ WORKDIR /app
 COPY --from=0 /root/main /app
 
 FROM postgres:latest
-RUN ./build/sql /docker/entrypoint-initdb.d/create_tables.sql
+# RUN ./build/create_tables /docker/entrypoint-initdb.d/create_tables.sql
+RUN      - ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+RUN go build  ./cmd/bazar/main.go
 
 CMD ["./main"]
