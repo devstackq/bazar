@@ -2,6 +2,8 @@ bazar-platform
 
 Golang/Postgres
 
+<!-- heroku pg:psql  postgresql-rigid-87766  --app bazarx-app   <  ./build/sql/create_tables.sql -->
+
 запуск БД  и приложения в докере
 docker-compose up
 
