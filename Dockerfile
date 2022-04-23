@@ -28,7 +28,7 @@ FROM heroku/heroku:18
 WORKDIR /app
 COPY --from=0 /root/main /app
 
-FROM postgres;latest
+FROM postgres:latest
 RUN ./build/sql /docker/entrypoint-initdb.d/create_tables.sql
 
 CMD ["./main"]
