@@ -17,14 +17,6 @@ ENV  POSTGRES_URI=ec2-44-199-143-43.compute-1.amazonaws.com
 ENV  POSTGRES_PORT=5432
 ENV  POSTGRES_DB=dffqhfqt0ef62l
 
-
-# RUN /build/sql/setup.sh
-# ADD ./build/sql/create_tables.sql /docker-entrypoint-initdb.d
-FROM postgres:latest
-COPY   ./build/sql/ /docker-entrypoint-initdb.d/
-
-RUN chmod 777 postgres-data
-
 RUN go build  ./cmd/bazar/main.go
 
 CMD ["./main"]
