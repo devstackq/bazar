@@ -20,13 +20,15 @@ ENV  POSTGRES_DB=testdb
 RUN chmod 777 postgres-data
 
 
-# CMD [ "./main" ]
-FROM postgres:latest
-RUN   ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-
 FROM heroku/heroku:18
 WORKDIR /app
-# COPY --from=0 /root/main /app
+COPY /root/main /app
 
+FROM postgres:latest
+# RUN   ./build/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+# CMD [ "./main" ]
 RUN go build  ./cmd/bazar/main.go
+
+
 CMD ["./main"]
