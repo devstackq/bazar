@@ -95,11 +95,11 @@ func GetConfig() *Config {
 
 		DB: &DBConf{
 			Dialect:  getEnvAsStr("POSTGRES_DIALECT", "pgx"),
-			Host:     getEnvAsStr("POSTGRES_URI", "ec2-44-199-143-43.compute-1.amazonaws.com"), // 127.0.0.1 ?  postgresdb - for compose
+			Host:     getEnvAsStr("POSTGRES_URI", "ec2-99-80-170-190.eu-west-1.compute.amazonaws.com"), // 127.0.0.1 ?  postgresdb - for compose
 			Port:     getEnvAsInt("POSTGRES_PORT", 5432),
 			Username: getEnvAsStr("POSTGRES_USER", "rwecsnywflfryx"),
-			Password: getEnvAsStr("POSTGRES_PASSWORD", "04d64cea97a6d17d7b4de6b5e9b0755e2ab090bbdc24b1be7e11943d618c777c"),
-			DBName:   getEnvAsStr("POSTGRES_DB", "dffqhfqt0ef62l"),
+			Password: getEnvAsStr("POSTGRES_PASSWORD", "92b83e192256d2b9c4d4173dfb66bedf264c78bd4a602a8972d987ac501f2cc8"),
+			DBName:   getEnvAsStr("POSTGRES_DB", "d448svjcam10be"),
 		},
 	}
 }
