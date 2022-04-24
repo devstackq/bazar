@@ -6,7 +6,7 @@ import (
 
 const (
 	defaultAppMode             = "debug"
-	defaultAppPort             = ":6969"
+	defaultAppPort             = "6969"
 	defaultAppSecret           = "some_secret_key"
 	defaultAppReadTimeout      = 10
 	defaultAppWriteTimeout     = 10
