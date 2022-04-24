@@ -1,1 +1,1 @@
-web:bin/bazarx-app
+web:bazarx-app
