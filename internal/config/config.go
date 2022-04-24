@@ -63,7 +63,7 @@ func GetConfig() *Config {
 			HashSalt:      getEnvAsStr("APP_HASH_SALT", "keyForSalt"),
 			TokenTTL:      time.Duration(getEnvAsInt("APP_TOKEN_TTL", 86400)),
 			Mode:          getEnvAsStr("APP_MODE", defaultAppMode),
-			Port:          getEnvAsStr("APP_PORT", defaultAppPort),
+			Port:          getEnvAsStr("PORT", defaultAppPort),
 			SecretAccess:  getEnvAsStr("APP_SECRET_ACCESS", "accessx"),
 			SecretRefresh: getEnvAsStr("APP_SECRET_REFRESH", "refreshx"),
 
