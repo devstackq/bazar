@@ -1,5 +1,5 @@
 build:
   docker:
     web: Dockerfile
-run:
-  web: bazarx-app
+# run:
+  # web: bazarx-app

@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:latest as build
 LABEL name devstack
 
 WORKDIR /root
@@ -21,4 +21,7 @@ ENV APP_PORT=:6969
 
 RUN go build  ./cmd/bazar/main.go
 
-CMD ["./main"]
+FROM heroku/heroku:20
+COPY --from=build /main /main
+
+CMD ["/main"]
