@@ -1,1 +1,1 @@
-web:bin/bazar
+web:bin/root
