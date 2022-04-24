@@ -4,4 +4,4 @@ build:
     worker:
         dockerfile: Dockerfile
 # run:
-  # web: bazar
+  # web: root

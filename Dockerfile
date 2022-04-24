@@ -17,6 +17,7 @@ ENV  POSTGRES_PORT=5432
 ENV  POSTGRES_DB=d448svjcam10be
 
 ENV PORT=:6969
+ENV APP_PORT=:6969
 
 RUN go build  ./cmd/bazar/main.go
 
