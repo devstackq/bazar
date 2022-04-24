@@ -22,6 +22,8 @@ ENV APP_PORT=:6969
 RUN go build  ./cmd/bazar/main.go
 
 FROM heroku/heroku:20
-COPY --from=build /main /main
 
-CMD ["/main"]
+WORKDIR /app
+COPY --from=build /root/main /app/
+
+CMD ["./main"]
