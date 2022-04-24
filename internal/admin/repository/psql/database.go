@@ -11,7 +11,7 @@ import (
 func InitDb(cfg config.Config) (*sql.DB, error) {
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
+		"password=%s dbname=%s sslmode=require",
 		cfg.DB.Host, cfg.DB.Port, cfg.DB.Username, cfg.DB.Password, cfg.DB.DBName)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
