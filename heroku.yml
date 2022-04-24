@@ -3,5 +3,5 @@ build:
     web: Dockerfile
     worker:
         dockerfile: Dockerfile
-run:
-  web: bazar
+# run:
+  # web: bazar
