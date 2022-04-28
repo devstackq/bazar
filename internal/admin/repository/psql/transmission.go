@@ -22,7 +22,7 @@ func (tr TransRepository) GetByID(ctx context.Context, id int) (*models.Transmis
 	var result models.Transmission
 	var err error
 
-	query := `SELECT name FROM bazar_trans WHERE id = $1`
+	query := `SELECT name FROM bazar_transmission WHERE id = $1`
 	err = tr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Name,
 	)
@@ -33,7 +33,7 @@ func (tr TransRepository) GetByID(ctx context.Context, id int) (*models.Transmis
 }
 
 func (tr TransRepository) Create(ctx context.Context, t *models.Transmission) (int, error) {
-	sqlQuery := `INSERT INTO bazar_trans(name) VALUES($1) RETURNING id`
+	sqlQuery := `INSERT INTO bazar_transmission(name) VALUES($1) RETURNING id`
 	var id int
 	var err error
 
@@ -46,7 +46,7 @@ func (tr TransRepository) Create(ctx context.Context, t *models.Transmission) (i
 }
 
 func (tr TransRepository) GetList(ctx context.Context) ([]*models.Transmission, error) {
-	query := `SELECT id, name FROM bazar_trans`
+	query := `SELECT id, name FROM bazar_transmission`
 
 	result := []*models.Transmission{}
 
