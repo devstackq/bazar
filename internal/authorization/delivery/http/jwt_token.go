@@ -12,7 +12,7 @@ import (
 
 // RefreshJwt godoc
 // @Description  refresh jwt token, recieve  Authorization : access_token, set Header new pair [access, refresh]
-// @Tags         Refresh Jwt
+// @Tags         Auth
 // @Produce      json
 // @Security BearerAuth
 // @Success      200      {object}  models.Response
@@ -37,8 +37,9 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	c.Writer.Header().Set("refresh_token", token.RefreshToken)
+	c.Writer.Header().Set("refresh_token", token.RefreshToken) // todo set cookie
 	c.Writer.Header().Set("access_token", token.AccessToken)
+	// models.Response // resp.Error, resp.Success
 
 	responseWithStatus(c, http.StatusCreated, "refresh token created", "Created", nil)
 }

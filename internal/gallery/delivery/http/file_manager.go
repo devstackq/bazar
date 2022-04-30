@@ -20,7 +20,7 @@ const (
 
 // Upload photo godoc
 // @Description  Upload images service, recieve  key(image) : multipartFormFile
-// @Tags         Upload Image
+// @Tags         Machine
 // @Produce      json
 // @Accept       multipart/form-data
 // @Param        input  body  string  true "key : image, value : file"

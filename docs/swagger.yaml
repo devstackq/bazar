@@ -1,5 +1,12 @@
 basePath: /
 definitions:
+  models.BodyType:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   models.Country:
     properties:
       id:
@@ -112,7 +119,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Logout
+      - Auth
   /v1/auth/refresh:
     post:
       description: 'refresh jwt token, recieve  Authorization : access_token, set
@@ -135,7 +142,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Refresh Jwt
+      - Auth
   /v1/auth/signin:
     post:
       consumes:
@@ -164,7 +171,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       tags:
-      - Signin
+      - Auth
   /v1/auth/signup:
     post:
       consumes:
@@ -193,7 +200,29 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       tags:
-      - Signup
+      - Auth
+  /v1/body_type:
+    post:
+      description: CreateBodyType service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.BodyType'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - Admin
   /v1/machine:
     get:
       description: just  return ListCar by created_at - desc
@@ -301,7 +330,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       tags:
-      - Filter Cars
+      - Machine
   /v1/machine/search:
     get:
       consumes:
@@ -332,7 +361,7 @@ paths:
           schema:
             $ref: '#/definitions/models.Response'
       tags:
-      - Search
+      - Machine
   /v1/machine/upload/:lastCarId:
     post:
       consumes:
@@ -368,7 +397,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - Upload Image
+      - Machine
   /v1/machine/user:
     get:
       description: 'GetListMachineByUserID , header Authorization : access_token,
@@ -399,7 +428,7 @@ paths:
       security:
       - BearerAuth: []
       tags:
-      - GetListMachineByUserID car
+      - Machine
   /v1/profile:
     get:
       description: Profile service, user info(bio)

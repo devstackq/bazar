@@ -12,7 +12,7 @@ import (
 
 // Signup godoc
 // @Description  signup service with model User, set Header : access_token
-// @Tags         Signup
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        input    body      models.User  true  "user data"
