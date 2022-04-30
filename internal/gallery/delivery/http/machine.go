@@ -8,6 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// CreateCar godoc
+// @Description create car, header Authorization : access_token, body : {model.Machine}
+// @Tags         Create car
+// @Produce      json
+// @Accept      json
+// @Security BearerAuth
+// @Param        input body  models.Machine true "model Machine"
+// @Failure      400,500  {object}  models.Response
+// @Success      200      integer  1
+// @Router       /v1/machine [post]
 func (h *Handler) CreateMachine(c *gin.Context) {
 	var (
 		machine models.Machine
@@ -43,6 +53,14 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "machine success created", "OK", lastID)
 }
 
+// GetCarByID godoc
+// @Description GetCarByID path  : idCar
+// @Tags         GetCarByID
+// @Produce      json
+// @Param        input path  string true "get car id from path"
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} models.Machine
+// @Router       /v1/machine/:id [get]
 func (h *Handler) GetMachineByID(c *gin.Context) {
 	var (
 		result *models.Machine
@@ -74,6 +92,13 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success retrun machine", "OK", result)
 }
 
+// GetListCar godoc
+// @Description just  return ListCar by created_at - desc
+// @Tags         GetListCar
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Machine
+// @Router       /v1/machine [get]
 func (h *Handler) GetListMachine(c *gin.Context) {
 	var (
 		result  []*models.Machine
@@ -106,6 +131,15 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success retrun list machines", "OK", result)
 }
 
+// GetListMachineByUserID godoc
+// @Description GetListMachineByUserID , header Authorization : access_token, with query param, page_num=1
+// @Tags         GetListMachineByUserID car
+// @Produce      json
+// @Security BearerAuth
+// @Param        input query string true "with query param, page_num=1"
+// @Failure      400,500  {object}  models.Response
+// @Success      200     {object}  []models.Machine
+// @Router       /v1/machine/user [get]
 func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 	var (
 		result  []*models.Machine

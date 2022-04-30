@@ -10,13 +10,14 @@ import (
 
 	httpAdmin "github.com/devstackq/bazar/internal/admin/delivery/http"
 	"github.com/devstackq/bazar/internal/admin/repository/psql"
-	httpAuth "github.com/devstackq/bazar/internal/auth/delivery/http"
+	httpAuth "github.com/devstackq/bazar/internal/authorization/delivery/http"
 	"github.com/devstackq/bazar/internal/config"
 	httpGallery "github.com/devstackq/bazar/internal/gallery/delivery/http"
 	httpProfile "github.com/devstackq/bazar/internal/profile/delivery/http"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
+	_ "github.com/devstackq/bazar/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
@@ -44,14 +45,12 @@ func NewApp(cfg *config.Config) (*App, error) {
 
 // @title        Bazar service
 // @version      1.0
-
-// @securityDefinitions.apikey  ApiKeyAuth
+// @securityDefinitions.apikey  BearerAuth
+// @Security BearerAuth
 // @in                          header
 // @name                        Authorization
-
 // @BasePath  /
 // @schemes   http
-
 func (a *App) Initialize() {
 	gin.SetMode(a.cfg.App.Mode)
 
@@ -76,6 +75,8 @@ func (a *App) Initialize() {
 	}
 	a.db = db
 	a.Logger.Info("intialize postgres...")
+	// url := ginSwagger.URL("http://localhost:6969/swagger/doc.json")
+
 	a.router.GET("/v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// 	authUseCase: usecase.NewAuthUseCase(repo, []byte(viper.GetString("auth.hash_salt")), []byte(viper.GetString("auth.secret_key")), viper.GetDuration("auth.token_ttl")),

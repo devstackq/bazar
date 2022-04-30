@@ -40,7 +40,7 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 		LEFT JOIN bazar_state AS st ON  st.id = mch.state_id
 		LEFT JOIN bazar_fuel AS fl ON  fl.id = mch.fuel_id 
 		LEFT JOIN bazar_drive_unit AS drut ON  drut.id = mch.drive_unit_id
-		LEFT JOIN bazar_trans AS trns ON trns.id =  mch.trans_type_id
+		LEFT JOIN bazar_transmission AS trns ON trns.id =  mch.trans_type_id
 		LEFT JOIN bazar_body_type AS bt ON bt.id = mch.body_type_id
 		LEFT JOIN bazar_color AS cr ON cr.id =  mch.color_id  
 	WHERE machine_id = $1`

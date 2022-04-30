@@ -1,10 +1,11 @@
 package repository
 
 // type AuthorizationRepository struct {
-// 	Db *sql.DB
+// 	db *sql.DB
 // }
-// func AuthRepositoryInit(db *sql.DB) *AuthorizationRepository {
+
+// func AuthRepositoryInit(db *sql.DB) auth.AuthorizationRepository {
 // 	return &AuthorizationRepository{
-// 		Db: db,
+// 		db: db,
 // 	}
 // }

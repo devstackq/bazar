@@ -1,7 +1,7 @@
 package models
 
 type Country struct {
-	ID   int
-	Name string
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 	City `json:"city"`
 }
