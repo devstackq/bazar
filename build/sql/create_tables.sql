@@ -106,13 +106,7 @@ CREATE TABLE IF NOT EXISTS  bazar_user
     city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
     role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
---src to images for Car by id
-CREATE TABLE IF NOT EXISTS  bazar_machine_image
-(
-    id BIGSERIAL PRIMARY KEY,
-    path VARCHAR(300) NOT NULL,
-    machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
-);
+
 --now, not use
 CREATE TABLE IF NOT EXISTS  bazar_session
 (
@@ -122,7 +116,6 @@ CREATE TABLE IF NOT EXISTS  bazar_session
     expire_date TIMESTAMP,
     user_id INTEGER NOT NULL REFERENCES bazar_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE UNIQUE
 );
-
 
 --machine
 CREATE TABLE IF NOT EXISTS  bazar_machine
@@ -150,4 +143,12 @@ CREATE TABLE IF NOT EXISTS  bazar_machine
     body_type_id INTEGER NOT NULL REFERENCES bazar_body_type(id) ON DELETE CASCADE ON UPDATE CASCADE,
     color_id INTEGER NOT NULL REFERENCES bazar_color(id) ON DELETE CASCADE ON UPDATE CASCADE,
     creator_id INTEGER NOT NULL REFERENCES bazar_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+--src to images for Car by id
+CREATE TABLE IF NOT EXISTS  bazar_machine_image
+(
+    id BIGSERIAL PRIMARY KEY,
+    path VARCHAR(300) NOT NULL,
+    machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

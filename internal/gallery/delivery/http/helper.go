@@ -15,21 +15,6 @@ func responseWithStatus(c *gin.Context, status int, message, text string, data i
 	})
 }
 
-// func prepareQueryParam(c *gin.Context, keys []string) (map[string]string, error) {
-// 	result := map[string]string{}
-// 	var value string
-
-// 	for _, param := range keys {
-// 		if value = c.Query(param); value != "" {
-// 			result[param] = value
-// 		}
-// 	}
-// 	if len(result) == 0 {
-// 		return nil, fmt.Errorf("filter param is empty")
-// 	}
-// 	return result, nil
-// }
-
 func prepareQueryParam(c *gin.Context, keys *models.QueryParams) (*models.QueryParams, error) {
 	var value string
 	// ref

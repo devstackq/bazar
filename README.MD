@@ -7,6 +7,9 @@ Golang/Postgres
 запуск БД  и приложения в докере
 docker-compose up
 
+swagger run
+swag init -g ./server/server.go -d ./internal/ --parseInternal --output ./docs
+
 Функциональность bazar-platform:
 
 url : http://localhost:6969

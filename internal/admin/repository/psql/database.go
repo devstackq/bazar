@@ -26,5 +26,3 @@ func InitDb(cfg config.Config) (*sql.DB, error) {
 	}
 	return db, nil
 }
-
-// dial tcp: lookup postgresdb: Temporary failure in todo

@@ -8,6 +8,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Filter  godoc
+// @Description  Get Filtered Cars, recieve by query-params ["category", "state", "brand", "model"] and/or [priceTo/proceFrom] and/or 1 param - sort:  [sort_created_at/sort_price/sort_year/sort_odometer - asc/desc]  and  page_num=1
+// @Tags         Filter Cars
+// @Produce      json
+// @Param        input  query   string  true "?category=1&state=1&brand=1&model=1&priceFrom=1000&priceTo=20000&sort_price=asc&page_num=1"
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object}  []models.Machine
+// @Router       /v1/machine/filter [get]
 func (h *Handler) GetFilteredMachine(c *gin.Context) {
 	var (
 		result  []*models.Machine
@@ -19,7 +27,6 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 	f := models.NewQueryParams()
 
 	keys, err := prepareQueryParam(c, f)
-	// keys, err := prepareQueryParam(c, filterKeys)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusBadRequest, err.Error(), "query param error", nil)
@@ -46,7 +53,5 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		responseWithStatus(c, http.StatusNotFound, "Info, not found filtered items", "Info:", nil)
 		return
 	}
-	// log.Println(result[0].MainImage, result[1].MainImage, 123)
-	// log.Println(result, " filtered vals")
 	responseWithStatus(c, http.StatusOK, "success return filtered cars", "OK", result)
 }

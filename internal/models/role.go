@@ -2,5 +2,5 @@ package models
 
 type Role struct {
 	ID   int
-	Name string
+	Name string `json:"name,omitempty"`
 }

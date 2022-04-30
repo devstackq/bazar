@@ -18,6 +18,17 @@ const (
 
 // todo :refactor/ decopmpose -> to service side || pkg
 
+// Upload photo godoc
+// @Description  Upload images service, recieve  key(image) : multipartFormFile
+// @Tags         Upload Image
+// @Produce      json
+// @Accept       multipart/form-data
+// @Param        input  body  string  true "key : image, value : file"
+// @Param        input  path  string  true "lastCarID"
+// @Security BearerAuth
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object}  models.Response
+// @Router       /v1/machine/upload/:lastCarId [post]
 func (h *Handler) Upload(c *gin.Context) {
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
 		log.Println("req, parseMultipart", err)

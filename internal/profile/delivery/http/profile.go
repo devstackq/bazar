@@ -10,6 +10,15 @@ import (
 )
 
 // or  sql query - getCreatedMachines ?
+
+// Profile godoc
+// @Description  Profile service, user info(bio)
+// @Tags         Profile
+// @Produce      json
+// @Security BearerAuth
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object}  models.Profile
+// @Router       /v1/profile [get]
 func (h *Handler) GetProfileBio(c *gin.Context) {
 	var (
 		err    error
@@ -18,7 +27,7 @@ func (h *Handler) GetProfileBio(c *gin.Context) {
 	userID, ok := c.Get("user_id")
 	if !ok {
 		log.Println("not exist userId value")
-		responseWithStatus(c, http.StatusBadRequest, "refresh token incorrect", "no have userI_id, to refresh token", nil)
+		responseWithStatus(c, http.StatusBadRequest, "access token incorrect", "no have userId, by token", nil)
 		return
 	}
 	ctx, cancel := context.WithCancel(context.Background())

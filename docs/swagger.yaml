@@ -1,0 +1,432 @@
+basePath: /
+definitions:
+  models.Country:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Machine:
+    properties:
+      created_at:
+        type: string
+      creator:
+        $ref: '#/definitions/models.User'
+      description:
+        type: string
+      horse_power:
+        type: integer
+      id:
+        type: integer
+      images:
+        items:
+          type: string
+        type: array
+      main_image:
+        description: src to fs; static
+        type: string
+      name:
+        type: string
+      odometer:
+        type: number
+      price:
+        type: number
+      title:
+        type: string
+      updated_at:
+        type: string
+      vin:
+        type: string
+      volume:
+        type: number
+      year:
+        type: integer
+    type: object
+  models.Profile:
+    properties:
+      bio:
+        $ref: '#/definitions/models.User'
+      id:
+        type: integer
+    type: object
+  models.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: string
+    type: object
+  models.Role:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.SigninCreds:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.User:
+    properties:
+      company:
+        type: string
+      country:
+        $ref: '#/definitions/models.Country'
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        type: integer
+      role:
+        $ref: '#/definitions/models.Role'
+      user_name:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Bazar service
+  version: "1.0"
+paths:
+  /v1/auth/logout:
+    post:
+      description: Logout service, recieve access_token, header remove - access, refresh
+        token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - Logout
+  /v1/auth/refresh:
+    post:
+      description: 'refresh jwt token, recieve  Authorization : access_token, set
+        Header new pair [access, refresh]'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - Refresh Jwt
+  /v1/auth/signin:
+    post:
+      consumes:
+      - application/json
+      description: 'signin service with username and password  set Header : access_token'
+      parameters:
+      - description: user creds
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SigninCreds'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Signin
+  /v1/auth/signup:
+    post:
+      consumes:
+      - application/json
+      description: 'signup service with model User, set Header : access_token'
+      parameters:
+      - description: user data
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Signup
+  /v1/machine:
+    get:
+      description: just  return ListCar by created_at - desc
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - GetListCar
+    post:
+      consumes:
+      - application/json
+      description: 'create car, header Authorization : access_token, body : {model.Machine}'
+      parameters:
+      - description: model Machine
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.Machine'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - Create car
+  /v1/machine/:id:
+    get:
+      description: 'GetCarByID path  : idCar'
+      parameters:
+      - description: get car id from path
+        in: path
+        name: input
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Machine'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - GetCarByID
+  /v1/machine/filter:
+    get:
+      description: 'Get Filtered Cars, recieve by query-params ["category", "state",
+        "brand", "model"] and/or [priceTo/proceFrom] and/or 1 param - sort:  [sort_created_at/sort_price/sort_year/sort_odometer
+        - asc/desc]  and  page_num=1'
+      parameters:
+      - description: ?category=1&state=1&brand=1&model=1&priceFrom=1000&priceTo=20000&sort_price=asc&page_num=1
+        in: query
+        name: input
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Filter Cars
+  /v1/machine/search:
+    get:
+      consumes:
+      - application/json
+      description: Search service, search by query_param(key_word&page_num), with
+        pagination
+      parameters:
+      - description: ?key_word=tesla&page_num=1
+        in: query
+        name: input
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Search
+  /v1/machine/upload/:lastCarId:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 'Upload images service, recieve  key(image) : multipartFormFile'
+      parameters:
+      - description: 'key : image, value : file'
+        in: body
+        name: input
+        required: true
+        schema:
+          type: string
+      - description: lastCarID
+        in: path
+        name: input
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - Upload Image
+  /v1/machine/user:
+    get:
+      description: 'GetListMachineByUserID , header Authorization : access_token,
+        with query param, page_num=1'
+      parameters:
+      - description: with query param, page_num=1
+        in: query
+        name: input
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Machine'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - GetListMachineByUserID car
+  /v1/profile:
+    get:
+      description: Profile service, user info(bio)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Profile'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      security:
+      - BearerAuth: []
+      tags:
+      - Profile
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

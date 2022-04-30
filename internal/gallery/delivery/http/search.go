@@ -10,6 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// like key string use
+
+// Search godoc
+// @Description  Search service, search by query_param(key_word&page_num), with pagination
+// @Tags         Search
+// @Produce      json
+// @Accept       json
+// @Param        input  query   string  true "?key_word=tesla&page_num=1"
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object}  []models.Machine
+// @Router       /v1/machine/search [get]
 func (h *Handler) Search(c *gin.Context) {
 	var (
 		result  []*models.Machine
