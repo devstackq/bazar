@@ -19,12 +19,11 @@ func SetAdminEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, gr
 	adminUseCases := usecase.UseCasesInit(adminRepos)
 
 	handler := NewHandler(adminUseCases, logger)
-	// add group admin
+	// add group admin create
 	role := group.Group("/role") // middleware.AuthorizeJWT("accessx")
 	{
 		role.POST("", handler.CreateRole)
 		role.GET("", handler.GetListRole)
-
 	}
 
 	category := group.Group("/category")

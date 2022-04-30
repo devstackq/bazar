@@ -14,7 +14,7 @@ import (
 
 // Search godoc
 // @Description  Search service, search by query_param(key_word&page_num), with pagination
-// @Tags         Search
+// @Tags         Machine
 // @Produce      json
 // @Accept       json
 // @Param        input  query   string  true "?key_word=tesla&page_num=1"

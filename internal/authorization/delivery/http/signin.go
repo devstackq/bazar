@@ -10,7 +10,7 @@ import (
 
 // Signin godoc
 // @Description  signin service with username and password  set Header : access_token
-// @Tags         Signin
+// @Tags         Auth
 // @Accept       json
 // @Produce      json
 // @Param        input    body      models.SigninCreds  true  "user creds"

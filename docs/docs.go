@@ -28,7 +28,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Logout"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -52,7 +52,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Refresh Jwt"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -86,7 +86,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Signin"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -131,7 +131,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Signup"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -149,6 +149,42 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/body_type": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "CreateBodyType service",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BodyType"
                         }
                     },
                     "400": {
@@ -295,7 +331,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Filter Cars"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -341,7 +377,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Search"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -392,7 +428,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Upload Image"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -446,7 +482,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "GetListMachineByUserID car"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -520,6 +556,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "models.BodyType": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Country": {
             "type": "object",
             "properties": {

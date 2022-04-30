@@ -10,7 +10,7 @@ import (
 
 // Logout godoc
 // @Description  Logout service, recieve access_token, header remove - access, refresh token
-// @Tags         Logout
+// @Tags         Auth
 // @Produce      json
 // @Security BearerAuth
 // @Success      200      {object}  models.Response

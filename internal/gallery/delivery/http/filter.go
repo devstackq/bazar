@@ -10,7 +10,7 @@ import (
 
 // Filter  godoc
 // @Description  Get Filtered Cars, recieve by query-params ["category", "state", "brand", "model"] and/or [priceTo/proceFrom] and/or 1 param - sort:  [sort_created_at/sort_price/sort_year/sort_odometer - asc/desc]  and  page_num=1
-// @Tags         Filter Cars
+// @Tags         Machine
 // @Produce      json
 // @Param        input  query   string  true "?category=1&state=1&brand=1&model=1&priceFrom=1000&priceTo=20000&sort_price=asc&page_num=1"
 // @Failure      400,500  {object}  models.Response

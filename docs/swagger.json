@@ -22,7 +22,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Logout"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -46,7 +46,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Refresh Jwt"
+                    "Auth"
                 ],
                 "responses": {
                     "200": {
@@ -80,7 +80,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Signin"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -125,7 +125,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Signup"
+                    "Auth"
                 ],
                 "parameters": [
                     {
@@ -143,6 +143,42 @@
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/body_type": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "CreateBodyType service",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.BodyType"
                         }
                     },
                     "400": {
@@ -289,7 +325,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Filter Cars"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -335,7 +371,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Search"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -386,7 +422,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "Upload Image"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -440,7 +476,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "GetListMachineByUserID car"
+                    "Machine"
                 ],
                 "parameters": [
                     {
@@ -514,6 +550,17 @@
         }
     },
     "definitions": {
+        "models.BodyType": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Country": {
             "type": "object",
             "properties": {

@@ -133,7 +133,7 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 
 // GetListMachineByUserID godoc
 // @Description GetListMachineByUserID , header Authorization : access_token, with query param, page_num=1
-// @Tags         GetListMachineByUserID car
+// @Tags         Machine
 // @Produce      json
 // @Security BearerAuth
 // @Param        input query string true "with query param, page_num=1"
