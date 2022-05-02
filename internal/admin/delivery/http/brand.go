@@ -30,6 +30,13 @@ func (h *Handler) CreateBrand(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create Brand", "OK", lastID)
 }
 
+// GetListBrand godoc
+// @Description GetListBrand return list car brand, tesla, vaz, hummer
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Brand
+// @Router       /v1/brand [get]
 func (h *Handler) GetListBrand(c *gin.Context) {
 	var (
 		result []*models.Brand

@@ -30,6 +30,13 @@ func (h *Handler) CreateColor(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create Color", "OK", lastID)
 }
 
+// GetListColor godoc
+// @Description GetListColor return list color, white, red
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Color
+// @Router       /v1/color [get]
 func (h *Handler) GetListColor(c *gin.Context) {
 	var (
 		result []*models.Color

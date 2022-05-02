@@ -8,14 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// CreateBodyType godoc
-// @Description  CreateBodyType service
-// @Tags         Admin
-// @Produce      json
-// @Security BearerAuth
-// @Failure      400,500  {object}  models.Response
-// @Success      200      {object}  models.BodyType
-// @Router       /v1/body_type [post]
 func (h *Handler) CreateBodyType(c *gin.Context) {
 	var (
 		argument *models.BodyType
@@ -38,6 +30,13 @@ func (h *Handler) CreateBodyType(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create BodyType", "OK", lastID)
 }
 
+// GetListBodyType godoc
+// @Description GetListBodyType return list body type, sedan, cabriolet
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.BodyType
+// @Router       /v1/body_type [get]
 func (h *Handler) GetListBodyType(c *gin.Context) {
 	var (
 		result []*models.BodyType

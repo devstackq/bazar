@@ -30,6 +30,13 @@ func (h *Handler) CreateState(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create State", "OK", lastID)
 }
 
+// GetListState godoc
+// @Description GetListState return list state, new, second hand, crash
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.State
+// @Router       /v1/state [get]
 func (h *Handler) GetListState(c *gin.Context) {
 	var (
 		result []*models.State

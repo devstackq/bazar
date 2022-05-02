@@ -40,6 +40,14 @@ func (h *Handler) CreateCity(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create City", "OK", lastID)
 }
 
+// GetListCityByCountryID godoc
+// @Description GetListCityByCountryID return list cities by country id, Russia -> Moscow, Kazan, etc
+// @Tags         Add-on list
+// @Produce      json
+// @Param        input path  integer true "/v1/city/country/:id"
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.City
+// @Router       /v1/city/country/1 [get]
 func (h *Handler) GetListCityByCountryID(c *gin.Context) {
 	var (
 		result    []*models.City

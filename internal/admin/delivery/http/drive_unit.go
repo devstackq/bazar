@@ -30,6 +30,13 @@ func (h *Handler) CreateDriveUnit(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create DriveUnit", "OK", lastID)
 }
 
+// GetListDriveUnit godoc
+// @Description GetListDriveUnit return list drive unit, up, back, full
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.DriveUnit
+// @Router       /v1/drive_unit [get]
 func (h *Handler) GetListDriveUnit(c *gin.Context) {
 	var (
 		result []*models.DriveUnit

@@ -123,7 +123,6 @@ const docTemplate = `{
         },
         "/v1/auth/signup": {
             "post": {
-                "description": "signup service with model User, set Header : access_token",
                 "consumes": [
                     "application/json"
                 ],
@@ -167,24 +166,269 @@ const docTemplate = `{
             }
         },
         "/v1/body_type": {
-            "post": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "CreateBodyType service",
+            "get": {
+                "description": "GetListBodyType return list body type, sedan, cabriolet",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Add-on list"
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/models.BodyType"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.BodyType"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/brand": {
+            "get": {
+                "description": "GetListBrand return list car brand, tesla, vaz, hummer",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Brand"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/category": {
+            "get": {
+                "description": "GetListCategories return list machine categories: car, mot, yacht, etc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Brand"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/city/country/1": {
+            "get": {
+                "description": "GetListCityByCountryID return list cities by country id, Russia -\u003e Moscow, Kazan, etc",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "/v1/city/country/:id",
+                        "name": "input",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.City"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/color": {
+            "get": {
+                "description": "GetListColor return list color, white, red",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Color"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/country": {
+            "get": {
+                "description": "GetListCountry return list country, Russia, Kz",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Country"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/drive_unit": {
+            "get": {
+                "description": "GetListDriveUnit return list drive unit, up, back, full",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.DriveUnit"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/fuel": {
+            "get": {
+                "description": "GetListFuel return list type fuel, gas, oil",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Fuel"
+                            }
                         }
                     },
                     "400": {
@@ -518,6 +762,49 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/model/brand/1": {
+            "get": {
+                "description": "GetListModelByBrandID return list model by brandId, Tesla -\u003e ModelX, S3",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "/v1/model/brand/:id",
+                        "name": "input",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Model"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/profile": {
             "get": {
                 "security": [
@@ -553,6 +840,74 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/state": {
+            "get": {
+                "description": "GetListState return list state, new, second hand, crash",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.State"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/transmission": {
+            "get": {
+                "description": "GetListTransmission return list transmission, akpp, mkpp",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add-on list"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Transmission"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.Response"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -567,7 +922,62 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Brand": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.City": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Color": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Country": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.DriveUnit": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Fuel": {
             "type": "object",
             "properties": {
                 "id": {
@@ -632,6 +1042,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.Model": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Profile": {
             "type": "object",
             "properties": {
@@ -655,7 +1076,18 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Role": {
+        "models.SigninCreds": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.State": {
             "type": "object",
             "properties": {
                 "id": {
@@ -666,13 +1098,13 @@ const docTemplate = `{
                 }
             }
         },
-        "models.SigninCreds": {
+        "models.Transmission": {
             "type": "object",
             "properties": {
-                "password": {
-                    "type": "string"
+                "id": {
+                    "type": "integer"
                 },
-                "user_name": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -700,9 +1132,6 @@ const docTemplate = `{
                 },
                 "phone": {
                     "type": "integer"
-                },
-                "role": {
-                    "$ref": "#/definitions/models.Role"
                 },
                 "user_name": {
                     "type": "string"

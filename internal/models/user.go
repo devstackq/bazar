@@ -13,7 +13,7 @@ type User struct {
 	Phone      int       `json:"phone"`
 	CreatedAt  time.Time `json:"created_at" swaggerignore:"true"`
 	Country    Country   `json:"country"`
-	Role       Role      `json:"role"`
+	Role       Role      `json:"role" swaggerignore:"true"`
 }
 
 type SigninCreds struct {

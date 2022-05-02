@@ -40,6 +40,14 @@ func (h *Handler) CreateModel(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create Model", "OK", lastID)
 }
 
+// GetListModelByBrandID godoc
+// @Description GetListModelByBrandID return list model by brandId, Tesla -> ModelX, S3
+// @Tags         Add-on list
+// @Produce      json
+// @Param        input path  string true "/v1/model/brand/:id"
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Model
+// @Router       /v1/model/brand/1 [get]
 func (h *Handler) GetListModelByBrandID(c *gin.Context) {
 	var (
 		result  []*models.Model

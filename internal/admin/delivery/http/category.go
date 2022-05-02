@@ -29,6 +29,13 @@ func (h *Handler) CreateCategory(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "category success created", "OK", lastID)
 }
 
+// GetListCategories godoc
+// @Description GetListCategories return list machine categories: car, mot, yacht, etc
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Brand
+// @Router       /v1/category [get]
 func (h *Handler) GetListCategories(c *gin.Context) {
 	var (
 		result []*models.Category

@@ -30,6 +30,13 @@ func (h *Handler) CreateCountry(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create country", "OK", lastID)
 }
 
+// GetListCountry godoc
+// @Description GetListCountry return list country, Russia, Kz
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Country
+// @Router       /v1/country [get]
 func (h *Handler) GetListCountry(c *gin.Context) {
 	var (
 		result []*models.Country

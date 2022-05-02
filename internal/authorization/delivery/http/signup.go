@@ -11,7 +11,8 @@ import (
 // todo: - token expires & user_id in redis -> check token_uuid;
 
 // Signup godoc
-// @Description  signup service with model User, set Header : access_token
+// @Description  signup service with model User, set Header : access_token ; add -> 	"country": {  "id": 1, "city" : { "id": 2  } }
+
 // @Tags         Auth
 // @Accept       json
 // @Produce      json

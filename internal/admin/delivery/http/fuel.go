@@ -30,6 +30,13 @@ func (h *Handler) CreateFuel(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create Fuel", "OK", lastID)
 }
 
+// GetListFuel godoc
+// @Description GetListFuel return list type fuel, gas, oil
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Fuel
+// @Router       /v1/fuel [get]
 func (h *Handler) GetListFuel(c *gin.Context) {
 	var (
 		result []*models.Fuel

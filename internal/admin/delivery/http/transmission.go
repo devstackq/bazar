@@ -30,6 +30,13 @@ func (h *Handler) CreateTransmission(c *gin.Context) {
 	responseWithStatus(c, http.StatusOK, "success create transmission", "OK", lastID)
 }
 
+// GetListTransmission godoc
+// @Description GetListTransmission return list transmission, akpp, mkpp
+// @Tags         Add-on list
+// @Produce      json
+// @Failure      400,500  {object}  models.Response
+// @Success      200      {object} []models.Transmission
+// @Router       /v1/transmission [get]
 func (h *Handler) GetListTransmission(c *gin.Context) {
 	var (
 		result []*models.Transmission

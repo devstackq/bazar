@@ -7,7 +7,42 @@ definitions:
       name:
         type: string
     type: object
+  models.Brand:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.City:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Color:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   models.Country:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.DriveUnit:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  models.Fuel:
     properties:
       id:
         type: integer
@@ -50,6 +85,13 @@ definitions:
       year:
         type: integer
     type: object
+  models.Model:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
   models.Profile:
     properties:
       bio:
@@ -65,18 +107,25 @@ definitions:
       status:
         type: string
     type: object
-  models.Role:
+  models.SigninCreds:
+    properties:
+      password:
+        type: string
+      user_name:
+        type: string
+    type: object
+  models.State:
     properties:
       id:
         type: integer
       name:
         type: string
     type: object
-  models.SigninCreds:
+  models.Transmission:
     properties:
-      password:
-        type: string
-      user_name:
+      id:
+        type: integer
+      name:
         type: string
     type: object
   models.User:
@@ -95,8 +144,6 @@ definitions:
         type: string
       phone:
         type: integer
-      role:
-        $ref: '#/definitions/models.Role'
       user_name:
         type: string
     type: object
@@ -176,7 +223,6 @@ paths:
     post:
       consumes:
       - application/json
-      description: 'signup service with model User, set Header : access_token'
       parameters:
       - description: user data
         in: body
@@ -202,15 +248,17 @@ paths:
       tags:
       - Auth
   /v1/body_type:
-    post:
-      description: CreateBodyType service
+    get:
+      description: GetListBodyType return list body type, sedan, cabriolet
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/models.BodyType'
+            items:
+              $ref: '#/definitions/models.BodyType'
+            type: array
         "400":
           description: Bad Request
           schema:
@@ -219,10 +267,170 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/models.Response'
-      security:
-      - BearerAuth: []
       tags:
-      - Admin
+      - Add-on list
+  /v1/brand:
+    get:
+      description: GetListBrand return list car brand, tesla, vaz, hummer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Brand'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/category:
+    get:
+      description: 'GetListCategories return list machine categories: car, mot, yacht,
+        etc'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Brand'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/city/country/1:
+    get:
+      description: GetListCityByCountryID return list cities by country id, Russia
+        -> Moscow, Kazan, etc
+      parameters:
+      - description: /v1/city/country/:id
+        in: path
+        name: input
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.City'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/color:
+    get:
+      description: GetListColor return list color, white, red
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Color'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/country:
+    get:
+      description: GetListCountry return list country, Russia, Kz
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Country'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/drive_unit:
+    get:
+      description: GetListDriveUnit return list drive unit, up, back, full
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.DriveUnit'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/fuel:
+    get:
+      description: GetListFuel return list type fuel, gas, oil
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Fuel'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
   /v1/machine:
     get:
       description: just  return ListCar by created_at - desc
@@ -429,6 +637,35 @@ paths:
       - BearerAuth: []
       tags:
       - Machine
+  /v1/model/brand/1:
+    get:
+      description: GetListModelByBrandID return list model by brandId, Tesla -> ModelX,
+        S3
+      parameters:
+      - description: /v1/model/brand/:id
+        in: path
+        name: input
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Model'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
   /v1/profile:
     get:
       description: Profile service, user info(bio)
@@ -451,6 +688,50 @@ paths:
       - BearerAuth: []
       tags:
       - Profile
+  /v1/state:
+    get:
+      description: GetListState return list state, new, second hand, crash
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.State'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
+  /v1/transmission:
+    get:
+      description: GetListTransmission return list transmission, akpp, mkpp
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Transmission'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.Response'
+      tags:
+      - Add-on list
 schemes:
 - http
 securityDefinitions:

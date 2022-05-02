@@ -20,7 +20,6 @@ func (h *Handler) GetListRole(c *gin.Context) {
 		return
 	}
 	responseWithStatus(c, http.StatusOK, "success return list Roles", "OK", result)
-
 }
 
 func (h *Handler) CreateRole(c *gin.Context) {
