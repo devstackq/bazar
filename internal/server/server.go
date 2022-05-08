@@ -56,7 +56,7 @@ func (a *App) Initialize() {
 
 	a.router = gin.New()
 	a.Logger = logrus.New()
-
+	log.Print(a.cfg.App.Cors.AllowOrigins, "allow cors")
 	a.router.Use(gin.Recovery())
 	a.router.Use(cors.New(cors.Config{
 		AllowOrigins:     a.cfg.App.Cors.AllowOrigins,
