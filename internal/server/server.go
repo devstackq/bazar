@@ -53,10 +53,10 @@ func NewApp(cfg *config.Config) (*App, error) {
 // @schemes   http
 func (a *App) Initialize() {
 	gin.SetMode(a.cfg.App.Mode)
+	log.Println(a.cfg.App.Cors)
 
 	a.router = gin.New()
 	a.Logger = logrus.New()
-	log.Print(a.cfg.App.Cors.AllowOrigins, "allow cors")
 	a.router.Use(gin.Recovery())
 	a.router.Use(cors.New(cors.Config{
 		AllowOrigins:     a.cfg.App.Cors.AllowOrigins,

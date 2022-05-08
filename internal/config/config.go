@@ -86,6 +86,9 @@ func GetConfig() *Config {
 				}),
 				ExposeHeaders: getEnvAsSlice("APP_CORS_EXPOSE_HEADERS", []string{
 					defaultAppExposeHeader,
+					"access_token",
+					"refresh_token",
+					"AccessToken",
 				}),
 				AllowCredentials: getEnvAsBool("APP_CORS_ALLOW_CREDENTIALS", defaultAppAllowCredentials),
 			},
