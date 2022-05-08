@@ -23,7 +23,7 @@ func FilterRepoInit(db *sql.DB) gallery.FilterRepoInterface {
 func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *models.QueryParams, pageNum int) ([]*models.Machine, error) {
 	var result []*models.Machine
 	var err error
-	limit := 9
+	// limit := 9
 
 	query := `SELECT
 		machine_id,
@@ -38,13 +38,10 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 
 	query += prepareQuery(keys)
 
-	query += ` LIMIT $1 OFFSET $2 `
+	// query += ` LIMIT $1 OFFSET $2 `
+	// pageNum = limit * (pageNum - 1)
 
-	log.Println(query, "filter")
-
-	pageNum = limit * (pageNum - 1)
-
-	rows, err := fr.db.QueryContext(ctx, query, limit, pageNum)
+	rows, err := fr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +65,7 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 	if rows.Err() != nil {
 		return nil, err
 	}
-	log.Println(len(result), "len res", pageNum, limit)
+	log.Println(len(result), "len res", pageNum)
 
 	return result, nil
 }

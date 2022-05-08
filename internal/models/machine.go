@@ -30,6 +30,34 @@ type Machine struct {
 	Creator      User `json:"creator"`
 }
 
+func (f FilterSort) Validation() error {
+	// if f.Filter.BrandID == 0 && f.Filter.CategoryID == 0 && f.Filter {
+	return nil
+
+}
+
+type FilterSort struct {
+	Filter `json:"filter"`
+	Sort   `json:"sort"`
+}
+
+type Sort struct {
+	CreatedAt string `json:"created_at"` //asc/desc
+	Year      string `json:"year"`
+	Odometer  string `json:"odometer"`
+	Price     string `json:"price"`
+}
+type Filter struct {
+	CategoryID int `json:"category_id"`
+	StateID    int `json:"state_id"`
+	BrandID    int `json:"brand_id"`
+	ModelID    int `json:"model_id"`
+	PriceFrom  int `json:"price_from"`
+	PriceTo    int `json:"price_to"`
+	YearFrom   int `json:"year_from"`
+	YearTo     int `json:"year_to"`
+}
+
 // filter/sort
 type QueryParams struct {
 	Sort   map[string]string

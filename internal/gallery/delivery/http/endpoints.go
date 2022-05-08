@@ -24,13 +24,13 @@ func SetGalleryEndpoints(cfg *config.Config, db *sql.DB, logger *logrus.Logger, 
 	{
 		machine.POST("", middleware.AuthorizeJWT("accessx"), handler.CreateMachine)
 		machine.GET("/:id", handler.GetMachineByID)
-		machine.GET("", handler.GetListMachine)
+		// machine.GET("", handler.GetListMachine)
 		machine.GET("/user", middleware.AuthorizeJWT("accessx"), handler.GetListMachineByUserID) // or companyID cars ?
 		// machine.PATCH("/:id", handler.UpdateMachine)
 		// machine.DELETE("/:id", handler.DeleteMachineByID)
 		///v1/machine/user/:id :GET, user cereated cars
-		machine.GET("/filter", handler.GetFilteredMachine)
+		machine.POST("/filter", handler.GetFilteredMachine)
 		machine.POST("/upload/:id", middleware.AuthorizeJWT("accessx"), handler.Upload)
-		machine.GET("/search", handler.Search)
+		machine.POST("/search", handler.Search)
 	}
 }

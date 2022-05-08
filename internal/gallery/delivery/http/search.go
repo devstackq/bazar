@@ -17,10 +17,10 @@ import (
 // @Tags         Machine
 // @Produce      json
 // @Accept       json
-// @Param        input  query   string  true "?key_word=tesla&page_num=1"
+// @Param        input  query   string  true "?key_word=tesla"
 // @Failure      400,500  {object}  models.Response
 // @Success      200      {object}  []models.Machine
-// @Router       /v1/machine/search [get]
+// @Router       /v1/machine/search [post]
 func (h *Handler) Search(c *gin.Context) {
 	var (
 		result  []*models.Machine

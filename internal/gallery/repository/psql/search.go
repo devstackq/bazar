@@ -18,8 +18,8 @@ func SearchRepoInit(db *sql.DB) *SearchRepository {
 }
 
 func (sr SearchRepository) Search(ctx context.Context, keyword string, pageNum int) ([]*models.Machine, error) {
-	var limit = 9
-	pageNum = limit * (pageNum - 1)
+	// var limit = 9
+	// pageNum = limit * (pageNum - 1)
 
 	var result []*models.Machine
 
@@ -27,9 +27,9 @@ func (sr SearchRepository) Search(ctx context.Context, keyword string, pageNum i
 	machine_id, title, vin, description, year, price
 	FROM bazar_machine
 	WHERE title LIKE $1 OR description 
-	LIKE $1 LIMIT $2 OFFSET $3`
-
-	rows, err := sr.db.Query(query, "%"+keyword+"%", limit, pageNum)
+	LIKE $1`
+	//LIMIT $2 OFFSET $3
+	rows, err := sr.db.Query(query, "%"+keyword+"%")
 	if err != nil {
 		return nil, err
 	}

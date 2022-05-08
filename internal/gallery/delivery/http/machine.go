@@ -99,6 +99,7 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 // @Failure      400,500  {object}  models.Response
 // @Success      200      {object} []models.Machine
 // @Router       /v1/machine [get]
+
 func (h *Handler) GetListMachine(c *gin.Context) {
 	var (
 		result  []*models.Machine

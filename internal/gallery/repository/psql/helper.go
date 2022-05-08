@@ -46,6 +46,7 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 		query = "WHERE " + query
 	}
 	// add sort with filter
+
 	query += tempSortKey
 
 	return query

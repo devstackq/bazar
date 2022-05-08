@@ -447,38 +447,6 @@ const docTemplate = `{
             }
         },
         "/v1/machine": {
-            "get": {
-                "description": "just  return ListCar by created_at - desc",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "GetListCar"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Machine"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/models.Response"
-                        }
-                    }
-                }
-            },
             "post": {
                 "security": [
                     {
@@ -569,8 +537,8 @@ const docTemplate = `{
             }
         },
         "/v1/machine/filter": {
-            "get": {
-                "description": "Get Filtered Cars, recieve by query-params [\"category\", \"state\", \"brand\", \"model\"] and/or [priceTo/proceFrom] and/or 1 param - sort:  [sort_created_at/sort_price/sort_year/sort_odometer - asc/desc]  and  page_num=1",
+            "post": {
+                "description": "Get Filtered Cars, recieve by query-params [\"category\", \"state\", \"brand\", \"model\"] and/or [priceTo/proceFrom] or [yearFrom\u0026yearTo] and/or 1 param - sort:  [sort_created_at/sort_price/sort_year/sort_odometer - asc/desc] default return all cars; if not found return message",
                 "produces": [
                     "application/json"
                 ],
@@ -580,7 +548,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "?category=1\u0026state=1\u0026brand=1\u0026model=1\u0026priceFrom=1000\u0026priceTo=20000\u0026sort_price=asc\u0026page_num=1",
+                        "description": "?category=1\u0026state=1\u0026brand=1\u0026model=1\u0026priceFrom=1000\u0026priceTo=20000\u0026yearFrom=1990\u0026yearTo=2030\u0026sort_price=asc\u0026page_num=1",
                         "name": "input",
                         "in": "query",
                         "required": true
@@ -612,7 +580,7 @@ const docTemplate = `{
             }
         },
         "/v1/machine/search": {
-            "get": {
+            "post": {
                 "description": "Search service, search by query_param(key_word\u0026page_num), with pagination",
                 "consumes": [
                     "application/json"
@@ -626,7 +594,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "?key_word=tesla\u0026page_num=1",
+                        "description": "?key_word=tesla",
                         "name": "input",
                         "in": "query",
                         "required": true

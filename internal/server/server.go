@@ -60,7 +60,7 @@ func (a *App) Initialize() {
 	a.router.Use(gin.Recovery())
 	a.router.Use(cors.New(cors.Config{
 		AllowOrigins:     a.cfg.App.Cors.AllowOrigins,
-		MaxAge:           30 * time.Second,
+		MaxAge:           20 * time.Second,
 		AllowMethods:     a.cfg.App.Cors.AllowMethods,
 		AllowHeaders:     a.cfg.App.Cors.AllowHeaders,
 		ExposeHeaders:    a.cfg.App.Cors.ExposeHeaders,
@@ -85,7 +85,7 @@ func (a *App) Initialize() {
 
 func (a *App) Run(ctx context.Context) {
 	srv := http.Server{
-		Addr:           ":" + a.cfg.App.Port,
+		Addr:           a.cfg.App.Port,
 		Handler:        a.router,
 		MaxHeaderBytes: 1 << 20,
 		ReadTimeout:    a.cfg.App.ReadTimeout,
