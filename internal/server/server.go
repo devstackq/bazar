@@ -75,17 +75,14 @@ func (a *App) Initialize() {
 	}
 	a.db = db
 	a.Logger.Info("intialize postgres...")
-	// url := ginSwagger.URL("http://localhost:6969/swagger/doc.json")
-
 	a.router.GET("/v1/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
 	// 	authUseCase: usecase.NewAuthUseCase(repo, []byte(viper.GetString("auth.hash_salt")), []byte(viper.GetString("auth.secret_key")), viper.GetDuration("auth.token_ttl")),
 	a.setComponents()
 }
 
 func (a *App) Run(ctx context.Context) {
 	srv := http.Server{
-		Addr:           a.cfg.App.Port,
+		Addr:           ":" + a.cfg.App.Port,
 		Handler:        a.router,
 		MaxHeaderBytes: 1 << 20,
 		ReadTimeout:    a.cfg.App.ReadTimeout,
