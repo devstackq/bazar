@@ -54,7 +54,8 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 		description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
-		drut.name, trns.name, bt.name, cr.name, img.path
+		drut.name, trns.name, bt.name, cr.name, img.path,
+		mch.created_at
 	FROM bazar_machine AS mch
 		LEFT JOIN bazar_user AS usr ON usr.user_id = mch.creator_id   
 		LEFT JOIN bazar_category AS ctgr ON  ctgr.id = mch.category_id  
@@ -97,6 +98,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 		&result.BodyType.Name,
 		&result.Color.Name,
 		&tempImg,
+		&result.CreatedAt,
 	)
 
 	if err != nil {
