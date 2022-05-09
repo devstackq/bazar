@@ -4,18 +4,21 @@ import (
 	"context"
 	"database/sql"
 	"log"
+	"strconv"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
 )
 
 type FilterRepository struct {
-	db *sql.DB
+	db     *sql.DB
+	bridge gallery.BridgeRepoInterface
 }
 
-func FilterRepoInit(db *sql.DB) gallery.FilterRepoInterface {
+func FilterRepoInit(db *sql.DB, bridge gallery.BridgeRepoInterface) gallery.FilterRepoInterface {
 	return &FilterRepository{
-		db: db,
+		db:     db,
+		bridge: bridge,
 	}
 }
 
@@ -26,14 +29,7 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 	// limit := 9
 
 	query := `SELECT
-		machine_id,
-		vin,
-		title,
-		description, 
-		year,
-		price,
-		odometer,
-		created_at
+		machine_id
 	FROM bazar_machine  `
 
 	query += prepareQuery(keys)
@@ -50,17 +46,20 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 
 		if err = rows.Scan(
 			&temp.ID,
-			&temp.VIN,
-			&temp.Title,
-			&temp.Description,
-			&temp.Year,
-			&temp.Price,
-			&temp.Odometer,
-			&temp.CreatedAt,
 		); err != nil {
 			return nil, err
 		}
-		result = append(result, &temp)
+		id, err := strconv.Atoi(temp.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		car, err := fr.bridge.GetByID(ctx, id)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, car)
 	}
 	if rows.Err() != nil {
 		return nil, err

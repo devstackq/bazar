@@ -6,6 +6,10 @@ import (
 	"github.com/devstackq/bazar/internal/models"
 )
 
+type BridgeRepoInterface interface {
+	GetByID(context.Context, int) (*models.Machine, error)
+}
+
 type MachineRepoInterface interface {
 	Create(context.Context, *models.Machine) (int, error)
 	GetByID(context.Context, int) (*models.Machine, error)
@@ -31,4 +35,5 @@ type Repositories struct {
 	SearchRepoInterface
 	FilterRepoInterface
 	FileManagerRepoInterface
+	BridgeRepoInterface
 }

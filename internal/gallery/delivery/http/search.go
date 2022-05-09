@@ -55,7 +55,7 @@ func (h *Handler) Search(c *gin.Context) {
 	}
 
 	if len(result) == 0 {
-		responseWithStatus(c, http.StatusOK, "not found by keyword", "Info", result)
+		responseWithStatus(c, http.StatusOK, "not found by keyword", "Info", []string{})
 		return
 	}
 	responseWithStatus(c, http.StatusOK, "find machine by keyword", "OK", result)

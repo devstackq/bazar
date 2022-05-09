@@ -38,7 +38,7 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		return
 	}
 	// ref int to float64
-	machine.Creator.ID = userId.(int64)
+	machine.Creator.ID = int64(userId.(float64))
 
 	lastID, err = h.useCases.Create(&machine)
 	if err != nil {
@@ -81,14 +81,6 @@ func (h *Handler) GetMachineByID(c *gin.Context) {
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-
-	result.Images, err = h.useCases.FileManagerUseCaseInterface.GetListSrc(id)
-	if err != nil {
-		h.logger.Error(err)
-		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
-		return
-	}
-
 	responseWithStatus(c, http.StatusOK, "success retrun machine", "OK", result)
 }
 
@@ -125,7 +117,7 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 		return
 	}
 	if len(result) == 0 {
-		responseWithStatus(c, http.StatusOK, "now, empty machines", "OK", result)
+		responseWithStatus(c, http.StatusOK, "now, empty machines", "OK", []string{})
 		return
 	}
 
@@ -171,7 +163,7 @@ func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 	}
 
 	if len(result) < 1 {
-		responseWithStatus(c, http.StatusOK, "now, empty user created machines", "OK", result)
+		responseWithStatus(c, http.StatusOK, "now, empty user created machines", "OK", []string{})
 		return
 	}
 
