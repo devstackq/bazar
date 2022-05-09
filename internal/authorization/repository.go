@@ -7,8 +7,8 @@ import (
 )
 
 type AuthRepositoryInterface interface {
-	CreateUser(ctx context.Context, user *models.User) (int, error)
-	GetUser(ctx context.Context, username, password string) (int, error) // todo: rename
+	CreateUser(ctx context.Context, user *models.User) (models.User, error)
+	GetUser(ctx context.Context, username, password string) (models.User, error) // todo: rename
 }
 
 type JwtTokenRepositoryInterface interface {

@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -56,9 +55,8 @@ func (h *Handler) Search(c *gin.Context) {
 	}
 
 	if len(result) == 0 {
-		responseWithStatus(c, http.StatusNotFound, "not found by keyword", "Info", result)
+		responseWithStatus(c, http.StatusOK, "not found by keyword", "Info", result)
 		return
 	}
-	log.Println(result, "search res")
 	responseWithStatus(c, http.StatusOK, "find machine by keyword", "OK", result)
 }

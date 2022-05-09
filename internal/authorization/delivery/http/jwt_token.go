@@ -31,7 +31,7 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 		return
 	}
 
-	token, err = CreateToken(int(userID.(float64)), h.cfg.App.SecretAccess, h.cfg.App.SecretRefresh)
+	token, err = CreateToken(userID.(int64), h.cfg.App.SecretAccess, h.cfg.App.SecretRefresh)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)

@@ -16,5 +16,5 @@ type TokenDetails struct {
 	RtExpires      int64
 	SubTimeRefresh time.Duration
 	SubTimeAccess  time.Duration
-	UserID         int
+	UserID         int64
 }

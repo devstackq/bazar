@@ -27,7 +27,7 @@ func toMongoUser(u *models.User) *User {
 // convert mongo struct  - to model.User
 func toModel(u *User) *models.User {
 	return &models.User{
-		ID:       u.ID.Hex(),
+		// ID:       u.ID.Hex(),
 		Username: u.Username,
 		Password: u.Password,
 	}
@@ -53,7 +53,7 @@ func (ur UserRepository) CreateUser(ctx context.Context, user *models.User) erro
 		return err
 	}
 	// set generated user id from mongo & convert to Hex & set user.ID
-	user.ID = res.InsertedID.(primitive.ObjectID).Hex()
+	// user.ID = res.InsertedID.(primitive.ObjectID).Hex()
 	log.Print("success insert new user by Id", user.ID)
 
 	return nil

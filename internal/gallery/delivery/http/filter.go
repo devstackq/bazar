@@ -41,7 +41,7 @@ func (h *Handler) GetFilteredMachine(c *gin.Context) {
 		return
 	}
 	if len(result) == 0 {
-		responseWithStatus(c, http.StatusNotFound, "Info, not found filtered items", "Info:", nil)
+		responseWithStatus(c, http.StatusOK, "Info, not found filtered items", "Info:", result)
 		return
 	}
 	responseWithStatus(c, http.StatusOK, "success return filtered cars", "OK", result)

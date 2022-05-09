@@ -38,7 +38,7 @@ func (h *Handler) CreateMachine(c *gin.Context) {
 		return
 	}
 	// ref int to float64
-	machine.Creator.ID = strconv.Itoa(int(userId.(float64)))
+	machine.Creator.ID = userId.(int64)
 
 	lastID, err = h.useCases.Create(&machine)
 	if err != nil {
@@ -125,7 +125,7 @@ func (h *Handler) GetListMachine(c *gin.Context) {
 		return
 	}
 	if len(result) == 0 {
-		responseWithStatus(c, http.StatusNoContent, "now, empty machines", "OK", result)
+		responseWithStatus(c, http.StatusOK, "now, empty machines", "OK", result)
 		return
 	}
 
@@ -171,7 +171,7 @@ func (h *Handler) GetListMachineByUserID(c *gin.Context) {
 	}
 
 	if len(result) < 1 {
-		responseWithStatus(c, http.StatusNoContent, "now, empty user created machines", "OK", result)
+		responseWithStatus(c, http.StatusOK, "now, empty user created machines", "OK", result)
 		return
 	}
 

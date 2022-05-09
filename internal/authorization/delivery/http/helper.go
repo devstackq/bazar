@@ -20,15 +20,15 @@ func responseWithStatus(c *gin.Context, status int, message, text string, data i
 }
 
 // todo: expire time correct work ?
-func CreateToken(userID int, accessSecret, refreshSecret string) (*models.TokenDetails, error) {
+func CreateToken(userID int64, accessSecret, refreshSecret string) (*models.TokenDetails, error) {
 	td := &models.TokenDetails{}
 	var err error
 
 	td.AtExpires = time.Now().Add(time.Second * 60).Unix() // set mlsec token 60 min
 	td.AccessUuid = uuid.New().String()                    // set access uuid
 
-	td.RtExpires = time.Now().Add(time.Hour * 24 * 7).Unix()     // set refreshTokenExpires - 7day
-	td.RefreshUuid = td.AccessUuid + "++" + strconv.Itoa(userID) // generated uuid (separator) userID
+	td.RtExpires = time.Now().Add(time.Hour * 24 * 7).Unix()          // set refreshTokenExpires - 7day
+	td.RefreshUuid = td.AccessUuid + "++" + strconv.Itoa(int(userID)) // generated uuid (separator) userID
 
 	// set jwt data; key:value
 	atClaims := jwt.MapClaims{}

@@ -7,8 +7,8 @@ import (
 )
 
 type AuthUseCaseInterface interface {
-	SignUp(ctx context.Context, user *models.User) (int, error)
-	SignIn(ctx context.Context, username, password string) (int, error)
+	SignUp(ctx context.Context, user *models.User) (models.User, error)
+	SignIn(ctx context.Context, username, password string) (models.User, error)
 }
 
 type JwtTokenUseCaseInterface interface {

@@ -2,6 +2,7 @@ package v1
 
 import (
 	"context"
+	"log"
 	"net/http"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -19,10 +20,10 @@ import (
 // @Router       /v1/auth/signin [post]
 func (h *Handler) SignIn(c *gin.Context) {
 	var (
-		user   *models.SigninCreds
-		err    error
-		userID int
-		token  *models.TokenDetails
+		user  *models.SigninCreds
+		err   error
+		res   models.User
+		token *models.TokenDetails
 	)
 
 	err = c.ShouldBindJSON(&user)
@@ -35,7 +36,7 @@ func (h *Handler) SignIn(c *gin.Context) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	userID, err = h.authUseCases.SignIn(ctx, user.Username, user.Password)
+	res, err = h.authUseCases.SignIn(ctx, user.Username, user.Password)
 	if err != nil {
 		h.logger.Error(err)
 		if err.Error() == "sql: no rows in result set" {
@@ -47,13 +48,13 @@ func (h *Handler) SignIn(c *gin.Context) {
 	}
 
 	// call signin/signup/refresh
-	token, err = CreateToken(userID, h.cfg.App.SecretAccess, h.cfg.App.SecretRefresh)
+	token, err = CreateToken(res.ID, h.cfg.App.SecretAccess, h.cfg.App.SecretRefresh)
 	if err != nil {
 		h.logger.Error(err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "internal server error", nil)
 		return
 	}
-	token.UserID = userID
+	token.UserID = res.ID
 
 	// err = h.useCases.CreateSession(ctx, token)
 	// refresh, /signin call
@@ -61,5 +62,6 @@ func (h *Handler) SignIn(c *gin.Context) {
 
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
-	responseWithStatus(c, http.StatusOK, "success signin", "OK", nil)
+	log.Println(res, "ress")
+	responseWithStatus(c, http.StatusOK, "success signin", "OK", res)
 }

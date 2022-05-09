@@ -53,7 +53,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 // @schemes   http
 func (a *App) Initialize() {
 	gin.SetMode(a.cfg.App.Mode)
-	log.Println(a.cfg.App.Cors)
 
 	a.router = gin.New()
 	a.Logger = logrus.New()
