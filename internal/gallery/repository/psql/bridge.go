@@ -50,7 +50,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 	var tempImg sql.NullString
 
 	query := `SELECT
-		usr.phone, usr.first_name, vin, title, phone, 
+		usr.phone, usr.first_name, usr.company, vin, title, phone, 
 		description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
@@ -75,6 +75,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 	err = mr.db.QueryRowContext(ctx, query, id).Scan(
 		&result.Creator.Phone,
 		&result.Creator.FirstName,
+		&result.Creator.Company,
 		&result.VIN,
 		&result.Title,
 		&result.Creator.Phone,
