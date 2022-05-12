@@ -1,20 +1,34 @@
 package v1
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 
+	"github.com/cloudinary/cloudinary-go"
+	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/gin-gonic/gin"
 )
 
 const (
 	MAX_UPLOAD_SIZE = 1024 * 1024 // 1MB
 	path            = "./images/"
+	name            = "hgthl5fys"
+	api_key         = "534124638472856"
+	api_secret      = "sixUMqMtBqLSDrP4LjG7YZwTLto"
+	folderName      = "images/"
 )
+
+func GetCloudinary() (*cloudinary.Cloudinary, error) {
+	cld, err := cloudinary.NewFromParams(name, api_key, api_secret)
+	if err != nil {
+		return nil, err
+	}
+	return cld, nil
+}
 
 // todo :refactor/ decopmpose -> to service side || pkg
 
@@ -79,29 +93,45 @@ func (h *Handler) Upload(c *gin.Context) {
 			http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		err = os.MkdirAll("./images", os.ModePerm)
+		cld, err := GetCloudinary()
 		if err != nil {
 			http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		// f, err := os.Create(fmt.Sprintf("./uploads/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
-		src := fmt.Sprintf("./images/%s", fileHeader.Filename)
+		ctx := context.Background()
 
-		f, err := os.Create(src)
+		uploadResult, err := cld.Upload.Upload(ctx, file, uploader.UploadParams{})
 		if err != nil {
-			http.Error(c.Writer, err.Error(), http.StatusBadRequest)
+			http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		c.Writer.Header().Set("Content-Type", "application/json")
+		c.AbortWithStatus(200)
 
-		defer f.Close()
+		// json.NewEncoder(c.Writer).Encode(uploadResult.SecureURL)
 
-		_, err = io.Copy(f, file)
-		if err != nil {
-			http.Error(c.Writer, err.Error(), http.StatusBadRequest)
-			return
-		}
-		listSrc = append(listSrc, src[1:])
+		// err = os.MkdirAll("./images", os.ModePerm)
+		// if err != nil {
+		//  http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
+		//  return
+		// }
+		// // f, err := os.Create(fmt.Sprintf("./uploads/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
+		// src := fmt.Sprintf("./images/%s", fileHeader.Filename)
+
+		// f, err := os.Create(src)
+		// if err != nil {
+		//  http.Error(c.Writer, err.Error(), http.StatusBadRequest)
+		//  return
+		// }
+
+		// defer f.Close()
+
+		// _, err = io.Copy(f, file)
+		// if err != nil {
+		//  http.Error(c.Writer, err.Error(), http.StatusBadRequest)
+		//  return
+		// }
+		listSrc = append(listSrc, uploadResult.SecureURL)
 
 	}
 	// save in db src
