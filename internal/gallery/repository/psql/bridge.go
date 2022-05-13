@@ -43,14 +43,13 @@ func (ur BridgeRepository) GetListSrc(ctx context.Context, machineID int) ([]str
 }
 
 func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine, error) {
-
 	var result models.Machine
 	var err error
 
 	var tempImg sql.NullString
 
 	query := `SELECT
-		usr.phone, usr.first_name, vin, title, phone, 
+		mch.machine_id,usr.phone, usr.first_name, vin, title, phone, 
 		description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
@@ -73,6 +72,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 	WHERE mch.machine_id = $1`
 
 	err = mr.db.QueryRowContext(ctx, query, id).Scan(
+		&result.ID,
 		&result.Creator.Phone,
 		&result.Creator.FirstName,
 		&result.VIN,
