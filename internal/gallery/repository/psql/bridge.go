@@ -18,12 +18,12 @@ func MachineBridgeInit(db *sql.DB) gallery.BridgeRepoInterface {
 	}
 }
 
-func (ur BridgeRepository) GetListSrc(ctx context.Context, machineID int) ([]string, error) {
-	query := `SELECT path FROM bazar_machine_image WHERE machine_id = $1`
+func (ur BridgeRepository) GetListSrc(ctx context.Context, machineID int, mainImage string) ([]string, error) {
+	query := `SELECT path FROM bazar_machine_image WHERE machine_id = $1 AND path <> $2`
 
 	result := []string{}
 
-	rows, err := ur.db.QueryContext(ctx, query, machineID)
+	rows, err := ur.db.QueryContext(ctx, query, machineID, mainImage)
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +49,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 	var tempImg sql.NullString
 
 	query := `SELECT
-		mch.machine_id,usr.phone, usr.first_name, vin, title, phone, 
+		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title, phone, 
 		description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
@@ -107,14 +107,12 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 
 	if tempImg.Valid {
 		result.MainImage = tempImg.String
+
+		images, err := mr.GetListSrc(ctx, id, result.MainImage)
+		result.Images = images
+		if err != nil {
+			return nil, err
+		}
 	}
-
-	images, err := mr.GetListSrc(ctx, id)
-	result.Images = images
-
-	if err != nil {
-		return nil, err
-	}
-
 	return &result, nil
 }

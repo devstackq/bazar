@@ -1,0 +1,21 @@
+                   List of relations
+ Schema |        Name         | Type  |     Owner      
+--------+---------------------+-------+----------------
+ public | bazar_body_type     | table | oktarcpjvgaorf
+ public | bazar_brand         | table | oktarcpjvgaorf
+ public | bazar_category      | table | oktarcpjvgaorf
+ public | bazar_city          | table | oktarcpjvgaorf
+ public | bazar_color         | table | oktarcpjvgaorf
+ public | bazar_country       | table | oktarcpjvgaorf
+ public | bazar_drive_unit    | table | oktarcpjvgaorf
+ public | bazar_fuel          | table | oktarcpjvgaorf
+ public | bazar_machine       | table | oktarcpjvgaorf
+ public | bazar_machine_image | table | oktarcpjvgaorf
+ public | bazar_model         | table | oktarcpjvgaorf
+ public | bazar_roles         | table | oktarcpjvgaorf
+ public | bazar_session       | table | oktarcpjvgaorf
+ public | bazar_state         | table | oktarcpjvgaorf
+ public | bazar_transmission  | table | oktarcpjvgaorf
+ public | bazar_user          | table | oktarcpjvgaorf
+(16 rows)
+

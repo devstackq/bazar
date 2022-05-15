@@ -34,6 +34,8 @@ CREATE TABLE IF NOT EXISTS  bazar_model
     name VARCHAR(50) UNIQUE,
     brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE  INDEX  idx_model ON bazar_model(brand_id)
+
 
 -- dizel, oil
 CREATE TABLE IF NOT EXISTS  bazar_fuel
@@ -83,6 +85,8 @@ CREATE TABLE IF NOT EXISTS  bazar_city
     name VARCHAR(50) NOT NULL,
     country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE UNIQUE INDEX  idx_city ON bazar_city(country_id)
+
 -- admin, saler, buyer
 CREATE TABLE IF NOT EXISTS  bazar_roles
 (
@@ -106,6 +110,7 @@ CREATE TABLE IF NOT EXISTS  bazar_user
     city_id INTEGER NOT NULL REFERENCES bazar_city(id) ON DELETE CASCADE ON UPDATE CASCADE,
     role_id INTEGER NOT NULL REFERENCES bazar_roles(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE  INDEX  idx_usr ON bazar_user(country_id, city_id, role_id)
 
 --now, not use
 CREATE TABLE IF NOT EXISTS  bazar_session
@@ -145,6 +150,9 @@ CREATE TABLE IF NOT EXISTS  bazar_machine
     creator_id INTEGER NOT NULL REFERENCES bazar_user(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE INDEX idx_mch ON bazar_machine(model_id, brand_id, country_id, city_id, category_id, state_id, fuel_id,
+drive_unit_id, trans_type_id, body_type_id, color_id, creator_id);
+
 --src to images for Car by id
 CREATE TABLE IF NOT EXISTS  bazar_machine_image
 (
@@ -152,3 +160,4 @@ CREATE TABLE IF NOT EXISTS  bazar_machine_image
     path VARCHAR(300) NOT NULL,
     machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE  INDEX  idx_mch_img ON bazar_machine_image(machine_id)
