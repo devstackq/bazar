@@ -3,11 +3,11 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"log"
 	"time"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
+	"github.com/lib/pq"
 )
 
 type MachineRepository struct {
@@ -125,12 +125,11 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 			return nil, err
 		}
 		// get first photo
-		srcQuery := `SELECT path FROM bazar_machine_image WHERE machine_id = $1`
-		err = mr.db.QueryRowContext(ctx, srcQuery, temp.ID).Scan(&temp.MainImage)
+		srcQuery := `SELECT paths_img FROM bazar_machine_image WHERE machine_id = $1`
+		err = mr.db.QueryRowContext(ctx, srcQuery, temp.ID).Scan(pq.Array(&temp.Images))
 		if err != nil && err.Error() != "sql: no rows in result set" {
 			return nil, err
 		}
-		log.Println(temp.MainImage, "main img each car")
 		result = append(result, &temp)
 	}
 	if rows.Err() != nil {
