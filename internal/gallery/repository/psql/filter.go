@@ -23,6 +23,7 @@ func FilterRepoInit(db *sql.DB, bridge gallery.BridgeRepoInterface) gallery.Filt
 }
 
 //carById - fieldName - change; pagination; check - filter - priceTo - priceFrom
+
 //distinct on - delete duplicate
 //set creds - db, docker
 
