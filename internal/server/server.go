@@ -13,11 +13,13 @@ import (
 	httpAuth "github.com/devstackq/bazar/internal/authorization/delivery/http"
 	"github.com/devstackq/bazar/internal/config"
 	httpGallery "github.com/devstackq/bazar/internal/gallery/delivery/http"
+	"github.com/devstackq/bazar/internal/middleware"
 	httpProfile "github.com/devstackq/bazar/internal/profile/delivery/http"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 
 	_ "github.com/devstackq/bazar/docs"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
@@ -42,6 +44,12 @@ func NewApp(cfg *config.Config) (*App, error) {
 	return &App{cfg: cfg}, nil
 }
 
+var myWhiteList map[string]bool = map[string]bool{
+	"127.0.0.1:6969":               true,
+	"127.0.0.1:8080":               true,
+	"https://baz-ar.herokuapp.com": true,
+}
+
 // @title        Bazar service
 // @version      1.0
 // @securityDefinitions.apikey  BearerAuth
@@ -51,21 +59,22 @@ func NewApp(cfg *config.Config) (*App, error) {
 // @BasePath  /
 // @schemes   http
 func (a *App) Initialize() {
-	// gin.SetMode(a.cfg.App.Mode)
+	gin.SetMode(a.cfg.App.Mode)
 
 	a.router = gin.New()
 	a.Logger = logrus.New()
 	a.router.Use(gin.Recovery())
-	a.router.Use(CORSMiddleware())
-	// a.router.Use(cors.New(cors.Config{
-	// 	AllowOrigins:     a.cfg.App.Cors.AllowOrigins,
-	// 	MaxAge:           12 * time.Hour,
-	// 	AllowMethods:     a.cfg.App.Cors.AllowMethods,
-	// 	AllowHeaders:     a.cfg.App.Cors.AllowHeaders,
-	// 	ExposeHeaders:    a.cfg.App.Cors.ExposeHeaders,
-	// 	AllowCredentials: a.cfg.App.Cors.AllowCredentials,
-	// 	// AllowWildcard:    true,
-	// }))
+
+	a.router.Use(cors.New(cors.Config{
+		AllowOrigins:     a.cfg.App.Cors.AllowOrigins,
+		MaxAge:           12 * time.Hour,
+		AllowMethods:     a.cfg.App.Cors.AllowMethods,
+		AllowHeaders:     a.cfg.App.Cors.AllowHeaders,
+		ExposeHeaders:    a.cfg.App.Cors.ExposeHeaders,
+		AllowCredentials: a.cfg.App.Cors.AllowCredentials,
+		// AllowWildcard:    true,
+	}))
+	a.router.Use(middleware.IPWhiteList(myWhiteList))
 
 	db, err := psql.InitDb(*a.cfg)
 	if err != nil {
@@ -78,21 +87,7 @@ func (a *App) Initialize() {
 	// 	authUseCase: usecase.NewAuthUseCase(repo, []byte(viper.GetString("auth.hash_salt")), []byte(viper.GetString("auth.secret_key")), viper.GetDuration("auth.token_ttl")),
 	a.setComponents()
 }
-func CORSMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE, UPDATE")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-		c.Writer.Header().Set("Access-Control-Expose-Headers", "Content-Length")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(200)
-		} else {
-			c.Next()
-		}
-	}
-}
+
 func (a *App) Run(ctx context.Context) {
 	srv := http.Server{
 		Addr:           ":" + a.cfg.App.Port,
