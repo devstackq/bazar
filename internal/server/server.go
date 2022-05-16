@@ -57,6 +57,7 @@ func (a *App) Initialize() {
 	a.router = gin.New()
 	a.Logger = logrus.New()
 	a.router.Use(gin.Recovery())
+
 	a.router.Use(cors.New(cors.Config{
 		AllowOrigins:     a.cfg.App.Cors.AllowOrigins,
 		MaxAge:           20 * time.Second,
@@ -64,7 +65,7 @@ func (a *App) Initialize() {
 		AllowHeaders:     a.cfg.App.Cors.AllowHeaders,
 		ExposeHeaders:    a.cfg.App.Cors.ExposeHeaders,
 		AllowCredentials: a.cfg.App.Cors.AllowCredentials,
-		AllowWildcard:    true,
+		// AllowWildcard:    true,
 	}))
 
 	db, err := psql.InitDb(*a.cfg)
