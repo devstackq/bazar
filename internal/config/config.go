@@ -18,7 +18,7 @@ const (
 	defaultAppMethodPatch      = "PATCH"
 	defaultAppMethodDelete     = "DELETE"
 	defaultAppExposeHeader     = "Authorization"
-	defaultAppAllowCredentials = true
+	defaultAppAllowCredentials = false
 )
 
 type CorsCfg struct {

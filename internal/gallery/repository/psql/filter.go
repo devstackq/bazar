@@ -96,9 +96,7 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 			result = append(result, car)
 			defer wg.Done()
 		}(&wg, id, ctx)
-
 	}
-
 	wg.Wait()
 	return result, nil
 }
