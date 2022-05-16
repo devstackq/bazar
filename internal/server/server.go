@@ -83,7 +83,7 @@ func (a *App) Initialize() {
 
 func (a *App) Run(ctx context.Context) {
 	srv := http.Server{
-		Addr:           a.cfg.App.Port,
+		Addr:           ":" + a.cfg.App.Port,
 		Handler:        a.router,
 		MaxHeaderBytes: 1 << 20,
 		ReadTimeout:    a.cfg.App.ReadTimeout,
