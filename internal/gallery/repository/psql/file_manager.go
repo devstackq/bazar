@@ -3,10 +3,9 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"fmt"
-	"strings"
 
 	"github.com/devstackq/bazar/internal/gallery"
+	"github.com/lib/pq"
 )
 
 type FileManagerRepository struct {
@@ -19,29 +18,10 @@ func FileManagerRepoInit(db *sql.DB) gallery.FileManagerRepoInterface {
 	}
 }
 
-func BulkInsert(rows []string, id int) (string, []interface{}, error) {
-	valueStrings := make([]string, 0, len(rows))
-	valueArgs := make([]interface{}, 0, len(rows)*2)
-	i := 0
-
-	for _, post := range rows {
-		valueStrings = append(valueStrings, fmt.Sprintf("($%d, $%d)", i*2+1, i*2+2))
-		valueArgs = append(valueArgs, post)
-		valueArgs = append(valueArgs, id)
-		i++
-	}
-	sqlQuery := fmt.Sprintf("INSERT INTO bazar_machine_image (path, machine_id) VALUES %s", strings.Join(valueStrings, ","))
-
-	return sqlQuery, valueArgs, nil
-}
-
 func (ur FileManagerRepository) CreateSrc(ctx context.Context, listSrc []string, machineID int) error {
-	query, args, err := BulkInsert(listSrc, machineID)
-	if err != nil {
-		return err
-	}
-	// log.Println(query, args)
-	_, err = ur.db.ExecContext(ctx, query, args...)
+
+	sqlQuery := "INSERT INTO bazar_machine_image(machine_id, paths_img) VALUES($1, $2)"
+	_, err := ur.db.ExecContext(ctx, sqlQuery, machineID, pq.StringArray(listSrc))
 
 	if err != nil {
 		return err

@@ -138,6 +138,7 @@ func (h *Handler) Upload(c *gin.Context) {
 	err = h.useCases.FileManagerUseCaseInterface.CreateSrc(listSrc, machine_id)
 	if err != nil {
 		log.Println("upload db ", err)
+		responseWithStatus(c, http.StatusInternalServerError, "", "Failed", nil)
 		return
 	}
 	responseWithStatus(c, http.StatusOK, "success uploaded images", "OK", nil)

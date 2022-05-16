@@ -40,7 +40,7 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 	if len(keys.Sort) > 0 {
 		for key, val := range keys.Sort {
 			if val != "" {
-				tempSortKey = fmt.Sprintf(" ORDER BY %s ", key[5:]+" "+val+" ")
+				tempSortKey = fmt.Sprintf(" ORDER BY mch.%s ", key[5:]+" "+val+" ")
 			}
 		}
 	}
@@ -49,8 +49,12 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 	if query != "" {
 		query = "WHERE " + query
 	}
-
+	//default desc
+	if tempSortKey == "" {
+		query += " ORDER BY mch.created_at DESC "
+	}
 	// add sort with filter
+
 	query += tempSortKey
 
 	return query

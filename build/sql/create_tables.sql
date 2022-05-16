@@ -153,11 +153,12 @@ CREATE TABLE IF NOT EXISTS  bazar_machine
 CREATE INDEX idx_mch ON bazar_machine(model_id, brand_id, country_id, city_id, category_id, state_id, fuel_id,
 drive_unit_id, trans_type_id, body_type_id, color_id, creator_id);
 
---src to images for Car by id
+-- //[]machione -> query - car_id ->  []images
 CREATE TABLE IF NOT EXISTS  bazar_machine_image
 (
     id BIGSERIAL PRIMARY KEY,
-    path VARCHAR(300) NOT NULL,
+    path VARCHAR(300) NOT NULL DEFAULT "",
+    paths_img text[] NOT NULL DEFAULT '{}'::text[],
     machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 CREATE  INDEX  idx_mch_img ON bazar_machine_image(machine_id)

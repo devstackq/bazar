@@ -12,17 +12,16 @@ services:
     networks:
       - darknet
 
-  server:
-    # container_name: serverx
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 6969:6969
-    depends_on:
-      - postgresdb
-    networks:
-      - darknet
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 6969:6969
+  #   depends_on:
+  #     - postgresdb
+  #   networks:
+  #     - darknet
 
 networks:
   darknet:
