@@ -82,13 +82,14 @@ func GetConfig() *Config {
 					defaultAppMethodDelete,
 				}),
 				AllowOrigins: getEnvAsSlice("APP_CORS_ALLOW_ORIGINS", []string{
-					"*",
+					"https://baz-ar.herokuapp.com",
 				}),
 				ExposeHeaders: getEnvAsSlice("APP_CORS_EXPOSE_HEADERS", []string{
 					defaultAppExposeHeader,
 					"access_token",
 					"refresh_token",
 					"AccessToken",
+					"Authorization",
 				}),
 				AllowCredentials: getEnvAsBool("APP_CORS_ALLOW_CREDENTIALS", defaultAppAllowCredentials),
 			},
