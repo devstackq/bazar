@@ -50,7 +50,7 @@ func (h *Handler) Upload(c *gin.Context) {
 	}
 	// Get a reference to the fileHeaders.
 	// They are accessible only after ParseMultipartForm is called
-	files := c.Request.MultipartForm.File["image"]
+	files := c.Request.MultipartForm.File["file"]
 
 	machine_id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

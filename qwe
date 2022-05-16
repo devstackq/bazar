@@ -1,0 +1,19 @@
+ user_id |      email      | username  |                 password                 |    phone     |   company    | first_name | last_name |         created_at         | country_id | city_id | role_id 
+---------+-----------------+-----------+------------------------------------------+--------------+--------------+------------+-----------+----------------------------+------------+---------+---------
+       3 | user@mail.kz    | saler     | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | dillerX      | Glize      | Union     | 2022-04-24 07:08:48.520317 |          1 |       1 |       2
+       6 | auf@mail.kz     | come sava | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | uniq comapny | Glize      | Union     | 2022-04-27 09:32:51.964222 |          1 |       1 |       1
+       9 | user2@mail.kz   | fendo     | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | dillerp      | Glize      | Union     | 2022-04-28 05:34:57.849623 |          1 |       1 |       2
+      10 | alskd@@mail.kz  | devstackq | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 | 873182738211 | detail       | dwayne     | koll      | 2022-04-30 17:32:33.967194 |          1 |       1 |       1
+      54 | res@mail.kz     | user1     | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87832732131 | autoS        | auf        | fua       | 2022-05-02 11:54:32.351888 |          1 |       2 |       2
+      61 | test@test.com   | admin     | 0251e7cba3ac72b99ccd67657c711373c80dd92d |    123123123 | test         | test       | test      | 2022-05-07 23:22:50.847727 |          1 |       1 |       2
+      62 | test2@test.com  | seller    | 0251e7cba3ac72b99ccd67657c711373c80dd92d |    123123123 | tetttt       | test2      | test2     | 2022-05-07 23:25:00.66618  |          1 |       1 |       2
+      64 | test3@test.com  | user      | 0251e7cba3ac72b99ccd67657c711373c80dd92d |  12312312312 | tetetete     | test3      | test3     | 2022-05-07 23:41:11.182278 |          2 |       1 |       2
+      67 | user3@mail.kz   |           | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | dillerXp     | Glize      | Union     | 2022-05-08 04:44:50.761426 |          1 |       1 |       2
+      76 | user4@mail.kz   | devasq    | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | dillerComa   | Glize      | Union     | 2022-05-09 16:29:03.230304 |          1 |       1 |       2
+      77 | user5@mail.kz   | push      | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | dillerCma    | Glize      | Union     | 2022-05-09 16:47:30.338083 |          1 |       1 |       2
+      78 | user6@mail.kz   | pushx     | 71d2e2cd58299b6dca7a06342a9308848d52e0b3 |  87471370784 | dillerC1     | Glize      | Union     | 2022-05-09 16:49:30.257152 |          1 |       1 |       2
+      79 | testj@mail.com  | testj     | 2c213a591443ca14259fc78a41ecf6532ab2fd9e |       123123 | testj        | testj      | testj     | 2022-05-09 13:13:12.417801 |          2 |       2 |       2
+      80 | test12@mail.com | test12    | 5bb2e43b68da6104d72c655317d7c3944c8591bf |    123123123 | test12       | test12     | test12    | 2022-05-09 13:14:19.889883 |          1 |       1 |       2
+      81 | asd@te.te       | test11    | 0251e7cba3ac72b99ccd67657c711373c80dd92d |  89898989889 | Cws          | AAA        | ZZZ       | 2022-05-12 17:21:42.262885 |          1 |       3 |       2
+(15 rows)
+
