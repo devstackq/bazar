@@ -60,7 +60,7 @@ func (a *App) Initialize() {
 
 	a.router.Use(cors.New(cors.Config{
 		AllowOrigins:     a.cfg.App.Cors.AllowOrigins,
-		MaxAge:           20 * time.Second,
+		MaxAge:           12 * time.Hour,
 		AllowMethods:     a.cfg.App.Cors.AllowMethods,
 		AllowHeaders:     a.cfg.App.Cors.AllowHeaders,
 		ExposeHeaders:    a.cfg.App.Cors.ExposeHeaders,
