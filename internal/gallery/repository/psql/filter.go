@@ -3,9 +3,6 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"log"
-	"strconv"
-	"sync"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
@@ -23,80 +20,88 @@ func FilterRepoInit(db *sql.DB, bridge gallery.BridgeRepoInterface) gallery.Filt
 	}
 }
 
-func (fr FilterRepository) GetCountMachines(ctx context.Context) (int, error) {
-
-	var count int
-
-	query := `SELECT COUNT(*) FROM bazar_machine `
-
-	rows, err := fr.db.QueryContext(ctx, query)
-	if err != nil {
-		return 0, err
-	}
-	for rows.Next() {
-		if err = rows.Scan(
-			&count,
-		); err != nil {
-			return 0, err
-		}
-	}
-	return count, nil
-}
-
-// sort & filter ? good practice
 func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *models.QueryParams, pageNum int) ([]*models.Machine, error) {
+
+	var result []*models.Machine
 	var err error
-	// limit := 9
+
+	var tempImg sql.NullString
 
 	query := `SELECT
-		machine_id
-	FROM bazar_machine  `
+		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title, phone, 
+		description, year, price, odometer,
+		horse_power, volume, ctgr.name, mdl.name,
+		brd.name, ctr.name, ct.name, st.name, fl.name,
+		drut.name, trns.name, bt.name, cr.name, img.path,
+		mch.created_at
+	FROM bazar_machine AS mch
+		LEFT JOIN bazar_user AS usr ON usr.user_id = mch.creator_id   
+		LEFT JOIN bazar_category AS ctgr ON  ctgr.id = mch.category_id 
+		LEFT JOIN bazar_model AS mdl ON mdl.id =  mch.model_id 
+		LEFT JOIN bazar_brand AS brd ON  brd.id= mch.brand_id 
+		LEFT JOIN bazar_country AS ctr ON  ctr.id = mch.country_id
+		LEFT JOIN bazar_city AS ct ON  ct.id = mch.city_id 
+		LEFT JOIN bazar_state AS st ON  st.id = mch.state_id
+		LEFT JOIN bazar_fuel AS fl ON  fl.id = mch.fuel_id 
+		LEFT JOIN bazar_drive_unit AS drut ON  drut.id = mch.drive_unit_id
+		LEFT JOIN bazar_transmission AS trns ON trns.id =  mch.trans_type_id
+		LEFT JOIN bazar_body_type AS bt ON bt.id = mch.body_type_id
+		LEFT JOIN bazar_color AS cr ON cr.id =  mch.color_id
+		LEFT JOIN bazar_machine_image AS img ON img.machine_id =  mch.machine_id `
 
 	query += prepareQuery(keys)
-
-	// query += ` LIMIT $1 OFFSET $2 `
-	// pageNum = limit * (pageNum - 1)
 
 	rows, err := fr.db.QueryContext(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 
-	var wg sync.WaitGroup
-	var seqIds []string
-
 	for rows.Next() {
 		temp := models.Machine{}
 
 		if err = rows.Scan(
 			&temp.ID,
+			&temp.Creator.Phone,
+			&temp.Creator.FirstName,
+			&temp.Creator.Company,
+			&temp.VIN,
+			&temp.Title,
+			&temp.Creator.Phone,
+			&temp.Description,
+			&temp.Year,
+			&temp.Price,
+			&temp.Odometer,
+			&temp.HorsePower,
+			&temp.Volume,
+			&temp.Category.Name,
+			&temp.Model.Name,
+			&temp.Brand.Name,
+			&temp.Country.Name,
+			&temp.City.Name,
+			&temp.State.Name,
+			&temp.Fuel.Name,
+			&temp.DriveUnit.Name,
+			&temp.Transmission.Name,
+			&temp.BodyType.Name,
+			&temp.Color.Name,
+			&tempImg,
+			&temp.CreatedAt,
 		); err != nil {
 			return nil, err
 		}
-		seqIds = append(seqIds, temp.ID)
-		if rows.Err() != nil {
-			return nil, err
+
+		if tempImg.Valid {
+			temp.MainImage = tempImg.String
+
+			images, err := fr.bridge.GetListSrc(ctx, temp.ID, temp.MainImage)
+			temp.Images = images
+			if err != nil {
+				return nil, err
+			}
 		}
-	}
-	var idMachine int
-	result := make([]*models.Machine, 0, len(seqIds))
+		result = append(result, &temp)
 
-	for _, id := range seqIds {
-		wg.Add(1)
-
-		go func(wg *sync.WaitGroup, id string, ctx context.Context) {
-			idMachine, err = strconv.Atoi(id)
-			if err != nil {
-				log.Println(err)
-			}
-			car, err := fr.bridge.GetByID(ctx, idMachine)
-			if err != nil {
-				log.Println(err)
-			}
-			result = append(result, car)
-			defer wg.Done()
-		}(&wg, id, ctx)
 	}
-	wg.Wait()
 	return result, nil
+
 }

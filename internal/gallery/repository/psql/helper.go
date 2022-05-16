@@ -26,7 +26,11 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 				} else if key == "priceFrom" {
 					query += fmt.Sprintf(" %s", "price >= "+val)
 				} else {
-					query += fmt.Sprintf(" %s", key+"_id= "+val)
+					if idx < len(keys.Filter)-1 {
+						query += fmt.Sprintf(" mch.%s", key+"_id= "+val)
+					} else {
+						query += fmt.Sprintf(" %s", key+"_id= "+val)
+					}
 				}
 				idx++
 			}
@@ -36,7 +40,7 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 	if len(keys.Sort) > 0 {
 		for key, val := range keys.Sort {
 			if val != "" {
-				tempSortKey = fmt.Sprintf(" ORDER BY %s ", key[5:]+" "+val)
+				tempSortKey = fmt.Sprintf(" ORDER BY %s ", key[5:]+" "+val+" ")
 			}
 		}
 	}
@@ -47,7 +51,7 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 	}
 	//default desc
 	if tempSortKey == "" {
-		query += "ORDER BY created_at DESC"
+		query += " ORDER BY created_at DESC "
 	}
 	// add sort with filter
 

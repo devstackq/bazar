@@ -8,6 +8,7 @@ import (
 
 type BridgeRepoInterface interface {
 	GetByID(context.Context, int) (*models.Machine, error)
+	GetListSrc(ctx context.Context, machineID string, mainImage string) ([]string, error)
 }
 
 type MachineRepoInterface interface {

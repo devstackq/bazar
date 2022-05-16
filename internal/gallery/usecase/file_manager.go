@@ -14,11 +14,11 @@ func FileManagerUseCaseInit(r gallery.FileManagerRepoInterface) gallery.FileMana
 	return FileManagerUseCase{fmRepo: r}
 }
 
-func (uuc FileManagerUseCase) GetListSrc(id int) ([]string, error) {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	return uuc.fmRepo.GetListSrc(ctx, id)
-}
+// func (uuc FileManagerUseCase) GetListSrc(id int) ([]string, error) {
+// 	ctx, cancel := context.WithCancel(context.Background())
+// 	defer cancel()
+// 	return uuc.fmRepo.GetListSrc(ctx, id)
+// }
 
 func (uuc FileManagerUseCase) CreateSrc(listSrc []string, id int) error {
 	ctx, cancel := context.WithCancel(context.Background())

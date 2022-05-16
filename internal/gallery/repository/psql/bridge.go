@@ -3,6 +3,7 @@ package psql
 import (
 	"context"
 	"database/sql"
+	"strconv"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
@@ -18,7 +19,7 @@ func MachineBridgeInit(db *sql.DB) gallery.BridgeRepoInterface {
 	}
 }
 
-func (ur BridgeRepository) GetListSrc(ctx context.Context, machineID int, mainImage string) ([]string, error) {
+func (ur BridgeRepository) GetListSrc(ctx context.Context, machineID string, mainImage string) ([]string, error) {
 	query := `SELECT path FROM bazar_machine_image WHERE machine_id = $1 AND path <> $2`
 
 	result := []string{}
@@ -107,8 +108,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 
 	if tempImg.Valid {
 		result.MainImage = tempImg.String
-
-		images, err := mr.GetListSrc(ctx, id, result.MainImage)
+		images, err := mr.GetListSrc(ctx, strconv.Itoa(id), result.MainImage)
 		result.Images = images
 		if err != nil {
 			return nil, err

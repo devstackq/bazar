@@ -16,7 +16,7 @@ type FilterUseCaseInterface interface {
 }
 type FileManagerUseCaseInterface interface {
 	CreateSrc([]string, int) error
-	GetListSrc(int) ([]string, error)
+	// GetListSrc(int) ([]string, error)
 }
 
 type SearchUseCaseInterface interface {
