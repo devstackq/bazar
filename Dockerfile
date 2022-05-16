@@ -11,6 +11,7 @@ COPY . .
 EXPOSE 6969
 
 #heroku db creds
+
 ENV  POSTGRES_USER=oktarcpjvgaorf
 ENV  POSTGRES_PASSWORD=93f71f9ee4342d1fb1190493c57493ad405416c153f8bc281d7db4b3306555ad
 ENV  POSTGRES_URI=ec2-52-30-67-143.eu-west-1.compute.amazonaws.com
