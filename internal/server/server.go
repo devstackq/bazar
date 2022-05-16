@@ -45,9 +45,12 @@ func NewApp(cfg *config.Config) (*App, error) {
 }
 
 var myWhiteList map[string]bool = map[string]bool{
-	"127.0.0.1:6969":               true,
-	"127.0.0.1:8080":               true,
-	"https://baz-ar.herokuapp.com": true,
+	"127.0.0.1:6969":                 true,
+	"127.0.0.1:8080":                 true,
+	"https://baz-ar.herokuapp.com":   true,
+	"https://baz-ar.herokuapp.com/*": true,
+	"127.0.0.1:8080/*":               true,
+	"127.0.0.1:6969/*":               true,
 }
 
 // @title        Bazar service
