@@ -3,6 +3,7 @@ package psql
 import (
 	"context"
 	"database/sql"
+	"log"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
@@ -26,10 +27,9 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 	var err error
 
 	var tempImg sql.NullString
-
-	query := `SELECT
-		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title, phone, 
-		description, year, price, odometer,
+	query := `SELECT   DISTINCT ON (mch.machine_id)
+		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title,
+		phone, description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
 		drut.name, trns.name, bt.name, cr.name, img.path,
@@ -101,6 +101,9 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 		}
 		result = append(result, &temp)
 
+	}
+	for _, v := range result {
+		log.Println(v.ID, "id car")
 	}
 	return result, nil
 

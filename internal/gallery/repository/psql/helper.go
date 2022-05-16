@@ -49,12 +49,8 @@ func prepareQuery(keys *models.QueryParams) (query string) {
 	if query != "" {
 		query = "WHERE " + query
 	}
-	//default desc
-	if tempSortKey == "" {
-		query += " ORDER BY created_at DESC "
-	}
-	// add sort with filter
 
+	// add sort with filter
 	query += tempSortKey
 
 	return query
