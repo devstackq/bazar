@@ -11,6 +11,14 @@ services:
     restart : unless-stopped
     networks:
       - darknet
+    environment:
+      - POSTGRES_USER=oktarcpjvgaorf
+      - POSTGRES_PASSWORD=93f71f9ee4342d1fb1190493c57493ad405416c153f8bc281d7db4b3306555ad
+      - POSTGRES_URI=ec2-52-30-67-143.eu-west-1.compute.amazonaws.com
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=d9pr4qe2pmgqs
+      - POSTGRES_DATABASE=d9pr4qe2pmgqs
+
 
   # server:
   #   build:

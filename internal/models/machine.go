@@ -11,7 +11,6 @@ type Machine struct {
 	Description  string    `json:"description"`
 	Year         int       `json:"year"`
 	Price        float64   `json:"price"`
-	MainImage    string    `json:"main_image"` // src to fs; static
 	Images       []string  `json:"images"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`

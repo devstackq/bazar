@@ -3,10 +3,10 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"strconv"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
+	"github.com/lib/pq"
 )
 
 type BridgeRepository struct {
@@ -47,14 +47,14 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 	var result models.Machine
 	var err error
 
-	var tempImg sql.NullString
+	// var tempImg sql.NullString
 
 	query := `SELECT
 		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title, phone, 
 		description, year, price, odometer,
 		horse_power, volume, ctgr.name, mdl.name,
 		brd.name, ctr.name, ct.name, st.name, fl.name,
-		drut.name, trns.name, bt.name, cr.name, img.path,
+		drut.name, trns.name, bt.name, cr.name, img.paths_img,
 		mch.created_at
 	FROM bazar_machine AS mch
 		LEFT JOIN bazar_user AS usr ON usr.user_id = mch.creator_id   
@@ -98,7 +98,7 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 		&result.Transmission.Name,
 		&result.BodyType.Name,
 		&result.Color.Name,
-		&tempImg,
+		pq.Array(&result.Images),
 		&result.CreatedAt,
 	)
 
@@ -106,13 +106,5 @@ func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine
 		return nil, err
 	}
 
-	if tempImg.Valid {
-		result.MainImage = tempImg.String
-		images, err := mr.GetListSrc(ctx, strconv.Itoa(id), result.MainImage)
-		result.Images = images
-		if err != nil {
-			return nil, err
-		}
-	}
 	return &result, nil
 }
