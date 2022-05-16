@@ -82,7 +82,7 @@ func GetConfig() *Config {
 					defaultAppMethodDelete,
 				}),
 				AllowOrigins: getEnvAsSlice("APP_CORS_ALLOW_ORIGINS", []string{
-					"*",
+					"127.0.0.1:8080", "https://baz-ar.herokuapp.com", "127.0.0.1:6969",
 				}),
 				ExposeHeaders: getEnvAsSlice("APP_CORS_EXPOSE_HEADERS", []string{
 					defaultAppExposeHeader,

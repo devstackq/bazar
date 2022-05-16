@@ -13,7 +13,6 @@ import (
 	httpAuth "github.com/devstackq/bazar/internal/authorization/delivery/http"
 	"github.com/devstackq/bazar/internal/config"
 	httpGallery "github.com/devstackq/bazar/internal/gallery/delivery/http"
-	"github.com/devstackq/bazar/internal/middleware"
 	httpProfile "github.com/devstackq/bazar/internal/profile/delivery/http"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -44,17 +43,6 @@ func NewApp(cfg *config.Config) (*App, error) {
 	return &App{cfg: cfg}, nil
 }
 
-var myWhiteList map[string]bool = map[string]bool{
-	"127.0.0.1:6969":                  true,
-	"127.0.0.1:8080":                  true,
-	"https://baz-ar.herokuapp.com":    true,
-	"https://baz-ar.herokuapp.com/*":  true,
-	"127.0.0.1:8080/*":                true,
-	"127.0.0.1:6969/*":                true,
-	"pure-reef-17431.herokuapp.com":   true,
-	"pure-reef-17431.herokuapp.com/*": true,
-}
-
 // @title        Bazar service
 // @version      1.0
 // @securityDefinitions.apikey  BearerAuth
@@ -79,7 +67,7 @@ func (a *App) Initialize() {
 		AllowCredentials: a.cfg.App.Cors.AllowCredentials,
 		// AllowWildcard:    true,
 	}))
-	a.router.Use(middleware.IPWhiteList(myWhiteList))
+	// a.router.Use(middleware.IPWhiteList(myWhiteList))
 
 	db, err := psql.InitDb(*a.cfg)
 	if err != nil {
