@@ -44,10 +44,9 @@ func (ur BridgeRepository) GetListSrc(ctx context.Context, machineID string, mai
 }
 
 func (mr BridgeRepository) GetByID(ctx context.Context, id int) (*models.Machine, error) {
+
 	var result models.Machine
 	var err error
-
-	// var tempImg sql.NullString
 
 	query := `SELECT
 		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title, phone, 

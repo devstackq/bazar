@@ -34,19 +34,21 @@ func (mr MachineRepository) GetByID(ctx context.Context, id int) (*models.Machin
 }
 
 // or company_id?
-
 func (mr MachineRepository) GetListByUserID(ctx context.Context, id float64, pageNum int) ([]*models.Machine, error) {
 	limit := 9
 	query := `SELECT
-	machine_id,
+	mch.machine_id,
 	title,
 	price,
 	created_at,
 	mdl.name,
-	brd.name
+	brd.name,
+	paths_img
 	FROM bazar_machine  AS mch
 	LEFT JOIN bazar_model AS mdl ON mdl.id =  mch.model_id 
 	LEFT JOIN bazar_brand AS brd ON  brd.id= mch.brand_id 
+	LEFT JOIN bazar_machine_image  AS imgs ON imgs.machine_id = mch.machine_id 
+	
 	WHERE creator_id = $1
 	ORDER BY created_at DESC LIMIT $2 OFFSET $3`
 
@@ -68,6 +70,7 @@ func (mr MachineRepository) GetListByUserID(ctx context.Context, id float64, pag
 			&temp.CreatedAt,
 			&temp.Brand.Model.Name,
 			&temp.Brand.Name,
+			pq.Array(&temp.Images),
 		); err != nil {
 			return nil, err
 		}
@@ -98,7 +101,8 @@ func (mr MachineRepository) GetList(ctx context.Context, pageNum int) ([]*models
 	brd.name
 	FROM bazar_machine  AS mch
 	LEFT JOIN bazar_model AS mdl ON mdl.id =  mch.model_id 
-	LEFT JOIN bazar_brand AS brd ON  brd.id= mch.brand_id 
+	LEFT JOIN bazar_brand AS brd ON  brd.id= mch.brand_id
+	LEFT JOIN bazar_machine_image  AS imgs ON imgs.machine_id = mch.machine_id 
 	ORDER BY created_at DESC LIMIT $1 OFFSET $2 `
 
 	pageNum = limit * (pageNum - 1)

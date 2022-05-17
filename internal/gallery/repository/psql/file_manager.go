@@ -20,12 +20,11 @@ func FileManagerRepoInit(db *sql.DB) gallery.FileManagerRepoInterface {
 
 func (ur FileManagerRepository) CreateSrc(ctx context.Context, listSrc []string, machineID int) error {
 
-	if machineID > 0 && len(listSrc) > 0 {
-		sqlQuery := "INSERT INTO bazar_machine_image(machine_id, paths_img) VALUES($1, $2)"
-		_, err := ur.db.ExecContext(ctx, sqlQuery, machineID, pq.Array(listSrc))
-		if err != nil {
-			return err
-		}
+	sqlQuery := "INSERT INTO bazar_machine_image(machine_id, paths_img) VALUES($1, $2)"
+	_, err := ur.db.ExecContext(ctx, sqlQuery, machineID, pq.StringArray(listSrc))
+
+	if err != nil {
+		return err
 	}
 	return nil
 }

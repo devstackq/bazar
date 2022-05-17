@@ -109,12 +109,10 @@ func (h *Handler) Upload(c *gin.Context) {
 		c.AbortWithStatus(200)
 
 		listSrc = append(listSrc, uploadResult.SecureURL)
-
 	}
 	// save in db src
 	err = h.useCases.FileManagerUseCaseInterface.CreateSrc(listSrc, machine_id)
 	if err != nil {
-		log.Println("upload db ", err)
 		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "Failed", nil)
 		return
 	}

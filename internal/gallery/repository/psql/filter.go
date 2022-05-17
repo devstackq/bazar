@@ -22,18 +22,10 @@ func FilterRepoInit(db *sql.DB, bridge gallery.BridgeRepoInterface) gallery.Filt
 	}
 }
 
-//carById - fieldName - change; pagination; check - filter - priceTo - priceFrom
-
-//distinct on - delete duplicate
-//set creds - db, docker
-
 func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *models.QueryParams, pageNum int) ([]*models.Machine, error) {
 
 	var result []*models.Machine
 	var err error
-	// query := `SELECT DISTINCT ON (mch.machine_id)
-	// query += " GROUP BY mch.machine_id"
-
 	query := `SELECT 
 		mch.machine_id, usr.phone, usr.first_name, usr.company, vin, title,
 		phone, description, year, price, odometer,
@@ -99,9 +91,7 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 		}
 		result = append(result, &temp)
 	}
-	// for _, v := range result {
-	// 	log.Println(v.ID, "id car")
-	// }
+
 	return result, nil
 
 }
