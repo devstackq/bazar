@@ -12,12 +12,11 @@ services:
     networks:
       - darknet
     environment:
-      - POSTGRES_USER=oktarcpjvgaorf
-      - POSTGRES_PASSWORD=93f71f9ee4342d1fb1190493c57493ad405416c153f8bc281d7db4b3306555ad
-      - POSTGRES_URI=ec2-52-30-67-143.eu-west-1.compute.amazonaws.com
+      - POSTGRES_USER=pkbdytztfofcwf
+      - POSTGRES_PASSWORD=ee6b8ea0ca73b0c591c993a67127bdb4fb29af099ffc354d32ce68507e809118
+      - POSTGRES_URI=ec2-54-228-218-84.eu-west-1.compute.amazonaws.com
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=d9pr4qe2pmgqs
-      - POSTGRES_DATABASE=d9pr4qe2pmgqs
+      - POSTGRES_DATABASE=db65nuits093uo
 
 
   # server:
