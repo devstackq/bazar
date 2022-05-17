@@ -52,7 +52,7 @@ func NewApp(cfg *config.Config) (*App, error) {
 // @BasePath  /
 // @schemes   http
 func (a *App) Initialize() {
-	gin.SetMode(a.cfg.App.Mode)
+	// gin.SetMode(a.cfg.App.Mode)
 
 	a.router = gin.New()
 	a.Logger = logrus.New()

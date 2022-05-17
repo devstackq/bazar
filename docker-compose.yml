@@ -18,7 +18,6 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_DATABASE=db65nuits093uo
 
-
   # server:
   #   build:
   #     context: .
