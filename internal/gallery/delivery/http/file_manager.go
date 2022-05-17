@@ -108,29 +108,6 @@ func (h *Handler) Upload(c *gin.Context) {
 		c.Writer.Header().Set("Content-Type", "application/json")
 		c.AbortWithStatus(200)
 
-		// json.NewEncoder(c.Writer).Encode(uploadResult.SecureURL)
-
-		// err = os.MkdirAll("./images", os.ModePerm)
-		// if err != nil {
-		//  http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
-		//  return
-		// }
-		// // f, err := os.Create(fmt.Sprintf("./uploads/%d%s", time.Now().UnixNano(), filepath.Ext(fileHeader.Filename)))
-		// src := fmt.Sprintf("./images/%s", fileHeader.Filename)
-
-		// f, err := os.Create(src)
-		// if err != nil {
-		//  http.Error(c.Writer, err.Error(), http.StatusBadRequest)
-		//  return
-		// }
-
-		// defer f.Close()
-
-		// _, err = io.Copy(f, file)
-		// if err != nil {
-		//  http.Error(c.Writer, err.Error(), http.StatusBadRequest)
-		//  return
-		// }
 		listSrc = append(listSrc, uploadResult.SecureURL)
 
 	}
@@ -138,7 +115,7 @@ func (h *Handler) Upload(c *gin.Context) {
 	err = h.useCases.FileManagerUseCaseInterface.CreateSrc(listSrc, machine_id)
 	if err != nil {
 		log.Println("upload db ", err)
-		responseWithStatus(c, http.StatusInternalServerError, "", "Failed", nil)
+		responseWithStatus(c, http.StatusInternalServerError, err.Error(), "Failed", nil)
 		return
 	}
 	responseWithStatus(c, http.StatusOK, "success uploaded images", "OK", nil)

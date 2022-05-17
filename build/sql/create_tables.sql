@@ -157,7 +157,6 @@ drive_unit_id, trans_type_id, body_type_id, color_id, creator_id);
 CREATE TABLE IF NOT EXISTS  bazar_machine_image
 (
     id BIGSERIAL PRIMARY KEY,
-    path VARCHAR(300) NOT NULL DEFAULT '',
     paths_img text[] NOT NULL DEFAULT '{}'::text[],
     machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );

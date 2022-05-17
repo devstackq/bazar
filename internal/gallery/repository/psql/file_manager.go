@@ -22,7 +22,7 @@ func (ur FileManagerRepository) CreateSrc(ctx context.Context, listSrc []string,
 
 	if machineID > 0 && len(listSrc) > 0 {
 		sqlQuery := "INSERT INTO bazar_machine_image(machine_id, paths_img) VALUES($1, $2)"
-		_, err := ur.db.ExecContext(ctx, sqlQuery, machineID, pq.StringArray(listSrc))
+		_, err := ur.db.ExecContext(ctx, sqlQuery, machineID, pq.Array(listSrc))
 		if err != nil {
 			return err
 		}
