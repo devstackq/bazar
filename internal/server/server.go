@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -71,7 +70,6 @@ func (a *App) Initialize() {
 
 	db, err := psql.InitDb(*a.cfg)
 	if err != nil {
-		log.Println(err, "db err")
 		return
 	}
 	a.db = db

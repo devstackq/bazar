@@ -3,7 +3,6 @@ package psql
 import (
 	"database/sql"
 	"fmt"
-	"log"
 
 	"github.com/devstackq/bazar/internal/config"
 )
@@ -20,8 +19,6 @@ func InitDb(cfg config.Config) (*sql.DB, error) {
 	}
 
 	if err = db.Ping(); err != nil {
-		log.Println(db, err, "ping err")
-
 		return nil, err
 	}
 	return db, nil

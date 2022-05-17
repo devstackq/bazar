@@ -136,6 +136,7 @@ CREATE TABLE IF NOT EXISTS  bazar_machine
     odometer DECIMAL NOT NULL,
     volume DECIMAL NOT NULL,
     horse_power INTEGER NOT NULL,
+    -- paths_img text[] NOT NULL DEFAULT '{}'::text[], ? is_main
     model_id INTEGER NOT NULL REFERENCES bazar_model(id) ON DELETE CASCADE ON UPDATE CASCADE,
     brand_id INTEGER NOT NULL REFERENCES bazar_brand(id) ON DELETE CASCADE ON UPDATE CASCADE,
     country_id INTEGER NOT NULL REFERENCES bazar_country(id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -153,8 +154,6 @@ CREATE TABLE IF NOT EXISTS  bazar_machine
 CREATE INDEX idx_mch ON bazar_machine(model_id, brand_id, country_id, city_id, category_id, state_id, fuel_id,
 drive_unit_id, trans_type_id, body_type_id, color_id, creator_id);
 
---in further.., is_main, path
--- //[]machione -> query - car_id ->  []images
 CREATE TABLE IF NOT EXISTS  bazar_machine_image
 (
     id BIGSERIAL PRIMARY KEY,
@@ -163,4 +162,4 @@ CREATE TABLE IF NOT EXISTS  bazar_machine_image
     paths_img text[] NOT NULL DEFAULT '{}'::text[],
     machine_id  INTEGER NOT NULL REFERENCES bazar_machine(machine_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-CREATE  INDEX  idx_mch_img ON bazar_machine_image(machine_id)
+CREATE  INDEX  idx_mch_img ON bazar_machine_image(machine_id);

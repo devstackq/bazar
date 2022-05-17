@@ -3,7 +3,6 @@ package psql
 import (
 	"context"
 	"database/sql"
-	"log"
 
 	"github.com/devstackq/bazar/internal/gallery"
 	"github.com/devstackq/bazar/internal/models"
@@ -49,7 +48,6 @@ func (fr FilterRepository) GetListMachineByFilter(ctx context.Context, keys *mod
 		LEFT JOIN bazar_machine_image AS img ON img.machine_id =  mch.machine_id `
 
 	query += prepareQuery(keys)
-	log.Println(query, "query")
 
 	rows, err := fr.db.QueryContext(ctx, query)
 	if err != nil {

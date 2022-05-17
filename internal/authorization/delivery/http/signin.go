@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"log"
 	"net/http"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -62,6 +61,5 @@ func (h *Handler) SignIn(c *gin.Context) {
 
 	c.Writer.Header().Set("refresh_token", token.RefreshToken)
 	c.Writer.Header().Set("access_token", token.AccessToken)
-	log.Println(res, "ress")
 	responseWithStatus(c, http.StatusOK, "success signin", "OK", res)
 }

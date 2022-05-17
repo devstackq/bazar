@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -45,7 +44,6 @@ func GetCloudinary() (*cloudinary.Cloudinary, error) {
 // @Router       /v1/machine/upload/:lastCarId [post]
 func (h *Handler) Upload(c *gin.Context) {
 	if err := c.Request.ParseMultipartForm(32 << 20); err != nil {
-		log.Println("req, parseMultipart", err)
 		return
 	}
 	// Get a reference to the fileHeaders.
@@ -106,7 +104,6 @@ func (h *Handler) Upload(c *gin.Context) {
 			return
 		}
 		c.Writer.Header().Set("Content-Type", "application/json")
-		c.AbortWithStatus(200)
 
 		listSrc = append(listSrc, uploadResult.SecureURL)
 	}

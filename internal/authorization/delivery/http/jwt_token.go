@@ -1,7 +1,6 @@
 package v1
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -26,7 +25,6 @@ func (h *Handler) RefreshJwt(c *gin.Context) {
 
 	userID, ok := c.Get("user_id")
 	if !ok {
-		log.Println("not exist userId value")
 		responseWithStatus(c, http.StatusBadRequest, "refresh token incorrect", "no have userI_id, to refresh token", nil)
 		return
 	}

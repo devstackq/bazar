@@ -2,7 +2,6 @@ package v1
 
 import (
 	"context"
-	"log"
 	"net/http"
 
 	"github.com/devstackq/bazar/internal/models"
@@ -26,7 +25,6 @@ func (h *Handler) GetProfileBio(c *gin.Context) {
 	)
 	userID, ok := c.Get("user_id")
 	if !ok {
-		log.Println("not exist userId value")
 		responseWithStatus(c, http.StatusBadRequest, "access token incorrect", "no have userId, by token", nil)
 		return
 	}

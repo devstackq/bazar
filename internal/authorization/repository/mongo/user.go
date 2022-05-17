@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"log"
 
 	"github.com/devstackq/bazar/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
@@ -47,15 +46,12 @@ func NewUserRepository(db *mongo.Database, colection string) *UserRepository {
 func (ur UserRepository) CreateUser(ctx context.Context, user *models.User) error {
 	model := toMongoUser(user)
 
-	res, err := ur.db.InsertOne(ctx, model)
+	_, err := ur.db.InsertOne(ctx, model)
 	if err != nil {
-		log.Println(err)
 		return err
 	}
 	// set generated user id from mongo & convert to Hex & set user.ID
 	// user.ID = res.InsertedID.(primitive.ObjectID).Hex()
-	log.Print("success insert new user by Id", user.ID)
-
 	return nil
 }
 
